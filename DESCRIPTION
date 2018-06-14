@@ -8,4 +8,7 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
 License: What license is it under?
 RoxygenNote: 6.0.1.9000
-Imports: eml2, xml2, dataone, emld
+Imports: xml2
+Remotes: cboettig/eml2,
+         cboettig/emld,
+         DataONEorg/rdataone
