@@ -13,9 +13,12 @@ library(googledrive)
 library(googlesheets)
 library(dplyr)
 library(purrr)
+library(lubridate)
+library(janitor)
+library(skimr)
 
 
-## CONSTANTS----
+###### CONSTANTS ###### 
 
 # Dir to store the templates "hand made" by the WG
 template_folder <- "Templates" 
@@ -23,37 +26,66 @@ template_folder <- "Templates"
 # Where we download the data from D1
 data_folder <- "Data"
 
+# Mapping the fields
+mapper_file <- "fields_mapping_luq_template.csv" 
 
-## MAIN ----
 
-### Do the house keeping for dir structure in the working dir ----
+###### FUNCTIONS ###### 
+
+#' Map attributes between a data structure template and a data set; need a mapping file matching attibutes
+#'
+#' @param template_df A data frame with the template structure
+#' @param data_df  A data frame with the data
+#' @param attributes_matching A data frame with 2 columns: first - template attributes, second - matching data attributes
+#'
+#' @return A data frame with the template filled with the data
+#'
+#' @examples attribute_mapper(master_template_luq, master_luq, mapped_attributes)
+attribute_mapper <- function(template_df, data_df, attributes_matching){
+  n_tot <- nrow(attributes_matching)
+  for (i in seq(1:n_tot)){
+    template_df[, attributes_matching[[i,1]]] <- data_df[, attributes_matching[[i,2]]]
+  }
+  return(template_df)
+}
+
+
+#' Compute categorical frequency
+#'
+#' @param df A data frame containing the data to summarize
+#'
+#' @return summary statistics for categorical values
+#'
+#' @examples categorical_frequency(faimstracs_legacy)
+categorical_frequency <- function(df){
+  # Select the character columns
+  cat_data <- Filter(is.character, df)
+  # Compute the unique values and frequencies
+  cat_freq_list <- map(cat_data, janitor::tabyl)
+  # Create a data frame out of that
+  cat_freq <- bind_rows(cat_freq_list, .id = "attribute")
+  names(cat_freq)[[2]] <- "category"
+  # add the total number of categories
+  cat_freq <- cat_freq %>% 
+    group_by(attribute) %>%
+    mutate(ntotal_cat = n()) %>%
+    ungroup() %>%
+    #remove the one that are unique for each row (here 90%), ie no categories
+    # Note: need to be improved regarding field with NAs
+    filter(ntotal_cat < nrow(df)*0.9)
+  
+  return(cat_freq)
+}
+
+
+###### MAIN ###### 
+
+### Do the housekeeping for dir structure (top level in the working dir) ----
 
 # Create the local directory to store templates
 dir.create(template_folder, showWarnings = FALSE)
 # Create the local directory to store templates
 dir.create(data_folder, showWarnings = FALSE)
-
-
-### Getting fields we need to keep ----
-
-# List the templates
-drive_folder <- "1HgU9ynNdUGD-YoTbk4hoK8KTV-uChoB8"
-templates_on_drive <- drive_ls(as_id(drive_folder), pattern = "xlsx")
-# Select the LUQ sampling sites
-luq_template_gd <- templates_on_drive %>%
-  filter(grepl("LUQ", .$name))
-# Download the template
-drive_download(as_id(luq_template_gd$id), 
-               file.path(template_folder, luq_template_gd$name),
-               overwrite = TRUE)
-
-# Read the xls template for LUQ
-luq_template_data <- list.files(template_folder, full.names = TRUE) %>%
-  read_excel(sheet = "Raw Data")
-
-# fields name
-template_fields <- colnames(luq_template_data)
-
 
 ### Getting the list of datasets to read ----
 
@@ -72,10 +104,12 @@ luq_test_datasets <- test_datasets_listing %>%
 ### Download the data and metadata ----
 
 #********* Does not work for now ***********
-# download_D1Data(luq_test_datasets$`Data Repositorty (PASTA) URL to File`[5], data_folder)
+
+# download_D1Data(luq_test_datasets$`Data Repositorty (PASTA) URL to File`[7], data_folder)
 
 # Go the troll way and batch download the datasets
-# map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`[2:nrow(luq_test_datasets)], data_folder, download_D1Data)
+# map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`[5:nrow(luq_test_datasets)], data_folder, download_D1Data)
+
 #*******************************************
 
 # Going the basic way -- To be replaced
@@ -84,7 +118,7 @@ map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`,
      download.file)
 
 
-### Read data files back into R as a named list----
+### Read data files back into R as a named list ----
 
 # List the files
 csv_files <- list.files(data_folder, pattern = ".csv$", full.names = TRUE)
@@ -93,20 +127,88 @@ csv_files <- list.files(data_folder, pattern = ".csv$", full.names = TRUE)
 df_luq <- setNames(map(csv_files, read_csv), basename(csv_files))
 
 
-### check if the fields are identical for each sampling sites ---
-# list all the fields
-luq_fields <- setNames(map(names(df_luq), function(x){colnames(df_luq[x][[1]])}),names(df_luq))
+### check if the attributes are identical for each sampling sites ----
+
+# list all the attributes
+attributes_luq <- setNames(map(names(df_luq), function(x){colnames(df_luq[x][[1]])}),names(df_luq))
 
 # Check if they are identical (could not find a way without a loop)
-for(ds in names(luq_fields)) {
-  print(identical(luq_fields[[1]], luq_fields[ds][[1]]))
+for(ds in names(attributes_luq)) {
+  print(identical(attributes_luq[[1]], attributes_luq[ds][[1]]))
 }
-# We are good same data structure accors the sampling 
+# => We are good, same data structure across the sampling sites
 
 ##->-------- SHOULD DO THE SAME ON UNITS!!! ----------<-###
 
-### Create the master dataset for lus
-master_luq <- bind_rows(df_luq, .id = "prov")   #  <- to be replaced by pids!!!!!!!!!!
+### bind the sampling sites data into one master dataset for LUQ ----
+all_sites_luq <- bind_rows(df_luq, .id = "prov")   #  <- filenames to be replaced by pids!!!!!!!!!!
 
 
+### Map the attributes between the raw data and the template ----
+
+## Get the existing templates and the data model structure from the WG GDrive 
+# List the templates from the GDrive
+drive_folder <- "1HgU9ynNdUGD-YoTbk4hoK8KTV-uChoB8"
+templates_on_drive <- drive_ls(as_id(drive_folder), pattern = "xlsx")
+
+# Select the LUQ sampling sites
+luq_template_gd <- templates_on_drive %>%
+  filter(grepl("LUQ", .$name))
+
+# Download the template
+drive_download(as_id(luq_template_gd$id), 
+               file.path(template_folder, luq_template_gd$name),
+               overwrite = TRUE)
+
+# Read the xls template for LUQ
+template_example_luq <- list.files(template_folder, pattern = ".xlsx", full.names = TRUE) %>%
+  read_excel(sheet = "Raw Data")
+
+# Attributes name
+template_fields_luq <- colnames(template_example_luq)
+
+# Read the file mapping attributes 
+mapped_attributes <- read_csv(mapper_file) 
+
+# Compare new mapping with existing template
+setdiff(mapped_attributes$template, template_fields_luq)
+
+# Create a new empty template
+master_template_luq <- data.frame(matrix(NA, nrow = nrow(all_sites_luq), ncol = nrow(mapped_attributes)))
+colnames(master_template_luq) <- mapped_attributes$template
+
+
+### Map the attribute bertween the Working group template and the dataset ----
+
+# Add the LTER site
+master_template_luq$LTER <- "LUQ"
+
+# Do the attributes mapping
+master_template_luq <- attribute_mapper(master_template_luq, all_sites_luq, mapped_attributes)  
+# str(master_template_luq)
+
+# Get the Look-up Table for units conversion
+LUT_file <- file.path(template_folder, "Conversions.xlsx")
+
+###->-------- Need metadata about units----------<-###
+
+
+###->-------- Do the proper unit conversions to transform data to the template units----------<-###
+
+
+### Some cleaning and QC checks ----
+
+# Replace -9999 with NAs
+master_template_luq[master_template_luq == -9999] <- NA
+
+# Date formatting
+master_template_luq$`Sampling Date` <- mdy(master_template_luq$`Sampling Date`)
+
+# Run some checks on categorical data
+cat_stat_luq  <- categorical_frequency(master_template_luq)
+
+# Same on numeric
+num_stat_luq <- skimr::skim(master_template_luq) %>%
+  select(-level, -value) %>%
+  filter(stat!="hist")
 
