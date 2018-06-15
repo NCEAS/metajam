@@ -150,6 +150,7 @@ all_sites_luq <- bind_rows(df_luq, .id = "prov")   #  <- filenames to be replace
 # List the templates from the GDrive
 drive_folder <- "1HgU9ynNdUGD-YoTbk4hoK8KTV-uChoB8"
 templates_on_drive <- drive_ls(as_id(drive_folder), pattern = "xlsx")
+map_files_on_drive <- drive_ls(as_id(drive_folder), pattern = "csv") # <- to be refined for more specific naming
 
 # Select the LUQ sampling sites
 luq_template_gd <- templates_on_drive %>%
@@ -168,7 +169,8 @@ template_example_luq <- list.files(template_folder, pattern = ".xlsx", full.name
 template_fields_luq <- colnames(template_example_luq)
 
 # Read the file mapping attributes 
-mapped_attributes <- read_csv(mapper_file) 
+drive_download(as_id(map_files_on_drive$id), overwrite = TRUE)  # <- to be changed when several mapping files are uploaded
+mapped_attributes <- read_csv(map_files_on_drive$name)
 
 # Compare new mapping with existing template
 setdiff(mapped_attributes$template, template_fields_luq)
@@ -184,6 +186,7 @@ colnames(master_template_luq) <- mapped_attributes$template
 master_template_luq$LTER <- "LUQ"
 
 # Do the attributes mapping
+mapped_attributes <- na.omit(mapped_attributes)
 master_template_luq <- attribute_mapper(master_template_luq, all_sites_luq, mapped_attributes)  
 # str(master_template_luq)
 
