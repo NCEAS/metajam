@@ -201,3 +201,6 @@ num_stat_luq <- skimr::skim(master_template_luq) %>%
   select(-level, -value) %>%
   filter(stat!="hist")
 
+# write the LTER LUQ site level dataset
+write_csv(master_template_luq, "Site_Data_Template_V5_LUQ.csv")
+
