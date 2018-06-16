@@ -1,10 +1,7 @@
+# devtools::install_github("DataONEorg/rdataone")
 # devtools::install_github("cboettig/eml2")
 # devtools::install_github("NCEAS/metajam")
 library(metajam)
-# devtools::install_github("isteves/dataimport")
-library(dataimport)
-# devtools::install_github("maier-m/download_data")
-library(downloadData)
 
 # the wranglers
 library(readxl)
@@ -103,25 +100,14 @@ luq_test_datasets <- test_datasets_listing %>%
 
 ### Download the data and metadata ----
 
-#********* Does not work for now ***********
-
-# download_D1Data(luq_test_datasets$`Data Repositorty (PASTA) URL to File`[7], data_folder)
-
-# Go the troll way and batch download the datasets
-# map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`[5:nrow(luq_test_datasets)], data_folder, download_D1Data)
-
-#*******************************************
-
-# Going the basic way -- To be replaced
-map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`,
-     file.path(data_folder, luq_test_datasets$`Data Repositorty (PASTA) Filename`), 
-     download.file)
+# batch download the datasets
+map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`, data_folder, download_D1Data)
 
 
 ### Read data files back into R as a named list ----
 
 # List the files
-csv_files <- list.files(data_folder, pattern = ".csv$", full.names = TRUE)
+csv_files <- list.files(data_folder, pattern = ".csv$", full.names = TRUE, recursive = TRUE)
 
 # Read the data in a named list
 df_luq <- setNames(map(csv_files, read_csv), basename(csv_files))
