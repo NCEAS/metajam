@@ -192,13 +192,17 @@ download_D1Data <- function(data_obj, path) {
     if (length(entity_data) == 0) {
       warning("No data metadata could not be found for ", data_obj)
       
-    } else if (length(entity_data) > 1) {
+    } else {
+      
+      if (length(entity_data) > 1) {
       warning("multiple data metadata records found:\n",
               data_obj,
               "\nThe first record was used")
+        entity_data <- entity_data[[1]]
+        
+      }
     }
     
-    entity_data <- entity_data[[1]]
     attributeList <- suppressWarnings(eml2::get_attributes(entity_data$attributeList, eml))
     
     ## write attributes
