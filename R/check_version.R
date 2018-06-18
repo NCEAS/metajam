@@ -17,11 +17,11 @@ get_chunks <- function(x){
 }
 
 get_pid_dates <- function(x){
-  dataone::query(dataone::CNode("PROD"), 
+  suppressMessages(dataone::query(dataone::CNode("PROD"), 
                  list(q = sprintf('identifier:"%s"', x),
                       fl = "identifier, dateUploaded, formatType, obsoletedBy",
                       rows = "20"),
-                 as = "data.frame")
+                 as = "data.frame"))
 }
 
 #' Check pid version
