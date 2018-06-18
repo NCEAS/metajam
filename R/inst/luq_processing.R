@@ -90,6 +90,8 @@ dir.create(data_folder, showWarnings = FALSE)
 test_datasets_listing <- gs_title("[LTER - SEC] Sata sets listing") %>%
   gs_read()
 
+######### LUQ processing ##################
+
 # Keep only the LUQ related data sets
 luq_test_datasets <- test_datasets_listing %>%
   filter(grepl("LUQ", .$`LTER site abbreviation`)) %>%
