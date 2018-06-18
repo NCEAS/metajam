@@ -42,24 +42,24 @@ download_D1Data <- function(data_obj, path) {
             packageid <- gsub("\\/[^\\/]*$","", x$identifier) ## remove end of string
             packageid <- gsub(".*\\/+","", packageid) ## remove beginning of string
             grepl(packageid, data_obj)
-            
+
             if (grepl(packageid, data_obj)) {
               x
             } else {
               NULL
             }
-            
+
           } else {
             x
           }
         })
         results[sapply(results, is.null)] <- NULL
-        
+
         if (length(results) > 1) {
         stop("A unique DataOne ID could not be found for ", data_obj)
         }
       }
-      
+
       results <- unlist(results, recursive = FALSE)
       
       ## TODO:: use check_versions here maybe
@@ -121,6 +121,7 @@ download_D1Data <- function(data_obj, path) {
   if (length(meta_id) == 0) {
     warning("no metadata records found")
     meta_obj <- NULL
+    meta_path <- NULL
     
   } else {
     
@@ -135,6 +136,8 @@ download_D1Data <- function(data_obj, path) {
     meta_obj <- dataone::getObject(d1c@mn, meta_id)
     message("Download complete")
     metadata_nodes <- dataone::resolve(cn, meta_id)
+    meta_path <- gsub("[^a-zA-Z0-9\\.\\-]+", "_", meta_id) ## safe name for files using meta_id
+    meta_path <- paste0(meta_path, "___")
   }
 
   ## Download Data
@@ -146,13 +149,16 @@ download_D1Data <- function(data_obj, path) {
   out <- dataone::downloadObject(d1c, data_id, path = new_dir)
   message("Download complete")
   
+  # TODO:: Rename based objectName when applicable
+
   ## Rename folder based on filename from downloadObject 
   ## Could originally name folder based on sysmeta, but to ensure consistency this may be the better option although not ideal
   ## e.g. want to make sure same behavior when sysmeta filename is null
   filename <- gsub(".*\\/+","", out) ## remove beginning of string
   filename <- gsub("\\.+[^\\.]*$","", filename) ## remove end of string
-  file.rename(new_dir, file.path(path, filename))
-  new_dir <- file.path(path, filename)
+  new_path <- file.path(path, paste0(meta_path, filename))
+  file.rename(new_dir, new_path)
+  new_dir <- new_path
   
   ## Get package level metadata
   if (!is.null(meta_obj)) {
@@ -174,12 +180,12 @@ download_D1Data <- function(data_obj, path) {
     entities <- entities[entities %in% names(eml$dataset)]
     entity_objs <- lapply(entities, function (x) eml$dataset[[x]])
     
-    which_entity <- unlist(lapply(entity_objs, function(x) grepl(data_id, x$physical$distribution$online$url$url)))
+    which_entity <- unlist(lapply(entity_objs, function(x) any(grepl(data_id, x$physical$distribution$online$url))))
     
     ## if here used because output is different for metadata with 1 vs multiple entities
     if (length(which_entity) == 0) {
       which_entity <-  unlist(lapply(unlist(entity_objs , recursive = FALSE),
-                                     function(x) grepl(data_id, x$physical$distribution$online$url$url)))
+                                     function(x) any(grepl(data_id, x$physical$distribution$online$url))))
     }
     entity_data <- entity_objs[which_entity]
     
@@ -202,7 +208,7 @@ download_D1Data <- function(data_obj, path) {
                        file = file.path(new_dir, paste0(filename, "_attribute_metadata.csv")))
     }
     
-    if (nrow(attributeList$factors) > 0) {
+    if (is.null(attributeList$factors)) {
       utils::write.csv(x = attributeList$factors,
                        file = file.path(new_dir, paste0(filename, "_attribute_factor_metadata.csv")))
     }
