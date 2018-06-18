@@ -29,6 +29,7 @@ get_pid_dates <- function(x){
 #' This function takes an identifier and checks to see if it has been obsoleted.
 #'
 #' @param pid (character) The persistent identifier of a data, metadata, or resource map object on a DataONE member node
+#' @param formatType (character) Optional. The format type to return (DATA, METADATA, RESOURCE)
 #'
 #' @importFrom dataone CNode getSystemMetadata
 #'
@@ -36,33 +37,49 @@ get_pid_dates <- function(x){
 #'
 #' @examples
 #' \dontrun{
-#'    pid <- "https://pasta.lternet.edu/package/data/eml/edi/195/2/51abf1c7a36a33a2a8bb05ccbf8c81c6"
-#'    pid <- "doi:10.18739/A2HF7Z"
-#'    pid <- "doi:10.18739/A2ZF6M"
-#'    
-#'    check_version(pid)
+#' #' # Most data URL's and identifiers work
+#' check_version("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570")
+#' 
+#' # Returns a warning if several identifiers are returned:
+#' check_version("https://pasta.lternet.edu/package/data/eml/edi/195/2/51abf1c7a36a33a2a8bb05ccbf8c81c6")
+#' check_version("doi:10.18739/A2ZF6M")
+#' 
+#' # You can specify a formatType (metadata, data, resource)
+#' check_version("doi:10.18739/A2ZF6M", formatType = "metadata")
+#' 
+#' # Returns a warning if the identifier has been obsoleted
+#' check_version("doi:10.18739/A2HF7Z", formatType = "metadata")
+#' 
+#' # Returns an error if no matching identifiers are found
+#' check_version("a_test_pid")
 #' }
 #'
 
-check_version <- function(pid){
+check_version <- function(pid, formatType = NULL){
   pid_chunks <- get_chunks(pid)
   results <- lapply(pid_chunks, get_pid_dates)
   results_df <- bind_rows(results) %>% distinct()
   
-  # filter out extra types (resource map/etc with similar pid)
-  type <- results_df$formatType[results_df$identifier == pid] #check?
-  results_typed <- results_df[results_df$formatType == type,]
-
-  if(nrow(results_typed) == 1){
-    if(is.null(results_typed$obsoletedBy)){
-      print("This is the latest version of the identifier")
-    } else {
-      print(paste("The identifier has been obsoleted by", results_typed$obsoletedBy))
-    }
-  } else {
-    print("The following identifiers are associated with the identifier provided.")
+  if(nrow(results_df) == 0){
+    stop("No matching identifiers were found.")
   }
   
-  return(results_typed)
-}
+  # filter out extra types (resource map/etc with similar pid)
+  if(!is.null(formatType)){
+    formatType <- toupper(formatType)
+    results_df <- results_df[results_df$formatType == formatType,]
+    }
 
+  if(nrow(results_df) == 1){
+    if(is.null(results_df$obsoletedBy)){
+      print(paste(results_df$identifier,
+                  "is the latest version of the identifier."))
+    } else {
+      warning("The identifier has been obsoleted by ", results_df$obsoletedBy)
+    }
+  } else {
+    warning("Several identifiers are associated with ", pid)
+  }
+  
+  return(results_df)
+}
