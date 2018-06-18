@@ -3,7 +3,6 @@
 #' Downloads data from DataOne along with metadata
 #'
 #' @param data_obj (character) An identifier or url for a DataONE object to download.
-#' If the object is a metadata or resource map object, all data associated with that object will downloaded.
 #' @param path (character) Path to a directory to download data to
 #'
 #' @return (character) Path where data is downloaded to
@@ -18,125 +17,49 @@ download_D1Data <- function(data_obj, path) {
   
   ## Try to get DataONE data_id from data_obj
   data_obj <- utils::URLdecode(data_obj)
-  data_id <- data_obj
-  cn <- dataone::CNode("PROD")
-  q_fmt <- '%s:"%s"' ## query format
-  fl <- "identifier, formatType, obsoletedBy, entityName"  ## query fields
   
-  while(nchar(data_id) > 0) {
-    results <- suppressMessages(
-      dataone::query(cn,
-                     list(q = sprintf(q_fmt, "identifier", data_id),
-                          fl = fl))
-    )
-    
-    if (length(results) == 0) {
-      data_id <- gsub("^[^\\/=]+[\\/=]*", "", data_id)
-      
-    } else {
-      if (length(results) > 1) {
-        
-        ## Test for pasta URLs
-        results <- lapply(results, function(x) {
-          if (grepl("https://pasta.lternet.edu/", x$identifier, fixed = TRUE)) {
-            packageid <- gsub("\\/[^\\/]*$","", x$identifier) ## remove end of string
-            packageid <- gsub(".*\\/+","", packageid) ## remove beginning of string
-            grepl(packageid, data_obj)
-            
-            if (grepl(packageid, data_obj)) {
-              x
-            } else {
-              NULL
-            }
-            
-          } else {
-            x
-          }
-        })
-        results[sapply(results, is.null)] <- NULL
-        
-        if (length(results) > 1) {
-        stop("A unique DataOne ID could not be found for ", data_obj)
-        }
-      }
-      
-      results <- unlist(results, recursive = FALSE)
-      
-      ## TODO:: use check_versions here maybe
-      if (length(results$obsoletedBy) > 0) {
-        warning(data, "has been obsoletedBy ", results$obsoletedBy)
-      }
-      
-      formatType <- results$formatType
-      data_id <- results$identifier
-      break
-    }
-    
-  }
+  # use internal check_version option
+  data_versions <- check_version(data_obj, formatType = "data")
   
-  if (nchar(data_id) == 0) {
+  if(nrow(data_versions) == 1){
+    data_id <- data_versions$identifier
+  } else if(nrow(data_versions) > 1){
+    data_versions$dateUploaded <- lubridate::ymd_hms(data_versions$dateUploaded)
+    data_id <- data_versions$identifier[data_versions$dateUploaded == max(data_versions$dateUploaded)]
+  } else {
     stop("The DataOne ID could not be found for ", data_obj)
   }
+  #only returns formatType = "data"
   
-  ## Set Node
-  data_nodes <- dataone::resolve(cn, data_id)
+  ## Set Nodes
+  data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
   d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
-  
-  ## If data_obj is not data, return data associated with either the resource map or metadata.
-  ## Else get metadata associated with data
-  if (formatType %in% c("RESOURCE", "METADATA")) {
-    test <- ifelse(formatType == "RESOURCE", "resourceMap", "isDocumentedBy")
-    results <- dataone::query(cn,
-                              list(q = paste(sprintf(q_fmt, test, data_id),
-                                             'AND formatType:"DATA"'),
-                                   fl = "identifier, fileName"))
-    
-    results <- unlist(sapply(seq_along(results), function(i){
-      if (i > 5) {
-        NULL
-      } else {
-        x <- results[[i]]
-        paste0("\n", x$fileName, "\n", x$identifier, "\n")
-      }
-    }))
-    
-    stop("\n", data_obj, "\nis not a data object.\n",
-         "Use one of the following data objects associated with \n", data_obj, "\n",
-         results,
-         "\n(only the first five shown)")
-    
-    ## Get resource, metadata, and data information for obj
-  } else if (formatType == "DATA") {
-    results <- dataone::query(cn,
-                              list(q = paste(sprintf(q_fmt, "documents", data_id),
-                                             'AND formatType:"METADATA" AND -obsoletedBy:*'),
-                                   fl = "identifier"))
-    
-  } else {
-    stop(data_obj, " is not a data object, metadata object, or data package")
-  }
+  cn <- dataone::CNode()
   
   ## Download Metadata
-  meta_id <- unlist(results)
+  meta_id <- dataone::query(
+    cn,
+    list(q = sprintf('documents:"%s" AND formatType:"METADATA"', data_id),
+         #removed -obsoletedBy:* because this should still work for older versions of metadata
+         fl = "identifier")) %>% 
+    unlist()
+  
   if (length(meta_id) == 0) {
     warning("no metadata records found")
-    meta_obj <- NULL
     
-  } else {
-    
-    if (length(meta_id) > 1) {
-      warning("multiple metadata records found:\n",
-              meta_id,
-              "\nThe first record was used")
-      meta_id <- meta_id[1]
-    }
-
-    message("\nDownloading metadata ", meta_id, " ...")
-    meta_obj <- dataone::getObject(d1c@mn, meta_id)
-    message("Download complete")
-    metadata_nodes <- dataone::resolve(cn, meta_id)
+  } else if (length(meta_id) > 1) {
+    warning("multiple metadata records found:\n",
+            meta_id,
+            "\nThe first record was used")
+    meta_id <- meta_id[1]
   }
-
+  
+  message("\nDownloading metadata ", meta_id, " ...")
+  meta_obj <- tryCatch({dataone::getObject(d1c@mn, meta_id)},
+                       error = function(e){NULL})
+  message("Download complete")
+  metadata_nodes <- dataone::resolve(cn, meta_id)
+  
   ## Download Data
   message("\nDownloading data ", data_id, " ...")
   data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@cn, data_id))
@@ -156,15 +79,13 @@ download_D1Data <- function(data_obj, path) {
   
   ## Get package level metadata
   if (!is.null(meta_obj)) {
-  xml <- xml2::read_xml(rawToChar(meta_obj))
-  xml2::write_xml(xml, file.path(new_dir, paste0(filename, "_full_metadata.xml")))
+    #workaround since eml2::read_eml currently can't take raw
+    xml <- xml2::read_xml(meta_obj)
+    xml2::write_xml(xml, file.path(new_dir, paste0(filename, "_full_metadata.xml")))
   }
   
-  eml = tryCatch({
-    emld::as_emld(xml) # If eml make EML object
-  }, error = function(e) {
-    NULL
-  })
+  eml <- tryCatch({emld::as_emld(xml)},  # If eml make EML object
+                  error = function(e) {NULL})
   
   ## Get data object metadata
   if (!is.null(eml)) {
@@ -202,7 +123,7 @@ download_D1Data <- function(data_obj, path) {
                        file = file.path(new_dir, paste0(filename, "_attribute_metadata.csv")))
     }
     
-    if (nrow(attributeList$factors) > 0) {
+    if (is.null(attributeList$factors)) {
       utils::write.csv(x = attributeList$factors,
                        file = file.path(new_dir, paste0(filename, "_attribute_factor_metadata.csv")))
     }
