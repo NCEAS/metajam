@@ -25,6 +25,8 @@ data_folder <- "Data"
 
 # Mapping the fields
 mapper_file <- "fields_mapping_luq_template.csv" 
+# Data sets listing GSheet
+data_gs <- "[LTER - SEC] Sata sets listing"
 
 
 ###### FUNCTIONS ###### 
@@ -81,23 +83,24 @@ categorical_frequency <- function(df){
 
 # Create the local directory to store templates
 dir.create(template_folder, showWarnings = FALSE)
-# Create the local directory to store templates
+# Create the local directory to store data sets
 dir.create(data_folder, showWarnings = FALSE)
 
 ### Getting the list of datasets to read ----
 
 # Getting the test datasets listing
-test_datasets_listing <- gs_title("[LTER - SEC] Sata sets listing") %>%
+test_datasets_listing <- gs_title(data_gs) %>%
   gs_read()
 
 ######### LUQ processing ##################
 
 # Keep only the LUQ related data sets
 luq_test_datasets <- test_datasets_listing %>%
-  filter(grepl("LUQ", .$`LTER site abbreviation`)) %>%
+  # filter(grepl("LUQ", .$`LTER site abbreviation`)) %>%
   select(`LTER site abbreviation`,
          `Data Repositorty (PASTA) URL to Archive/Metadata`,
-         `Data Repositorty (PASTA) URL to File`,`Data Repositorty (PASTA) Filename`)
+         `Data Repositorty (PASTA) URL to File`,`Data Repositorty (PASTA) Filename`) %>%
+  na.omit()
 
 
 ### Download the data and metadata ----
