@@ -72,8 +72,8 @@ check_version <- function(pid, formatType = NULL){
 
   if(nrow(results_df) == 1){
     if(is.null(results_df$obsoletedBy)){
-      print(paste(results_df$identifier,
-                  "is the latest version of the identifier."))
+      message(results_df$identifier,
+                  "is the latest version of the identifier.")
     } else {
       warning("The identifier has been obsoleted by ", results_df$obsoletedBy)
     }

@@ -46,14 +46,14 @@ download_D1Data <- function(data_obj, path) {
   
   if (length(meta_id) == 0) {
     warning("no metadata records found")
-    
+    meta_path <- NULL
   } else if (length(meta_id) > 1) {
     warning("multiple metadata records found:\n",
             meta_id,
             "\nThe first record was used")
     meta_id <- meta_id[1]
   }
-  
+
   message("\nDownloading metadata ", meta_id, " ...")
   meta_obj <- tryCatch({dataone::getObject(d1c@mn, meta_id)},
                        error = function(e){NULL})
@@ -63,44 +63,33 @@ download_D1Data <- function(data_obj, path) {
   ## Download Data
   message("\nDownloading data ", data_id, " ...")
   data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@cn, data_id))
-  data_path <- gsub("[^a-zA-Z0-9\\.\\-]+", "_", data_id) ## safe name for files using data_id
-  new_dir <- file.path(path, data_path)
-  dir.create(new_dir)
+
+  new_dir <- "dataone_download" #change directory name later
+  dir.create(file.path(path, new_dir))
+  
   out <- dataone::downloadObject(d1c, data_id, path = new_dir)
   message("Download complete")
   
-  ## Rename folder based on filename from downloadObject 
-  ## Could originally name folder based on sysmeta, but to ensure consistency this may be the better option although not ideal
-  ## e.g. want to make sure same behavior when sysmeta filename is null
-  filename <- gsub(".*\\/+","", out) ## remove beginning of string
-  filename <- gsub("\\.+[^\\.]*$","", filename) ## remove end of string
-  file.rename(new_dir, file.path(path, filename))
-  new_dir <- file.path(path, filename)
-  
-  ## Get package level metadata
+  ## Get package level metadata -----------
+  #workaround since eml2::read_eml currently can't take raw
   if (!is.null(meta_obj)) {
-    #workaround since eml2::read_eml currently can't take raw
     xml <- xml2::read_xml(meta_obj)
-    xml2::write_xml(xml, file.path(new_dir, paste0(filename, "_full_metadata.xml")))
-  }
-  
-  eml <- tryCatch({emld::as_emld(xml)},  # If eml make EML object
-                  error = function(e) {NULL})
-  
-  ## Get data object metadata
-  if (!is.null(eml)) {
+    xml2::write_xml(xml, file.path(new_dir, "__full_metadata.xml"))
+    eml <- tryCatch({emld::as_emld(xml)},  # If eml make EML object
+                    error = function(e) {NULL})
     
+    # Get attributes ----------
     ## get entity that contains the metadata for the data object
     entities <- c("dataTable", "spatialRaster", "spatialVector", "storedProcedure", "view", "otherEntity")
     entities <- entities[entities %in% names(eml$dataset)]
     entity_objs <- lapply(entities, function (x) eml$dataset[[x]])
     
-    which_entity <- unlist(lapply(entity_objs, function(x) grepl(data_id, x$physical$distribution$online$url$url)))
+    which_entity <- unlist(lapply(entity_objs, function(x) any(grepl(data_id, x$physical$distribution$online$url))))
     
     ## if here used because output is different for metadata with 1 vs multiple entities
     if (length(which_entity) == 0) {
       which_entity <-  unlist(lapply(unlist(entity_objs , recursive = FALSE),
-                                     function(x) grepl(data_id, x$physical$distribution$online$url$url)))
+                                     function(x) any(grepl(data_id, x$physical$distribution$online$url))))
     }
     entity_data <- entity_objs[which_entity]
     
@@ -120,14 +109,20 @@ download_D1Data <- function(data_obj, path) {
     ## TODO:: fix file names
     if (nrow(attributeList$attributes) > 0) {
       utils::write.csv(x = attributeList$attributes,
-                       file = file.path(new_dir, paste0(filename, "_attribute_metadata.csv")))
+                       file = file.path(new_dir, "__attribute_metadata.csv"),
+                       row.names = FALSE)
     }
     
-    if (is.null(attributeList$factors)) {
+    if (!is.null(attributeList$factors)) {
       utils::write.csv(x = attributeList$factors,
-                       file = file.path(new_dir, paste0(filename, "_attribute_factor_metadata.csv")))
+                       file = file.path(new_dir, "__attribute_factor_metadata.csv"),
+                       row.names = FALSE)
     }
     
+  ## Rename folder based on filename from downloadObject 
+  ## Could originally name folder based on sysmeta, but to ensure consistency this may be the better option although not ideal
+  ## e.g. want to make sure same behavior when sysmeta filename is null
+  
     ## TODO:: Collect fields more selectively
     entity_meta <- list(
       Date_Downloaded = paste0(Sys.time()),
@@ -148,10 +143,22 @@ download_D1Data <- function(data_obj, path) {
     )
     entity_meta <- t(as.data.frame(entity_meta[!sapply(entity_meta, is.null)]))
     utils::write.csv(x = entity_meta,
-                     file = file.path(new_dir, paste0(filename, "_summary_metadata.csv")))
+                     file = file.path(new_dir, "__summary_metadata.csv"))
     
   }
   
-  ## Output full xml file
-  return(new_dir)
+  # Rename files --------
+  filename <- data_sys@fileName %|||% entity_data$physical$objectName %|||% entity_data$entityName %|||% data_id
+  filename <- gsub("[^a-zA-Z0-9. -]+", "_", filename) #remove special characters & replace with _
+  filename <- gsub("[.][a-zA-Z0-9]+$", "", filename) #remove extension
+  old_filenames <- list.files(new_dir, "^_")
+  file.rename(file.path(new_dir, old_filenames), 
+              file.path(new_dir, paste0(filename, old_filenames)))
+  
+  meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
+  file.rename(new_dir,
+              paste0(meta_name, "__", filename))
+
+  ## Output folder name
+  return(paste0(meta_name, "__", filename))
 }
