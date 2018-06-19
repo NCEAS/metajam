@@ -4,10 +4,14 @@
 #'
 #' @param data_obj (character) An identifier or url for a DataONE object to download.
 #' @param path (character) Path to a directory to download data to
+#' 
+#' @import eml2
+#' @import purrr
 #'
 #' @return (character) Path where data is downloaded to
 #'
 #' @export
+
 download_d1_data <- function(data_obj, path) {
   # TODO: add meta_doi to explicitly specify doi
   # TODO: refine summary_metadata Irene
@@ -85,7 +89,7 @@ download_d1_data <- function(data_obj, path) {
       unlist(recursive = FALSE) 
     
     entity_data <- entity_objs %>% 
-      keep(~grepl(data_id, .x$physical$distribution$online$url$url))
+      purrr::keep(~grepl(data_id, utils::URLdecode(.x$physical$distribution$online$url$url)))
     
     if (length(entity_data) == 0) {
       warning("No data metadata could not be found for ", data_obj)

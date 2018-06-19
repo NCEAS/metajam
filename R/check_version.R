@@ -18,10 +18,10 @@ get_chunks <- function(x){
 
 get_pid_dates <- function(x){
   suppressMessages(dataone::query(dataone::CNode("PROD"), 
-                 list(q = sprintf('identifier:"%s"', x),
-                      fl = "identifier, dateUploaded, formatType, obsoletedBy",
-                      rows = "20"),
-                 as = "data.frame"))
+                                  list(q = sprintf('identifier:"%s"', x),
+                                       fl = "identifier, dateUploaded, formatType, obsoletedBy",
+                                       rows = "20"),
+                                  as = "data.frame"))
 }
 
 #' Check pid version
@@ -68,12 +68,12 @@ check_version <- function(pid, formatType = NULL){
   if(!is.null(formatType)){
     formatType <- toupper(formatType)
     results_df <- results_df[results_df$formatType == formatType,]
-    }
-
+  }
+  
   if(nrow(results_df) == 1){
     if(is.null(results_df$obsoletedBy)){
       message(results_df$identifier,
-                  "is the latest version of the identifier.")
+              " is the latest version of the identifier.")
     } else {
       warning("The identifier has been obsoleted by ", results_df$obsoletedBy)
     }

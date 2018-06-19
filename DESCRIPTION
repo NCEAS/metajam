@@ -12,3 +12,4 @@ Imports: xml2
 Remotes: cboettig/eml2,
          cboettig/emld,
          DataONEorg/rdataone
+Suggests: testthat
