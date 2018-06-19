@@ -6,9 +6,9 @@ Date: 2018-06-12
 Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
+License: CC0
 RoxygenNote: 6.0.1.9000
-Imports: xml2, purrr, dataone, eml2, emld
+Imports: dataone, dplyr, eml2, emld, lubridate, purrr, stringr, xml2
 Remotes: cboettig/eml2,
          cboettig/emld,
          DataONEorg/rdataone

@@ -5,10 +5,10 @@ get_chunks <- function(x){
   }
   
   # get first chunk
-  chunk <- str_replace(x, "[^/=]*[/=]", "")
+  chunk <- stringr::str_replace(x, "[^/=]*[/=]", "")
   
   # recursion
-  if(str_detect(x, "[/=]")){
+  if(stringr::str_detect(x, "[/=]")){
     chunk2 <- get_chunks(chunk)
     chunk_all <- c(chunk, chunk2)
   }
@@ -32,6 +32,8 @@ get_pid_dates <- function(x){
 #' @param formatType (character) Optional. The format type to return (DATA, METADATA, RESOURCE)
 #'
 #' @importFrom dataone CNode getSystemMetadata
+#' @import stringr
+#' @import dplyr
 #'
 #' @export
 #'
@@ -58,7 +60,7 @@ get_pid_dates <- function(x){
 check_version <- function(pid, formatType = NULL){
   pid_chunks <- get_chunks(pid)
   results <- lapply(pid_chunks, get_pid_dates)
-  results_df <- bind_rows(results) %>% distinct()
+  results_df <- dplyr::bind_rows(results) %>% dplyr::distinct()
   
   if(nrow(results_df) == 0){
     stop("No matching identifiers were found.")

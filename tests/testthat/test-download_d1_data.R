@@ -44,8 +44,9 @@ test_that("test Arctic Data Center data URL (fully up to date data file) with mu
                           temp_dir)
   files <- list.files(out)
   
-  expect_equal(length(files), 4)
+  expect_equal(length(files), 5)
   expect_true(any(stringr::str_detect(files, "attribute_metadata.csv")))
+  expect_true(any(stringr::str_detect(files, "attribute_factor_metadata.csv")))
   expect_true(any(stringr::str_detect(files, "full_metadata.xml")))
   expect_true(any(stringr::str_detect(files, "summary_metadata.csv")))
   

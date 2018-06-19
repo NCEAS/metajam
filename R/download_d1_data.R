@@ -8,9 +8,10 @@
 #' @import eml2
 #' @import purrr
 #' @import dataone
-#' @importFrom read_eml write_eml
+#' @importFrom xml2 read_xml write_xml
 #' @importFrom emld as_emld
-#'
+#' @importFrom lubridate ymd_hms
+#' 
 #' @return (character) Path where data is downloaded to
 #'
 #' @export
