@@ -8,73 +8,69 @@
 #' @return (character) Path where data is downloaded to
 #'
 #' @export
-download_D1Data <- function(data_obj, path) {
-  
-  ## TODO:: refine summary_metadata Irene
+download_d1_data <- function(data_obj, path) {
+  # TODO: add meta_doi to explicitly specify doi
+  # TODO: refine summary_metadata Irene
   
   stopifnot(is.character(data_obj))
   stopifnot(dir.exists(path))
   
-  ## Try to get DataONE data_id from data_obj
+  ## Try to get DataONE data_id from data_obj ---------
   data_obj <- utils::URLdecode(data_obj)
-  
-  # use internal check_version option
   data_versions <- check_version(data_obj, formatType = "data")
   
   if(nrow(data_versions) == 1){
     data_id <- data_versions$identifier
   } else if(nrow(data_versions) > 1){
+    #g  et most recent version
     data_versions$dateUploaded <- lubridate::ymd_hms(data_versions$dateUploaded)
     data_id <- data_versions$identifier[data_versions$dateUploaded == max(data_versions$dateUploaded)]
   } else {
     stop("The DataOne ID could not be found for ", data_obj)
   }
-  #only returns formatType = "data"
   
-  ## Set Nodes
+  ## Set Nodes ------------
   data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
   d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
   cn <- dataone::CNode()
   
-  ## Download Metadata
+  ## Download Metadata ------------
   meta_id <- dataone::query(
     cn,
-    list(q = sprintf('documents:"%s" AND formatType:"METADATA"', data_id),
-         #removed -obsoletedBy:* because this should still work for older versions of metadata
+    list(q = sprintf('documents:"%s" AND formatType:"METADATA" AND -obsoletedBy:*', data_id),
          fl = "identifier")) %>% 
     unlist()
   
+  # if no results are returned, try without -obsoletedBy
+  if (length(meta_id) == 0) {
+    meta_id <- dataone::query(
+      cn,
+      list(q = sprintf('documents:"%s" AND formatType:"METADATA"', data_id),
+           fl = "identifier")) %>% 
+      unlist()
+  }
+  
+  # depending on results, return warnings
   if (length(meta_id) == 0) {
     warning("no metadata records found")
     meta_path <- NULL
   } else if (length(meta_id) > 1) {
     warning("multiple metadata records found:\n",
-            meta_id,
+            paste(meta_id, collapse = "\n"),
             "\nThe first record was used")
     meta_id <- meta_id[1]
   }
-
+  
   message("\nDownloading metadata ", meta_id, " ...")
   meta_obj <- tryCatch({dataone::getObject(d1c@mn, meta_id)},
                        error = function(e){NULL})
   message("Download complete")
   metadata_nodes <- dataone::resolve(cn, meta_id)
   
-  ## Download Data
-  message("\nDownloading data ", data_id, " ...")
-  data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@cn, data_id))
-
-  new_dir <- "dataone_download" #change directory name later
-  dir.create(file.path(path, new_dir))
-  
-  out <- dataone::downloadObject(d1c, data_id, path = new_dir)
-  message("Download complete")
-  
   ## Get package level metadata -----------
-  #workaround since eml2::read_eml currently can't take raw
   if (!is.null(meta_obj)) {
+    #workaround since eml2::read_eml currently can't take raw
     xml <- xml2::read_xml(meta_obj)
-    xml2::write_xml(xml, file.path(new_dir, "__full_metadata.xml"))
     eml <- tryCatch({emld::as_emld(xml)},  # If eml make EML object
                     error = function(e) {NULL})
     
@@ -82,16 +78,14 @@ download_D1Data <- function(data_obj, path) {
     ## get entity that contains the metadata for the data object
     entities <- c("dataTable", "spatialRaster", "spatialVector", "storedProcedure", "view", "otherEntity")
     entities <- entities[entities %in% names(eml$dataset)]
-    entity_objs <- lapply(entities, function (x) eml$dataset[[x]])
     
-    which_entity <- unlist(lapply(entity_objs, function(x) any(grepl(data_id, x$physical$distribution$online$url))))
+    entity_objs <- purrr::map(entities, ~eml2::eml_get(eml, .x)) %>% 
+      # restructure so that all entities are at the same level
+      purrr::map_if(~!is.null(.x$entityName), list) %>% 
+      unlist(recursive = FALSE) 
     
-    ## if here used because output is different for metadata with 1 vs multiple entities
-    if (length(which_entity) == 0) {
-      which_entity <-  unlist(lapply(unlist(entity_objs , recursive = FALSE),
-                                     function(x) any(grepl(data_id, x$physical$distribution$online$url))))
-    }
-    entity_data <- entity_objs[which_entity]
+    entity_data <- entity_objs %>% 
+      keep(~grepl(data_id, .x$physical$distribution$online$url$url))
     
     if (length(entity_data) == 0) {
       warning("No data metadata could not be found for ", data_obj)
@@ -105,24 +99,7 @@ download_D1Data <- function(data_obj, path) {
     entity_data <- entity_data[[1]]
     attributeList <- suppressWarnings(eml2::get_attributes(entity_data$attributeList, eml))
     
-    ## write attributes
-    ## TODO:: fix file names
-    if (nrow(attributeList$attributes) > 0) {
-      utils::write.csv(x = attributeList$attributes,
-                       file = file.path(new_dir, "__attribute_metadata.csv"),
-                       row.names = FALSE)
-    }
     
-    if (!is.null(attributeList$factors)) {
-      utils::write.csv(x = attributeList$factors,
-                       file = file.path(new_dir, "__attribute_factor_metadata.csv"),
-                       row.names = FALSE)
-    }
-    
-  ## Rename folder based on filename from downloadObject 
-  ## Could originally name folder based on sysmeta, but to ensure consistency this may be the better option although not ideal
-  ## e.g. want to make sure same behavior when sysmeta filename is null
-  
     ## TODO:: Collect fields more selectively
     entity_meta <- list(
       Date_Downloaded = paste0(Sys.time()),
@@ -142,23 +119,46 @@ download_D1Data <- function(data_obj, path) {
       Project_Abstract = paste0(eml$dataset$abstract)
     )
     entity_meta <- t(as.data.frame(entity_meta[!sapply(entity_meta, is.null)]))
-    utils::write.csv(x = entity_meta,
-                     file = file.path(new_dir, "__summary_metadata.csv"))
-    
   }
   
-  # Rename files --------
-  filename <- data_sys@fileName %|||% entity_data$physical$objectName %|||% entity_data$entityName %|||% data_id
-  filename <- gsub("[^a-zA-Z0-9. -]+", "_", filename) #remove special characters & replace with _
-  filename <- gsub("[.][a-zA-Z0-9]+$", "", filename) #remove extension
-  old_filenames <- list.files(new_dir, "^_")
-  file.rename(file.path(new_dir, old_filenames), 
-              file.path(new_dir, paste0(filename, old_filenames)))
+  # Write files & download data--------
+  message("\nDownloading data ", data_id, " ...")
+  data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@cn, data_id))
   
+  data_name <- data_sys@fileName %|||% entity_data$physical$objectName %|||% entity_data$entityName %|||% data_id
+  data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
+  data_name <- gsub("[.][a-zA-Z0-9]+$", "", data_name) #remove extension
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
-  file.rename(new_dir,
-              paste0(meta_name, "__", filename))
-
+  
+  new_dir <- file.path(path, paste0(meta_name, "__", data_name)) 
+  dir.create(new_dir)
+  
+  ## download Data
+  out <- dataone::downloadObject(d1c, data_id, path = new_dir)
+  message("Download complete")
+  
+  ## write metadata xml/tabular form if exists
+  if(exists("xml")) {
+    xml2::write_xml(xml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
+    utils::write.csv(x = entity_meta,
+                     file = file.path(new_dir, paste0(data_name, "__summary_metadata.csv")))
+  }
+  
+  # write attribute tables if data metadata exists
+  if(exists("attributeList")) {
+    if (nrow(attributeList$attributes) > 0) {
+      utils::write.csv(x = attributeList$attributes,
+                       file = file.path(new_dir, paste0(data_name, "__attribute_metadata.csv")),
+                       row.names = FALSE)
+    }
+    
+    if (!is.null(attributeList$factors)) {
+      utils::write.csv(x = attributeList$factors,
+                       file = file.path(new_dir, paste0(data_name, "__attribute_factor_metadata.csv")),
+                       row.names = FALSE)
+    }
+  }
+  
   ## Output folder name
-  return(paste0(meta_name, "__", filename))
+  return(new_dir)
 }
