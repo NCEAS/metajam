@@ -7,6 +7,9 @@
 #' 
 #' @import eml2
 #' @import purrr
+#' @import dataone
+#' @importFrom read_eml write_eml
+#' @importFrom emld as_emld
 #'
 #' @return (character) Path where data is downloaded to
 #'

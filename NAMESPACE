@@ -2,7 +2,9 @@
 
 export(check_version)
 export(download_d1_data)
+import(dataone)
 import(eml2)
 import(purrr)
 importFrom(dataone,CNode)
 importFrom(dataone,getSystemMetadata)
+importFrom(read_eml,write_eml)
