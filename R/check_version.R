@@ -20,7 +20,7 @@ get_pid_dates <- function(x){
   suppressMessages(dataone::query(dataone::CNode("PROD"), 
                                   list(q = sprintf('identifier:"%s"', x),
                                        fl = "identifier, dateUploaded, formatType, obsoletedBy",
-                                       rows = "20"),
+                                       rows = "1000"),
                                   as = "data.frame"))
 }
 

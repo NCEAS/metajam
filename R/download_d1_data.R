@@ -62,22 +62,21 @@ download_d1_data <- function(data_obj, path) {
   # depending on results, return warnings
   if (length(meta_id) == 0) {
     warning("no metadata records found")
-    meta_path <- NULL
+    meta_id <- NULL
   } else if (length(meta_id) > 1) {
     warning("multiple metadata records found:\n",
             paste(meta_id, collapse = "\n"),
             "\nThe first record was used")
     meta_id <- meta_id[1]
   }
-  
-  message("\nDownloading metadata ", meta_id, " ...")
-  meta_obj <- tryCatch({dataone::getObject(d1c@mn, meta_id)},
-                       error = function(e){NULL})
-  message("Download complete")
-  metadata_nodes <- dataone::resolve(cn, meta_id)
-  
+
   ## Get package level metadata -----------
-  if (!is.null(meta_obj)) {
+  if (!is.null(meta_id)) {
+    message("\nDownloading metadata ", meta_id, " ...")
+    meta_obj <- dataone::getObject(d1c@mn, meta_id) 
+    message("Download complete")
+    metadata_nodes <- dataone::resolve(cn, meta_id)
+    
     #workaround since eml2::read_eml currently can't take raw
     xml <- xml2::read_xml(meta_obj)
     eml <- tryCatch({emld::as_emld(xml)},  # If eml make EML object
@@ -121,8 +120,8 @@ download_d1_data <- function(data_obj, path) {
       File_Name = entity_data$physical$objectName,
       Date_Downloaded = paste0(Sys.time()),
       Data_ID = data_id,
-      Data_URL = data_nodes$data$url,
-      Metadata_ID = meta_id,
+      Data_URL = data_nodes$data$url[[1]],
+      Metadata_ID = meta_id[[1]],
       Metadata_URL = metadata_nodes$data$url[1],
       Description = entity_data$entityDescription,
       Label = entity_data$entityLabel,
@@ -138,21 +137,24 @@ download_d1_data <- function(data_obj, path) {
       Dataset_Methods = meta_tabular$methods
     ))
     
-    entity_meta <- purrr::compact(entity_meta) %>% 
-      dplyr::bind_rows() %>% 
-      tidyr::gather()
+    entity_meta <- entity_meta %>% unlist() %>% enframe()
+    # entity_meta <- entity_meta %>% 
+    #   purrr::compact() %>% 
+    #   dplyr::bind_rows() %>% 
+    #   tidyr::gather()
   }
   
   # Write files & download data--------
   message("\nDownloading data ", data_id, " ...")
   data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@cn, data_id))
   
-  data_name <- data_sys@fileName %|||% entity_data$physical$objectName %|||% entity_data$entityName %|||% data_id
+  data_name <- data_sys@fileName %|||% ifelse(exists("entity_data"), entity_data$physical$objectName %|||% entity_data$entityName, NA) %|||% data_id
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
-  data_name <- gsub("[.][a-zA-Z0-9]+$", "", data_name) #remove extension
+  data_name <- gsub("[.][a-zA-Z0-9]{2,4}$", "", data_name) #remove extension
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
   
   new_dir <- file.path(path, paste0(meta_name, "__", data_name)) 
+  print(data_name)
   dir.create(new_dir)
   
   ## download Data

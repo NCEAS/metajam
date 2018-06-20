@@ -5,10 +5,10 @@ Version: 1.0
 Date: 2018-06-12
 Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Description: More about what it does (maybe more than one line). jlkj.
 License: CC0
 RoxygenNote: 6.0.1.9000
-Imports: dataone, dplyr, eml2, emld, lubridate, purrr, stringr, xml2
+Imports: dataone, dplyr, eml2, emld, lubridate, purrr, stringr, tibble, tidyr, xml2
 Remotes: cboettig/eml2,
          cboettig/emld,
          DataONEorg/rdataone
