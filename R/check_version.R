@@ -1,11 +1,13 @@
 get_chunks <- function(x){
+  #return first input
+  
   # initialize structure
   if(!exists("chunk_all")){
     chunk_all <- x
   }
   
   # get first chunk
-  chunk <- stringr::str_replace(x, "[^/=]*[/=]", "")
+  chunk <- stringr::str_replace(x, "[^/=]*[/=]+", "")
   
   # recursion
   if(stringr::str_detect(x, "[/=]")){
@@ -39,7 +41,7 @@ get_pid_dates <- function(x){
 #'
 #' @examples
 #' \dontrun{
-#' #' # Most data URL's and identifiers work
+#' # Most data URL's and identifiers work
 #' check_version("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570")
 #' 
 #' # Returns a warning if several identifiers are returned:
@@ -58,30 +60,43 @@ get_pid_dates <- function(x){
 #'
 
 check_version <- function(pid, formatType = NULL){
-  pid_chunks <- get_chunks(pid)
-  results <- lapply(pid_chunks, get_pid_dates)
-  results_df <- dplyr::bind_rows(results) %>% dplyr::distinct()
+  while(nchar(pid) > 0) {
+    results <- suppressMessages(
+      dataone::query(dataone::CNode(),
+                     list(q = sprintf('identifier:"%s"', pid),
+                          fl = "identifier, dateUploaded, formatType, obsoletedBy"),
+                     as = "data.frame")
+    )
+    
+    if (nrow(results) == 0) {
+      pid <- gsub("^[^/=]+[/=]*", "", pid)
+      
+    } else {
+      #what to do if multiple are returned
+      break
+    }
+  }
   
-  if(nrow(results_df) == 0){
+  if(nrow(results) == 0){
     stop("No matching identifiers were found.")
   }
   
   # filter out extra types (resource map/etc with similar pid)
   if(!is.null(formatType)){
     formatType <- toupper(formatType)
-    results_df <- results_df[results_df$formatType == formatType,]
+    results <- results[results$formatType == formatType,]
   }
   
-  if(nrow(results_df) == 1){
-    if(is.null(results_df$obsoletedBy)){
-      message(results_df$identifier,
+  if(nrow(results) == 1){
+    if(is.null(results$obsoletedBy) || is.na(results$obsoletedBy)){
+      message(results$identifier,
               " is the latest version of the identifier.")
     } else {
-      warning("The identifier has been obsoleted by ", results_df$obsoletedBy)
+      warning("The identifier has been obsoleted by ", results$obsoletedBy)
     }
   } else {
     warning("Several identifiers are associated with ", pid)
   }
   
-  return(results_df)
+  return(results)
 }
