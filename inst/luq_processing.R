@@ -21,7 +21,7 @@ library(skimr)
 template_folder <- "Templates" 
 
 # Where we download the data from D1
-data_folder <- "Data"
+data_folder <- "~/Desktop/Data_SEC"
 
 # Mapping the fields
 mapper_file <- "fields_mapping_luq_template.csv" 
@@ -106,16 +106,23 @@ luq_test_datasets <- test_datasets_listing %>%
 ### Download the data and metadata ----
 
 # batch download the datasets
-map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`, data_folder, download_D1Data)
+map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`, data_folder, download_d1_data)
 
 
-### Read data files back into R as a named list ----
+### Bulk Read data files back into R as a named list ----
 
 # List the files
 csv_files <- list.files(data_folder, pattern = ".csv$", full.names = TRUE, recursive = TRUE)
+csv_meta <- list.files(data_folder, pattern = "metadata.csv$", full.names = TRUE, recursive = TRUE)
+csv_data <- setdiff(csv_files, csv_meta)
 
 # Read the data in a named list
-df_luq <- setNames(map(csv_files, read_csv), basename(csv_files))
+df_luq <- setNames(map(csv_files, read_csv), basename(csv_data))
+
+###  Read a specific data set back into R as a named list ----
+
+
+
 
 
 ### check if the attributes are identical for each sampling sites ----

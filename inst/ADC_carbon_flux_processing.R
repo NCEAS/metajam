@@ -40,16 +40,18 @@ map2(data_listing$pid, data_folder, download_d1_data)
 ### Read data files back into R as a named list ----
 
 # List the files
+csv_meta <- list.files(data_folder, pattern = "metadata.csv$", full.names = TRUE, recursive = TRUE)
 csv_files <- list.files(data_folder, pattern = ".csv$", full.names = TRUE, recursive = TRUE)
+csv_data <- setdiff(csv_files, csv_meta)
 
 # Read the data in a named list
-df_luq <- setNames(map(csv_files, read_csv), basename(csv_files))
+data_adc <- setNames(map(csv_files, read_csv), basename(csv_data))
 
 
 ### check if the attributes are identical for each sampling sites ----
 
 # list all the attributes
-attributes_luq <- setNames(map(names(df_luq), function(x){colnames(df_luq[x][[1]])}),names(df_luq))
+attributes_adc <- setNames(map(names(data_adc), function(x){colnames(data_adc[x][[1]])}),names(data_adc))
 
 # Check if they are identical (could not find a way without a loop)
 for(ds in names(attributes_luq)) {
