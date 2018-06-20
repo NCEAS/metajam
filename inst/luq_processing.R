@@ -96,18 +96,18 @@ test_datasets_listing <- gs_title(data_gs) %>%
 
 # Keep only the LUQ related data sets
 luq_test_datasets <- test_datasets_listing %>%
-  # filter(grepl("LUQ", .$`LTER site abbreviation`)) %>%
+  filter(grepl("LUQ", .$`LTER site abbreviation`)) %>%
   select(`LTER site abbreviation`,
-         `Data Repositorty (PASTA) URL to Archive/Metadata`,
-         `Data Repositorty (PASTA) URL to File`,`Data Repositorty (PASTA) Filename`) %>%
+         `Data Repository (PASTA) URL to Archive/Metadata`,
+         `Data Repository (PASTA) URL to File`,`Data Repository (PASTA) Filename`) %>%
   na.omit()
 
 
 ### Download the data and metadata ----
 
 # batch download the datasets
-map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`, data_folder, download_d1_data)
-
+map2(luq_test_datasets$`Data Repository (PASTA) URL to File`, data_folder, download_d1_data)
+map(luq_test_datasets$`Data Repository (PASTA) URL to File`, ~download_d1_data(.,data_folder))
 
 ### Bulk Read data files back into R as a named list ----
 
