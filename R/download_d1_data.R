@@ -8,6 +8,7 @@
 #' @import eml2
 #' @import purrr
 #' @import dataone
+#' @import tidyr
 #' @importFrom xml2 read_xml write_xml
 #' @importFrom emld as_emld
 #' @importFrom lubridate ymd_hms
@@ -30,7 +31,7 @@ download_d1_data <- function(data_obj, path) {
   if(nrow(data_versions) == 1){
     data_id <- data_versions$identifier
   } else if(nrow(data_versions) > 1){
-    #g  et most recent version
+    #get most recent version
     data_versions$dateUploaded <- lubridate::ymd_hms(data_versions$dateUploaded)
     data_id <- data_versions$identifier[data_versions$dateUploaded == max(data_versions$dateUploaded)]
   } else {
@@ -92,41 +93,54 @@ download_d1_data <- function(data_obj, path) {
       purrr::map_if(~!is.null(.x$entityName), list) %>% 
       unlist(recursive = FALSE) 
     
+    #sometimes url is stored in ...online$url instead of ...online$url$url
+    #sometimes url needs to be decoded
     entity_data <- entity_objs %>% 
-      purrr::keep(~grepl(data_id, utils::URLdecode(.x$physical$distribution$online$url$url)))
+      purrr::keep(~any(grepl(data_id, 
+                             purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
     
     if (length(entity_data) == 0) {
       warning("No data metadata could not be found for ", data_obj)
       
-    } else if (length(entity_data) > 1) {
+    } else {
+      
+      entity_data <- entity_data[[1]]
+      if (length(entity_data) > 1) {
       warning("multiple data metadata records found:\n",
               data_obj,
               "\nThe first record was used")
+      }
     }
-    
-    entity_data <- entity_data[[1]]
+
     attributeList <- suppressWarnings(eml2::get_attributes(entity_data$attributeList, eml))
     
+    meta_tabular <- tabularize_eml(eml) %>% tidyr::spread(name, value)
     
     ## TODO:: Collect fields more selectively
-    entity_meta <- list(
+    entity_meta <- suppressWarnings(list(
+      File_Name = entity_data$physical$objectName,
       Date_Downloaded = paste0(Sys.time()),
-      Name = entity_data$entityName,
       Data_ID = data_id,
       Data_URL = data_nodes$data$url,
       Metadata_ID = meta_id,
       Metadata_URL = metadata_nodes$data$url[1],
       Description = entity_data$entityDescription,
       Label = entity_data$entityLabel,
-      Project_Location = eml$dataset$coverage$geographicCoverage$geographicDescription,
-      Project_WestBoundingCoordinate = eml$dataset$coverage$geographicCoverage$boundingCoordinates$westBoundingCoordinate,
-      Project_EastBoundingCoordinate = eml$dataset$coverage$geographicCoverage$boundingCoordinates$eastBoundingCoordinate,
-      Project_NorthBoundingCoordinate = eml$dataset$coverage$geographicCoverage$boundingCoordinates$northBoundingCoordinate,
-      Project_SouthBoundingCoordinate = eml$dataset$coverage$geographicCoverage$boundingCoordinates$southBoundingCoordinate,
-      Project_Title = eml$dataset$title,
-      Project_Abstract = paste0(eml$dataset$abstract)
-    )
-    entity_meta <- t(as.data.frame(entity_meta[!sapply(entity_meta, is.null)]))
+      Dataset_Title = meta_tabular$title,
+      Dataset_StartDate = meta_tabular$temporalCoverage.beginDate,
+      Dataset_StartDate = meta_tabular$temporalCoverage.endDate,
+      Dataset_Location = meta_tabular$geographicCoverage.geographicDescription,
+      Dataset_WestBoundingCoordinate = meta_tabular$geographicCoverage.westBoundingCoordinate,
+      Dataset_EastBoundingCoordinate = meta_tabular$geographicCoverage.eastBoundingCoordinate,
+      Dataset_NorthBoundingCoordinate = meta_tabular$geographicCoverage.northBoundingCoordinate,
+      Dataset_SouthBoundingCoordinate = meta_tabular$geographicCoverage.southBoundingCoordinate,
+      Dataset_Abstract = meta_tabular$abstract,
+      Dataset_Methods = meta_tabular$methods
+    ))
+    
+    entity_meta <- purrr::compact(entity_meta) %>% 
+      dplyr::bind_rows() %>% 
+      tidyr::gather()
   }
   
   # Write files & download data--------
@@ -148,8 +162,8 @@ download_d1_data <- function(data_obj, path) {
   ## write metadata xml/tabular form if exists
   if(exists("xml")) {
     xml2::write_xml(xml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
-    utils::write.csv(x = entity_meta,
-                     file = file.path(new_dir, paste0(data_name, "__summary_metadata.csv")))
+    suppressWarnings(utils::write.csv(x = entity_meta, col.names = FALSE, row.names = FALSE,
+                                      file = file.path(new_dir, paste0(data_name, "__summary_metadata.csv"))))
   }
   
   # write attribute tables if data metadata exists
