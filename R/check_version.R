@@ -68,7 +68,7 @@ check_version <- function(pid, formatType = NULL){
                      as = "data.frame")
     )
     
-    if (nrow(results) == 0) {
+    if (is.null(results) || nrow(results) == 0) {
       pid <- gsub("^[^/=]+[/=]*", "", pid)
       
     } else {
