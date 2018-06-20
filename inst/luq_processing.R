@@ -106,18 +106,19 @@ luq_test_datasets <- test_datasets_listing %>%
 ### Download the data and metadata ----
 
 # batch download the datasets
-map2(luq_test_datasets$`Data Repository (PASTA) URL to File`, data_folder, download_d1_data)
+# map2(luq_test_datasets$`Data Repository (PASTA) URL to File`, data_folder, download_d1_data)
 map(luq_test_datasets$`Data Repository (PASTA) URL to File`, ~download_d1_data(.,data_folder))
 
 ### Bulk Read data files back into R as a named list ----
 
 # List the files
 csv_files <- list.files(data_folder, pattern = ".csv$", full.names = TRUE, recursive = TRUE)
-csv_meta <- list.files(data_folder, pattern = "metadata.csv$", full.names = TRUE, recursive = TRUE)
-csv_data <- setdiff(csv_files, csv_meta)
+csv_data <- csv_files[!grepl("metadata.csv$", csv_files)]
+csv_meta <- csv_files[grepl("metadata.csv$", csv_files)]
+# csv_data <- setdiff(csv_files, csv_meta) #look for "__" as an alternative
 
 # Read the data in a named list
-df_luq <- setNames(map(csv_files, read_csv), basename(csv_data))
+df_luq <- setNames(map(csv_data, read_csv), basename(csv_data))
 
 ###  Read a specific data set back into R as a named list ----
 
