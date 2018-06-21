@@ -122,8 +122,7 @@ df_luq <- setNames(map(csv_data, read_csv), basename(csv_data))
 
 ###  Read a specific data set back into R as a named list ----
 
-
-
+df_qs <- read_d1_files("/Users/brun/Desktop/Data_SEC/https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__QuebradaSonadora")
 
 
 ### check if the attributes are identical for each sampling sites ----
