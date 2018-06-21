@@ -21,10 +21,12 @@ library(skimr)
 template_folder <- "Templates" 
 
 # Where we download the data from D1
-data_folder <- "Data"
+data_folder <- "~/Desktop/Data_SEC"
 
 # Mapping the fields
 mapper_file <- "fields_mapping_luq_template.csv" 
+# Data sets listing GSheet
+data_gs <- "[LTER - SEC] Sata sets listing"
 
 
 ###### FUNCTIONS ###### 
@@ -81,36 +83,46 @@ categorical_frequency <- function(df){
 
 # Create the local directory to store templates
 dir.create(template_folder, showWarnings = FALSE)
-# Create the local directory to store templates
+# Create the local directory to store data sets
 dir.create(data_folder, showWarnings = FALSE)
 
 ### Getting the list of datasets to read ----
 
 # Getting the test datasets listing
-test_datasets_listing <- gs_title("[LTER - SEC] Sata sets listing") %>%
+test_datasets_listing <- gs_title(data_gs) %>%
   gs_read()
+
+######### LUQ processing ##################
 
 # Keep only the LUQ related data sets
 luq_test_datasets <- test_datasets_listing %>%
   filter(grepl("LUQ", .$`LTER site abbreviation`)) %>%
   select(`LTER site abbreviation`,
-         `Data Repositorty (PASTA) URL to Archive/Metadata`,
-         `Data Repositorty (PASTA) URL to File`,`Data Repositorty (PASTA) Filename`)
+         `Data Repository (PASTA) URL to Archive/Metadata`,
+         `Data Repository (PASTA) URL to File`,`Data Repository (PASTA) Filename`) %>%
+  na.omit()
 
 
 ### Download the data and metadata ----
 
 # batch download the datasets
-map2(luq_test_datasets$`Data Repositorty (PASTA) URL to File`, data_folder, download_D1Data)
+# map2(luq_test_datasets$`Data Repository (PASTA) URL to File`, data_folder, download_d1_data)
+map(luq_test_datasets$`Data Repository (PASTA) URL to File`, ~download_d1_data(.,data_folder))
 
-
-### Read data files back into R as a named list ----
+### Bulk Read data files back into R as a named list ----
 
 # List the files
 csv_files <- list.files(data_folder, pattern = ".csv$", full.names = TRUE, recursive = TRUE)
+csv_data <- csv_files[!grepl("metadata.csv$", csv_files)]
+csv_meta <- csv_files[grepl("metadata.csv$", csv_files)]
+# csv_data <- setdiff(csv_files, csv_meta) #look for "__" as an alternative
 
 # Read the data in a named list
-df_luq <- setNames(map(csv_files, read_csv), basename(csv_files))
+df_luq <- setNames(map(csv_data, read_csv), basename(csv_data))
+
+###  Read a specific data set back into R as a named list ----
+
+df_qs <- read_d1_files("/Users/brun/Desktop/Data_SEC/https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__QuebradaSonadora")
 
 
 ### check if the attributes are identical for each sampling sites ----
