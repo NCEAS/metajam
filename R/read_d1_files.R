@@ -3,6 +3,10 @@
 #' @param folder_path (character) Path to a directory where data and metadata are located
 #' @param fnc (character) Function to be used to read the data (default is readr::read_csv)
 #'
+#' @import purrr
+#' @import readr
+#' @import stringr
+#'
 #' @return (list) named list containing data and metadata as data frames
 #' @export
 #'
@@ -25,7 +29,7 @@ read_d1_files <- function(folder_path, fnc = "read_csv") {
   
   data_meta <- map(files, function(x){
     if (grepl("[^_]+_metadata(?=\\.csv)", basename(x), perl = TRUE)) {
-      read_csv(x)
+      readr::read_csv(x)
     } else if (tools::file_path_sans_ext(basename(x)) == filename) {
       eval(parse(text = paste0(fnc, '("', x, '")')))
     }
@@ -38,6 +42,6 @@ read_d1_files <- function(folder_path, fnc = "read_csv") {
     }
   }) 
   data_meta <- setNames(data_meta, data_meta_names) %>%
-    compact()
+    purr::compact()
   return(data_meta)
 }
