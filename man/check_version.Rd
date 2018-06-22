@@ -16,7 +16,7 @@ This function takes an identifier and checks to see if it has been obsoleted.
 }
 \examples{
 \dontrun{
-#' # Most data URL's and identifiers work
+# Most data URL's and identifiers work
 check_version("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570")
 
 # Returns a warning if several identifiers are returned:

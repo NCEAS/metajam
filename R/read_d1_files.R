@@ -12,8 +12,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' data_folder <- system.file("extdata", "doi_10.18739_A23F4KM7K__Alexander_Exp Burn Soil Mois 2012_2017", package = "metajam")
-#' read_d1_files(data_folder)
+#' data_folder <- system.file("extdata", "test_data", package = "metajam")
+#' soil_moist_data <- read_d1_files(data_folder)
 #' }
 #'
 
