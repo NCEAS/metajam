@@ -5,7 +5,7 @@
 #' See \href{https://github.com/nceas/metajam}{GitHub}
 #'
 #' @docType package
-#' @name emlspice
+#' @name metajam
 #' @import eml2
 #'
 NULL

@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packageId="doi:10.18739/A23F4KM7K" system="https://arcticdata.io" xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 eml.xsd">
+  <dataset>
+    <title>Surface soil moisture across an experimental burn severity gradient in far northeastern Siberia, 2012-2017</title>
+    <creator id="3473543133373383">
+      <individualName>
+        <givenName>Heather</givenName>
+        <givenName>D.</givenName>
+        <surName>Alexander</surName>
+      </individualName>
+      <organizationName>Mississippi State University</organizationName>
+      <address>
+        <city>MSU</city>
+        <administrativeArea>Mississippi</administrativeArea>
+        <postalCode>39762</postalCode>
+        <country>US</country>
+      </address>
+      <phone phonetype="voice">6623255809</phone>
+      <electronicMailAddress>heather.alexander@msstate.edu</electronicMailAddress>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-1307-8483</userId>
+    </creator>
+    <metadataProvider id="1140987657597124">
+      <individualName>
+        <givenName>Heather</givenName>
+        <givenName>D.</givenName>
+        <surName>Alexander</surName>
+      </individualName>
+      <organizationName>Mississippi State University</organizationName>
+      <address>
+        <city>MSU</city>
+        <administrativeArea>Mississippi</administrativeArea>
+        <postalCode>39762</postalCode>
+        <country>US</country>
+      </address>
+      <phone phonetype="voice">6623255809</phone>
+      <electronicMailAddress>heather.alexander@msstate.edu</electronicMailAddress>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-1307-8483</userId>
+    </metadataProvider>
+    <associatedParty id="5848118186006233">
+      <individualName>
+        <givenName>Michael</givenName>
+        <surName>Loranty</surName>
+      </individualName>
+      <organizationName>Colgate University</organizationName>
+      <address>
+        <city>Hamilton</city>
+        <administrativeArea>New York</administrativeArea>
+      </address>
+      <electronicMailAddress>mloranty@colgate.edu</electronicMailAddress>
+      <role>coPrincipalInvestigator</role>
+    </associatedParty>
+    <associatedParty id="5357304352018010">
+      <individualName>
+        <givenName>Michelle</givenName>
+        <surName>Mack</surName>
+      </individualName>
+      <organizationName>Northern Arizona University</organizationName>
+      <electronicMailAddress>michelle.mack@nau.edu</electronicMailAddress>
+      <role>coPrincipalInvestigator</role>
+    </associatedParty>
+    <associatedParty id="3119774179167440">
+      <individualName>
+        <givenName>Susan</givenName>
+        <surName>Natali</surName>
+      </individualName>
+      <organizationName>Woods Hole Research Center</organizationName>
+      <electronicMailAddress>snatali@whrc.org</electronicMailAddress>
+      <role>coPrincipalInvestigator</role>
+    </associatedParty>
+    <pubDate>2018-06-04</pubDate>
+    <abstract>
+      <para>Fire severity is increasing across the boreal forest biome as climate warms, and initial post-fire impacts on tree demographic processes and soil conditions could be an important determinant of long-term forest structure and carbon dynamics. To examine soil burn severity impacts on volumetric soil moisture, we conducted experimental burns in summer 2012 that created a gradient of residual post-fire soil organic layer (SOL) depth within a mature, sparse-canopy Cajander larch (Larix cajanderi Mayr.) forest in the Eastern Siberian Arctic. Immediately post-burn and every growing season until 2017, we measured surface (~5-cm depth) soil moisture across the severity gradient.</para>
+    </abstract>
+    <keywordSet>
+      <keyword>fire</keyword>
+      <keyword>permafrost</keyword>
+      <keyword>Siberia</keyword>
+      <keyword>Larch</keyword>
+      <keyword>Larix</keyword>
+      <keywordThesaurus>None</keywordThesaurus>
+    </keywordSet>
+    <intellectualRights>
+      <para>This work is licensed under the Creative Commons Attribution 4.0 International License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.</para>
+    </intellectualRights>
+    <distribution>
+      <offline>
+        <mediumName>digital </mediumName>
+      </offline>
+    </distribution>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>Far northeastern Siberia near Cherskiy, Russia</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>161.4067</westBoundingCoordinate>
+          <eastBoundingCoordinate>161.4067</eastBoundingCoordinate>
+          <northBoundingCoordinate>68.7433</northBoundingCoordinate>
+          <southBoundingCoordinate>68.7433</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>2012-07-01</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2017-08-01</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+      <taxonomicCoverage>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Larix cajanderi</taxonRankValue>
+        </taxonomicClassification>
+      </taxonomicCoverage>
+    </coverage>
+    <contact id="1237131932597022">
+      <individualName>
+        <givenName>Heather</givenName>
+        <givenName>D.</givenName>
+        <surName>Alexander</surName>
+      </individualName>
+      <organizationName>Mississippi State University</organizationName>
+      <address>
+        <city>MSU</city>
+        <administrativeArea>Mississippi</administrativeArea>
+        <postalCode>39762</postalCode>
+        <country>US</country>
+      </address>
+      <phone phonetype="voice">6623255809</phone>
+      <electronicMailAddress>heather.alexander@msstate.edu</electronicMailAddress>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-1307-8483</userId>
+    </contact>
+    <methods>
+      <methodStep>
+        <description>
+          <section>
+            <title>Surface soil moisture</title>
+            <para>From 2012 to 2017, surface (~ 5-cm depth) volumetric soil moisture (site-calibrated) was measured weekly during the field season at four locations within each plot using a soil moisture sensor attached to a digital readout (GS-3 and ProCheck, Decagon Devices, Pullman, WA).
+                    </para>
+          </section>
+        </description>
+      </methodStep>
+      <sampling>
+        <studyExtent>
+          <description>
+            <para>Sampling occurred during the growing season, usually from June to August. Measurements were averaged at the plot level and then at the burn severity treatment level to calculate the means and standard errors (SE) provided here. No data exist for unmanipulated treatments prior to August 2013 because these plots were not added until then.</para>
+          </description>
+        </studyExtent>
+        <samplingDescription>
+          <section>
+            <para>
+  To assess the effects of soil burn severity on soil moisture,
+  experimental burns were conducted on July 6 and 7, 2012 in a
+  low-density (0.03 trees m<superscript>-2</superscript>), low canopy
+  cover (~ 6%), mature (~ 178 yr old) larch stand on a south-facing
+  slope (15°) located ~ 0.5 km east of the Northeast Science Station
+  (NESS). Prior to treatment, soil burn severity level (unburned, low,
+  moderate, and high) was randomly assigned to each of 16
+  4-m<superscript>2</superscript> plots. Each burn plot was located &gt;
+  2 m from a mature larch tree and &gt; 2 m distant from each other.
+  Plots were aligned in two rows, parallel to the slope, and did not
+  overlap. Soil burn severity treatments were created by varying fuel
+  loads added to each plot. The goal was to obtain a gradient of soil
+  burn severities based on residual SOL depths that represented the
+  range of depths reported in the literature as being important for
+  impacting larch regeneration in other regions (Sofronov and
+  Volokitina, 2010): 2-4 cm (high severity), 6-8 cm (moderate severity),
+  and &gt; 10 cm (low severity).
+</para>
+            <para>
+  Fuel loads were based on preliminary burn trials conducted in Alaska,
+  which showed that these quantities were needed to create different
+  levels of soil burn severity when the SOL was moist (i.e., non-drought
+  conditions), which was the forest condition when burns were conducted.
+  Presumably, lower fuel loads would have been needed in drier
+  conditions to produce similar reductions in the SOL. We did not intend
+  to mimic natural fuel loads, which are estimated at 8 kg
+  m<superscript>-2</superscript> based on live vegetation, snag, woody
+  debris, and SOL pool estimates in mature, low-density stands
+  (Alexander et al., 2012b). Natural fuels collected from forested and
+  riparian areas near the NESS were dried in a sauna for several days
+  pre-burn. Low severity treatments received 2.25 kg
+  m<superscript>-2</superscript> fine twigs (&lt; 1 cm diameter) and
+  leaves. Moderate severity treatments received 2 kg
+  m<superscript>-2</superscript> fine twigs and leaves, 2.5 kg
+  m<superscript>-2</superscript> small twigs (1-2 cm diameter), and 5 kg
+  m<superscript>-2</superscript> coarse twigs (2-5 cm diameter), for a
+  total of 9.5 kg m<superscript>-2</superscript> fuels. High severity
+  treatments received 5.5 kg m<superscript>-2</superscript> fine twigs
+  and leaves, 5 kg m<superscript>-2</superscript> small twigs, 5 kg
+  m<superscript>-2</superscript> coarse twigs, and 21.5 kg
+  m<superscript>-2</superscript> logs (&gt; 5 cm diameter), for a total
+  of 37 kg m<superscript>-2</superscript> fuels.
+</para>
+            <para>
+  One day prior to burning, a 0.5-m buffer zone was created around the
+  edge of each plot where all woody vegetation was clipped to create a
+  fire line and minimize potential for fire spread. All woody ground
+  vegetation (mostly B. divaricata Ledeb., L. decumbens (Ait.) Lodd. ex
+  Steud., V. vitis-idaea L., and V. uligosium L.) inside each plot was
+  also clipped because we were burning in relatively wet conditions, and
+  moisture in these live fuels likely would have prevented the fires
+  from igniting. In natural wildfires, forest ground vegetation is a
+  main fuel source (Ivanova et al., 2011) and is typically top-killed by
+  the fire (Zyryanova et al., 2007). Our clipping likely produced a
+  similar effect. Plots designated as controls were also clipped
+  (hereafter referred to as “unburned”). Air-dry biomass of clipped
+  vegetation was measured, and a subsample was oven-dried to obtain an
+  air:oven dry conversion factor and total dry biomass/plot. Biomass
+  averaged 291 ± 22 g dry wt m<superscript>-2</superscript>, and there
+  were no pre-treatment differences among fire-treated and unburned
+  control plots (p = 0.16). Biomass removed from each plot to be fire
+  treated was returned to the plot prior to burning; these weights were
+  factored into the totals for fuel addition mentioned above. At the end
+  of 2013 sampling season, we added control plots with no clipping
+  manipulations because of recent studies indicating effects of shrub
+  removal on active layer conditions (Blok et al., 2010; Myers-Smith and
+  Hik, 2013); these plots are hereafter referred to as “unmanipulated.”
+  Fires were started using fire starters, which are dried hay-like
+  material covered with parafilm, and were allowed to burn out
+  naturally.
+</para>
+          </section>
+        </samplingDescription>
+      </sampling>
+    </methods>
+    <project>
+      <title>RUI: Collaborative Research: Fire regime influences on carbon dynamics of Siberian boreal forests</title>
+      <title>PostDoctoral Research Fellowship</title>
+      <personnel>
+        <individualName>
+          <givenName>Heather</givenName>
+          <surName>Alexander</surName>
+        </individualName>
+        <role>Principal Investigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <givenName>Michael</givenName>
+          <surName>Loranty</surName>
+        </individualName>
+        <role>Principal Investigator</role>
+      </personnel>
+      <funding>
+        <para>1304040</para>
+        <para>1623764</para>
+        <para>1103443</para>
+      </funding>
+    </project>
+    <dataTable>
+      <entityName>Alexander_Exp Burn Soil Mois 2012_2017.csv</entityName>
+      <entityDescription>This dataset contains surface soil moisture across an experimental burn severity gradient in far northeastern Siberia</entityDescription>
+      <physical scope="document">
+        <objectName>Alexander_Exp Burn Soil Mois 2012_2017.csv</objectName>
+        <size unit="bytes">1798</size>
+        <authentication method="SHA1">bb73bbaae88557d8dd7d0c7fa9ab16296a91c9f1</authentication>
+        <dataFormat>
+          <externallyDefinedFormat>
+            <formatName>text/csv</formatName>
+          </externallyDefinedFormat>
+        </dataFormat>
+        <distribution scope="document">
+          <online>
+            <url function="download">https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570</url>
+          </online>
+        </distribution>
+      </physical>
+      <attributeList>
+        <attribute>
+          <attributeName>Date</attributeName>
+          <attributeDefinition>Date measurement was taken</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>MM/DD/YYYY</formatString>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Unmanipulated Moisture (cm3 cm-3)</attributeName>
+          <attributeDefinition>Soil moisture in unmanipulated plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>blank</code>
+            <codeExplanation>No data exist for unmanipulated treatments prior to August 2013 because these plots were not added until then</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Unmanipulated Moisure (SE)</attributeName>
+          <attributeDefinition>Standard error of soil moisture in unmanipulated plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>blank</code>
+            <codeExplanation>No data exist for unmanipulated treatments prior to August 2013 because these plots were not added until then</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName> Unburned Moisture (cm3 cm-3)</attributeName>
+          <attributeDefinition>Soil moisture in unburned plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName> Unburned Moisture (SE)</attributeName>
+          <attributeDefinition>Standard error of soil moisture in unburned plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Low Severity Moisture (cm3 cm-3)</attributeName>
+          <attributeDefinition>Soil moisture in low severity plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Low Severity Moisture (SE)</attributeName>
+          <attributeDefinition>Standard error of soil moisture in low severity plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Moderate Severity Moisture (cm3 cm-3)</attributeName>
+          <attributeDefinition>Soil moisture in moderate severity plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Moderate Severity Moisture (SE)</attributeName>
+          <attributeDefinition>Standard error of soil moisture in moderate severity plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>High Severity Moisture (cm3 cm-3)</attributeName>
+          <attributeDefinition>Soil moisture in high severity plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>High Severity Moisture (SE)</attributeName>
+          <attributeDefinition>Standard error of soil moisture in high severity plot</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>cubicCentimetersPerCubicCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+      </attributeList>
+    </dataTable>
+    <otherEntity id="urn:uuid:76a614d2-97a6-4fdc-b426-515cdb16c801" scope="document">
+      <entityName>Alexander_Exp Burn Soil Mois 2012_2017.xlsx</entityName>
+      <physical scope="document">
+        <objectName>Alexander_Exp Burn Soil Mois 2012_2017.xlsx</objectName>
+        <size unit="bytes">13849</size>
+        <authentication method="SHA-1">1edaa375a9ee92ccae406944483f10f74e7fb1c5</authentication>
+        <dataFormat>
+          <externallyDefinedFormat>
+            <formatName>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</formatName>
+          </externallyDefinedFormat>
+        </dataFormat>
+        <distribution scope="document">
+          <online>
+            <url function="download">https://cn.dataone.org/cn/v2/resolve/urn:uuid:76a614d2-97a6-4fdc-b426-515cdb16c801</url>
+          </online>
+        </distribution>
+      </physical>
+      <entityType>Other</entityType>
+    </otherEntity>
+  </dataset>
+  <additionalMetadata>
+    <metadata>
+      <unitList xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <unit id="cubicCentimetersPerCubicCentimeter" abbreviation="cm³/cm³" name="cubicCentimetersPerCubicCentimeter" parentSI="dimensionless" unitType="dimensionless">
+          <description>cubic centimeters per cubic centimeter</description>
+        </unit>
+      </unitList>
+    </metadata>
+  </additionalMetadata>
+</eml:eml>

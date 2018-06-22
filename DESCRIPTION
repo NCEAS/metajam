@@ -1,14 +1,14 @@
 Package: metajam
 Type: Package
-Title: What the package does (short line)
+Title: Tools to download data and metadata from DataONE
 Version: 1.0
 Date: 2018-06-12
 Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line). jlkj.
+Description: Tools to download data and metadata from DataONE (https://www.dataone.org) and load this information in R
 License: CC0
 RoxygenNote: 6.0.1.9000
-Imports: dataone, dplyr, eml2, emld, lubridate, purrr, stringr, tibble, tidyr, xml2
+Imports: dataone, dplyr, eml2, emld, lubridate, purrr, stringr, tibble, tidyr, xml2, readr
 Remotes: cboettig/eml2,
          cboettig/emld,
          DataONEorg/rdataone

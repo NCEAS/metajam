@@ -1,0 +1,91 @@
+"name","value"
+"File_Name","Alexander_Exp Burn Soil Mois 2012_2017.csv"
+"Date_Downloaded","2018-06-22 14:02:45"
+"Data_ID","urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570"
+"Data_URL","https://arcticdata.io/metacat/d1/mn/v2/object/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570"
+"Metadata_ID","doi:10.18739/A23F4KM7K"
+"Metadata_URL","https://arcticdata.io/metacat/d1/mn/v2/object/doi:10.18739%2FA23F4KM7K"
+"Description","This dataset contains surface soil moisture across an experimental burn severity gradient in far northeastern Siberia"
+"Dataset_Title","Surface soil moisture across an experimental burn severity gradient in far northeastern Siberia, 2012-2017 RUI: Collaborative Research: Fire regime influences on carbon dynamics of Siberian boreal forests PostDoctoral Research Fellowship"
+"Dataset_StartDate","2012-07-01"
+"Dataset_StartDate","2017-08-01"
+"Dataset_Location","Far northeastern Siberia near Cherskiy, Russia"
+"Dataset_WestBoundingCoordinate","161.4067"
+"Dataset_EastBoundingCoordinate","161.4067"
+"Dataset_NorthBoundingCoordinate","68.7433"
+"Dataset_SouthBoundingCoordinate","68.7433"
+"Dataset_Abstract","Fire severity is increasing across the boreal forest biome as climate warms, and initial post-fire impacts on tree demographic processes and soil conditions could be an important determinant of long-term forest structure and carbon dynamics. To examine soil burn severity impacts on volumetric soil moisture, we conducted experimental burns in summer 2012 that created a gradient of residual post-fire soil organic layer (SOL) depth within a mature, sparse-canopy Cajander larch (Larix cajanderi Mayr.) forest in the Eastern Siberian Arctic. Immediately post-burn and every growing season until 2017, we measured surface (~5-cm depth) soil moisture across the severity gradient."
+"Dataset_Methods","<title>Surface soil moisture</title>
+<para>From 2012 to 2017, surface (~ 5-cm depth) volumetric soil moisture (site-calibrated) was measured weekly during the field season at four locations within each plot using a soil moisture sensor attached to a digital readout (GS-3 and ProCheck, Decagon Devices, Pullman, WA).
+                    </para> Sampling occurred during the growing season, usually from June to August. Measurements were averaged at the plot level and then at the burn severity treatment level to calculate the means and standard errors (SE) provided here. No data exist for unmanipulated treatments prior to August 2013 because these plots were not added until then. <para>
+  To assess the effects of soil burn severity on soil moisture,
+  experimental burns were conducted on July 6 and 7, 2012 in a
+  low-density (0.03 trees m<superscript>-2</superscript>), low canopy
+  cover (~ 6%), mature (~ 178 yr old) larch stand on a south-facing
+  slope (15°) located ~ 0.5 km east of the Northeast Science Station
+  (NESS). Prior to treatment, soil burn severity level (unburned, low,
+  moderate, and high) was randomly assigned to each of 16
+  4-m<superscript>2</superscript> plots. Each burn plot was located &gt;
+  2 m from a mature larch tree and &gt; 2 m distant from each other.
+  Plots were aligned in two rows, parallel to the slope, and did not
+  overlap. Soil burn severity treatments were created by varying fuel
+  loads added to each plot. The goal was to obtain a gradient of soil
+  burn severities based on residual SOL depths that represented the
+  range of depths reported in the literature as being important for
+  impacting larch regeneration in other regions (Sofronov and
+  Volokitina, 2010): 2-4 cm (high severity), 6-8 cm (moderate severity),
+  and &gt; 10 cm (low severity).
+</para>
+<para>
+  Fuel loads were based on preliminary burn trials conducted in Alaska,
+  which showed that these quantities were needed to create different
+  levels of soil burn severity when the SOL was moist (i.e., non-drought
+  conditions), which was the forest condition when burns were conducted.
+  Presumably, lower fuel loads would have been needed in drier
+  conditions to produce similar reductions in the SOL. We did not intend
+  to mimic natural fuel loads, which are estimated at 8 kg
+  m<superscript>-2</superscript> based on live vegetation, snag, woody
+  debris, and SOL pool estimates in mature, low-density stands
+  (Alexander et al., 2012b). Natural fuels collected from forested and
+  riparian areas near the NESS were dried in a sauna for several days
+  pre-burn. Low severity treatments received 2.25 kg
+  m<superscript>-2</superscript> fine twigs (&lt; 1 cm diameter) and
+  leaves. Moderate severity treatments received 2 kg
+  m<superscript>-2</superscript> fine twigs and leaves, 2.5 kg
+  m<superscript>-2</superscript> small twigs (1-2 cm diameter), and 5 kg
+  m<superscript>-2</superscript> coarse twigs (2-5 cm diameter), for a
+  total of 9.5 kg m<superscript>-2</superscript> fuels. High severity
+  treatments received 5.5 kg m<superscript>-2</superscript> fine twigs
+  and leaves, 5 kg m<superscript>-2</superscript> small twigs, 5 kg
+  m<superscript>-2</superscript> coarse twigs, and 21.5 kg
+  m<superscript>-2</superscript> logs (&gt; 5 cm diameter), for a total
+  of 37 kg m<superscript>-2</superscript> fuels.
+</para>
+<para>
+  One day prior to burning, a 0.5-m buffer zone was created around the
+  edge of each plot where all woody vegetation was clipped to create a
+  fire line and minimize potential for fire spread. All woody ground
+  vegetation (mostly B. divaricata Ledeb., L. decumbens (Ait.) Lodd. ex
+  Steud., V. vitis-idaea L., and V. uligosium L.) inside each plot was
+  also clipped because we were burning in relatively wet conditions, and
+  moisture in these live fuels likely would have prevented the fires
+  from igniting. In natural wildfires, forest ground vegetation is a
+  main fuel source (Ivanova et al., 2011) and is typically top-killed by
+  the fire (Zyryanova et al., 2007). Our clipping likely produced a
+  similar effect. Plots designated as controls were also clipped
+  (hereafter referred to as “unburned”). Air-dry biomass of clipped
+  vegetation was measured, and a subsample was oven-dried to obtain an
+  air:oven dry conversion factor and total dry biomass/plot. Biomass
+  averaged 291 ± 22 g dry wt m<superscript>-2</superscript>, and there
+  were no pre-treatment differences among fire-treated and unburned
+  control plots (p = 0.16). Biomass removed from each plot to be fire
+  treated was returned to the plot prior to burning; these weights were
+  factored into the totals for fuel addition mentioned above. At the end
+  of 2013 sampling season, we added control plots with no clipping
+  manipulations because of recent studies indicating effects of shrub
+  removal on active layer conditions (Blok et al., 2010; Myers-Smith and
+  Hik, 2013); these plots are hereafter referred to as “unmanipulated.”
+  Fires were started using fire starters, which are dried hay-like
+  material covered with parafilm, and were allowed to burn out
+  naturally.
+</para>"

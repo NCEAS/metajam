@@ -2,11 +2,13 @@
 
 export(check_version)
 export(download_d1_data)
+export(read_d1_files)
 export(tabularize_eml)
 import(dataone)
 import(dplyr)
 import(eml2)
 import(purrr)
+import(readr)
 import(stringr)
 import(tidyr)
 importFrom(dataone,CNode)
