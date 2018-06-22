@@ -1,3 +1,17 @@
+#' Read data along with metadata based on dowload_d1_data file structure
+#'
+#' @param folder_path (character) Path to a directory where data and metadata are located
+#' @param fnc (character) Function to be used to read the data (default is readr::read_csv)
+#'
+#' @return (list) named list containing data and metadata as data frames
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' df_qs <- read_d1_files("~/Desktop/Data_SEC/https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__QuebradaSonadora")
+#' }
+#'
+
 read_d1_files <- function(folder_path, fnc = "read_csv") {
   
   files <- list.files(folder_path, full.names = TRUE)
