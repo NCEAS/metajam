@@ -1,0 +1,12 @@
+"attributeName","attributeDefinition","formatString","measurementScale","unit","numberType","missingValueCode","missingValueCodeExplanation","domain"
+"Date","Date measurement was taken","MM/DD/YYYY","dateTime",NA,NA,NA,NA,NA
+"Unmanipulated Moisture (cm3 cm-3)","Soil moisture in unmanipulated plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real","blank","No data exist for unmanipulated treatments prior to August 2013 because these plots were not added until then","numericDomain"
+"Unmanipulated Moisure (SE)","Standard error of soil moisture in unmanipulated plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real","blank","No data exist for unmanipulated treatments prior to August 2013 because these plots were not added until then","numericDomain"
+" Unburned Moisture (cm3 cm-3)","Soil moisture in unburned plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real",NA,NA,"numericDomain"
+" Unburned Moisture (SE)","Standard error of soil moisture in unburned plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real",NA,NA,"numericDomain"
+"Low Severity Moisture (cm3 cm-3)","Soil moisture in low severity plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real",NA,NA,"numericDomain"
+"Low Severity Moisture (SE)","Standard error of soil moisture in low severity plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real",NA,NA,"numericDomain"
+"Moderate Severity Moisture (cm3 cm-3)","Soil moisture in moderate severity plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real",NA,NA,"numericDomain"
+"Moderate Severity Moisture (SE)","Standard error of soil moisture in moderate severity plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real",NA,NA,"numericDomain"
+"High Severity Moisture (cm3 cm-3)","Soil moisture in high severity plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real",NA,NA,"numericDomain"
+"High Severity Moisture (SE)","Standard error of soil moisture in high severity plot",NA,"ratio","cubicCentimetersPerCubicCentimeter","real",NA,NA,"numericDomain"
