@@ -162,9 +162,10 @@ download_d1_data <- function(data_obj, path) {
   message("Download complete")
   
   # change downloaded data object name to data_name
-  data_obj <- list.files(new_dir, full.names = TRUE)
-  data_obj_ext <- stringr::str_extract("filename.csv", ".[^.]{2,4}$")
-  file.rename(data_obj, file.path(new_dir, paste0(data_name, data_obj_ext)))
+  data_files <- list.files(new_dir, pattern = ".csv$", full.names = TRUE)
+  data_files <- data_files[!grepl(pattern='_metadata.csv', data_files)]
+  data_files_ext <- stringr::str_extract(data_files, ".[^.]{2,4}$")
+  file.rename(data_files, file.path(new_dir, paste0(data_name, data_files_ext)))
   
   ## write metadata xml/tabular form if exists
   if(exists("xml")) {
