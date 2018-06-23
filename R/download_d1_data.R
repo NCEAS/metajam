@@ -161,6 +161,11 @@ download_d1_data <- function(data_obj, path) {
   out <- dataone::downloadObject(d1c, data_id, path = new_dir)
   message("Download complete")
   
+  # change downloaded data object name to data_name
+  data_obj <- list.files(new_dir, full.names = TRUE)
+  data_obj_ext <- stringr::str_extract("filename.csv", ".[^.]{2,4}$")
+  file.rename(data_obj, file.path(new_dir, paste0(data_name, data_obj_ext)))
+  
   ## write metadata xml/tabular form if exists
   if(exists("xml")) {
     xml2::write_xml(xml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
