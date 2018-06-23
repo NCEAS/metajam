@@ -48,7 +48,7 @@ map2(data_listing$pid, data_folder, download_d1_data)
 # List the data set folders
 local_datasets <- dir(data_folder, full.names = TRUE)
 
-# Read them all in as a names list (probably not the way scientisits want to do it)
+# Read them all in as a named list (probably not the way scientisits want to do it)
 test <- setNames(map(local_datasets, read_d1_files), basename(local_datasets))
 
 
