@@ -89,8 +89,10 @@ check_version <- function(pid, formatType = NULL){
   
   if(nrow(results) == 1){
     if(is.null(results$obsoletedBy) || is.na(results$obsoletedBy)){
-      message(results$identifier,
-              " is the latest version of the identifier.")
+      message("\n",
+              results$identifier,
+              " is the latest version of the identifier for\n",
+              pid)
     } else {
       warning("The identifier has been obsoleted by ", results$obsoletedBy)
     }
