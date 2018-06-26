@@ -54,7 +54,8 @@ tabularize_eml <- function(eml, full = FALSE){
       dplyr::filter(!is.na(name)) %>% 
       dplyr::distinct() %>% 
       dplyr::group_by(name) %>% 
-      dplyr::summarize(value = paste(value, collapse = " ")) 
+      dplyr::summarize(value = paste(value, collapse = " ")) %>% 
+      dplyr::mutate(value = gsub("\n", "", value)) #without this, fields get truncated in Excel
   }
   
   return(metadata)

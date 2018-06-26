@@ -1,31 +1,3 @@
-get_chunks <- function(x){
-  #return first input
-  
-  # initialize structure
-  if(!exists("chunk_all")){
-    chunk_all <- x
-  }
-  
-  # get first chunk
-  chunk <- stringr::str_replace(x, "[^/=]*[/=]+", "")
-  
-  # recursion
-  if(stringr::str_detect(x, "[/=]")){
-    chunk2 <- get_chunks(chunk)
-    chunk_all <- c(chunk, chunk2)
-  }
-  
-  return(chunk_all)
-}
-
-get_pid_dates <- function(x){
-  suppressMessages(dataone::query(dataone::CNode("PROD"), 
-                                  list(q = sprintf('identifier:"%s"', x),
-                                       fl = "identifier, dateUploaded, formatType, obsoletedBy",
-                                       rows = "1000"),
-                                  as = "data.frame"))
-}
-
 #' Check pid version
 #'
 #' This function takes an identifier and checks to see if it has been obsoleted.
@@ -89,8 +61,10 @@ check_version <- function(pid, formatType = NULL){
   
   if(nrow(results) == 1){
     if(is.null(results$obsoletedBy) || is.na(results$obsoletedBy)){
-      message(results$identifier,
-              " is the latest version of the identifier.")
+      message("\n",
+              results$identifier,
+              "\nis the latest version for identifier\n",
+              pid)
     } else {
       warning("The identifier has been obsoleted by ", results$obsoletedBy)
     }

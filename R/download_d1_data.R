@@ -103,12 +103,13 @@ download_d1_data <- function(data_obj, path) {
       
     } else {
       
-      entity_data <- entity_data[[1]]
       if (length(entity_data) > 1) {
       warning("multiple data metadata records found:\n",
               data_obj,
               "\nThe first record was used")
       }
+      
+      entity_data <- entity_data[[1]]
     }
 
     attributeList <- suppressWarnings(eml2::get_attributes(entity_data$attributeList, eml))
@@ -154,7 +155,6 @@ download_d1_data <- function(data_obj, path) {
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
   
   new_dir <- file.path(path, paste0(meta_name, "__", data_name)) 
-  print(data_name)
   dir.create(new_dir)
   
   ## download Data
