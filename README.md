@@ -10,9 +10,7 @@ The `metajam` package can be installed from GitHub using the `devtools` package:
 devtools::install_github("nceas/metajam")
 ```
 
-## Examples
-
-#### Downloading data
+## Download data
 
 To download a data object, specify the data object URL and local download path in the `download_d1_data` function:
 
@@ -35,7 +33,7 @@ The output is saved in a folder with the name `{metadata_id}__{file_name}`, whic
 - `{file_name}__attribute_metadata.csv` - attribute metadata in a tabular format, if included in the metadata xml
 - `{file_name}__attribute_factor_metadata.csv` - attribute factor metadata in a tabular format, if included in the metadata xml
 
-#### Reading data
+## Read data
 
 The `read_d1_files` function allows you to read the downloaded data and metadata directly into your R environment. Simply run the function with the folder path to the downloaded objects, and all data and metadata files will be returned as data frames stored in a list. Use `{object_name}$data` to access the data, and `{object_name}${metadata_type}_metadata` to access its associated metadata.
 
