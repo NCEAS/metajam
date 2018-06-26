@@ -1,6 +1,6 @@
 ---
-title: "Use Case - Processing of stream chemistry data for the LTER Luquillo site"
-author: "Julien Brun, Mitchell Maier, and Irene Steves, NCEAS"
+title: "Use Case - Processing Stream Chemistry Data for the LTER Luquillo Site"
+author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Summary
 
-This vignette aims to showcase a use case using the 2 main functions of `metajam` - `download_d1_data` and `read_d1_files` using a data processing workflow developped by the NCO synthesis working group [Stream Elemental Cycling](https://lternet.edu/working-groups/global-patterns-stream-energy-nutrient-cycling/). 
+This vignette aims to showcase a use case using the 2 main functions of `metajam` - `download_d1_data` and `read_d1_files` using a data processing workflow developed by the NCO synthesis working group [Stream Elemental Cycling](https://lternet.edu/working-groups/global-patterns-stream-energy-nutrient-cycling/). 
 
 The data sets used are from the [LTER site - Luquillo](http://luq.lter.network) and can be found in the PASTA data repository <http://dx.doi.org/doi:10.6073/pasta/f9df56348f510da0113b1e6012fa2967>. This data package is a collection of 8 data sets of stream water samples from 8 different locations of the Luquillo Mountains. 
 
@@ -70,14 +70,14 @@ luq_test_datasets <- test_datasets_listing %>%
 map(luq_test_datasets$`Data Repository (PASTA) URL to File`, ~download_d1_data(.,data_folder))
 ```
 
-At this point, you should have all the data and the metadata downloaded inside your main directory, `Data_SEC` in this example. `metajam` organize the files as follow: 
-- Each data set is stored a subdirectory names after the package DOI and the filename
-- Inside this subdirectory, you will find
+At this point, you should have all the data and the metadata downloaded inside your main directory; `Data_SEC` in this example. `metajam` organize the files as follow: 
+- Each data set is stored a sub-directory named after the package DOI and the file name
+- Inside this sub-directory, you will find
    - the data: `my_data.csv`
-   - the raw eml with the naming convention filename + `__full_metadata.xml`: `my_data__full_metadata.xml`
-   - the metadata summary with the naming convention filename + `__summary_metadata.csv`: `my_data__summary_metadata.csv`
-   - the attribute level metadata with the naming convention filename + `__attribute_metadata.csv`: `my_data__attribute_metadata.csv`
-   - the factor level metadata with the naming convention filename + `__attribute_factor_metadata.csv`: my_data`__attribute_factor_metadata.csv`
+   - the raw EML with the naming convention _file name_ + `__full_metadata.xml`: `my_data__full_metadata.xml`
+   - the package level metadata summary with the naming convention _file name_ + `__summary_metadata.csv`: `my_data__summary_metadata.csv`
+   - If relevant, the attribute level metadata with the naming convention _file name_ + `__attribute_metadata.csv`: `my_data__attribute_metadata.csv`
+   - If relevant, the factor level metadata with the naming convention _file name_ + `__attribute_factor_metadata.csv`: my_data`__attribute_factor_metadata.csv`
 
 
 ## Read the data and metadata in your R environment
@@ -104,6 +104,7 @@ for(ds in names(attributes_luq)) {
 
 #> => We are good, same data structure across the sampling sites
 ```
+
 ### Conclusion 
 
 - the same attributes are reported at the different sampling sites
@@ -217,3 +218,7 @@ all_sites_luq[all_sites_luq == -9999] <- NA
 write_csv(all_sites_luq, "stream_chem_all_LUQ.csv")
 ```
 
+## General Conclusion
+
+- Although the column names were the same in all the data sets, looking at the metadata we discover that the 2 datasets are measuring stream gage height and NH4 concentration in a different way
+- We used the metadata to perform the necessary conversions to homogenize the 8 data sets
