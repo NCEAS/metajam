@@ -1,0 +1,219 @@
+---
+title: "Use Case - Processing of stream chemistry data for the LTER Luquillo site"
+author: "Julien Brun, Mitchell Maier, and Irene Steves, NCEAS"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{"Use Case - Processing of stream chemistry data for the LTER Luquillo site"}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Summary
+
+This vignette aims to showcase a use case using the 2 main functions of `metajam` - `download_d1_data` and `read_d1_files` using a data processing workflow developped by the NCO synthesis working group [Stream Elemental Cycling](https://lternet.edu/working-groups/global-patterns-stream-energy-nutrient-cycling/). 
+
+The data sets used are from the [LTER site - Luquillo](http://luq.lter.network) and can be found in the PASTA data repository <http://dx.doi.org/doi:10.6073/pasta/f9df56348f510da0113b1e6012fa2967>. This data package is a collection of 8 data sets of stream water samples from 8 different locations of the Luquillo Mountains. 
+
+Our **goal** is to read the data for the 8 different sampling sites and aggregate them into one harmonized data set. We will use the metadata to check if the data structures and units are the same across the 8 different sampling sites before performing the aggregation.
+
+
+## Libraries
+
+```{r libraries, warning=FALSE}
+# devtools::install_github("NCEAS/metajam")
+library(metajam)  
+library(udunits2)
+
+# For wrangling the data
+library(readr)
+library(dplyr)
+library(purrr)
+```
+
+## Constants
+
+```{r constants}
+# Where we download the data from D1
+data_folder <- "Data_SEC"
+
+# Ammonium to Ammoniacal-nitrogen conversion
+coeff_conv_NH4_to_NH4N <- 0.7764676534
+```
+
+
+## Download the data sets
+
+```{r download, eval=FALSE}
+# Create the local directory to store data sets
+dir.create(data_folder, showWarnings = FALSE)
+
+# Get the data sets unique identifiers
+test_datasets_listing <- read_csv(system.file("extdata", "[LTER - SEC] Sata sets listing - Searched data.csv", package = "metajam"))
+
+# Keep only the LUQ related data sets
+luq_test_datasets <- test_datasets_listing %>%
+  filter(grepl("LUQ", .$`LTER site abbreviation`)) %>%
+  select(`LTER site abbreviation`,
+         `Data Repository (PASTA) URL to Archive/Metadata`,
+         `Data Repository (PASTA) URL to File`,`Data Repository (PASTA) Filename`) %>%
+  na.omit()
+
+# Batch download the datasets
+map(luq_test_datasets$`Data Repository (PASTA) URL to File`, ~download_d1_data(.,data_folder))
+```
+
+At this point, you should have all the data and the metadata downloaded inside your main directory, `Data_SEC` in this example. `metajam` organize the files as follow: 
+- Each data set is stored a subdirectory names after the package DOI and the filename
+- Inside this subdirectory, you will find
+   - the data: `my_data.csv`
+   - the raw eml with the naming convention filename + `__full_metadata.xml`: `my_data__full_metadata.xml`
+   - the metadata summary with the naming convention filename + `__summary_metadata.csv`: `my_data__summary_metadata.csv`
+   - the attribute level metadata with the naming convention filename + `__attribute_metadata.csv`: `my_data__attribute_metadata.csv`
+   - the factor level metadata with the naming convention filename + `__attribute_factor_metadata.csv`: my_data`__attribute_factor_metadata.csv`
+
+
+## Read the data and metadata in your R environment
+
+```{r read_data, eval=FALSE}
+# List the data set folders
+local_datasets <- dir(data_folder, full.names = TRUE)
+
+# Read all the data sets and their associated metadata in as a named list
+luq_datasets <- setNames(map(local_datasets, read_d1_files), basename(local_datasets))
+```
+
+## Perform checks on data structure
+
+```{r attributes, eval=FALSE}
+# list all the attributes
+attributes_luq <- map(names(luq_datasets), function(x){colnames(luq_datasets[[x]]$data)}) %>%
+  setNames(.,names(luq_datasets))
+
+# Check if they are identical by comparing all against the first site
+for(ds in names(attributes_luq)) {
+  print(identical(attributes_luq[[1]], attributes_luq[ds][[1]]))
+}
+
+#> => We are good, same data structure across the sampling sites
+```
+### Conclusion 
+
+- the same attributes are reported at the different sampling sites
+
+
+## Perform checks on the units
+
+```{r units, eval=FALSE}
+# List all the units used
+luq_units <- map(names(luq_datasets), function(x){luq_datasets[[x]]$attribute_metadata$unit}) %>%
+                setNames(.,names(luq_datasets))
+
+# Check if they are identical by comparing all against the first site
+for(us in names(luq_units)) {
+  print(identical(luq_units[[1]], luq_units[us][[1]]))
+}
+
+#>!!! => The 2 last datasets have differen units!!!!!!!!!!
+
+# Let's check the differences
+luq_units_merged <- luq_datasets %>%
+  map(`[[`, "attribute_metadata") %>%
+  map(. %>% select(attributeName, unit)) %>%
+  reduce(full_join, by = "attributeName") 
+
+## Rename
+# Create the new names
+luq_new_colnames <- names(luq_units) %>%
+  str_split_fixed(., "__", n=2) %>%
+  .[,2] %>%
+  paste("unit", ., sep = "_")
+# Apply the new names
+colnames(luq_units_merged) <- c("attributeName", luq_new_colnames)
+```
+
+### Conclusion
+
+- For the 2 last sampling sites `RioIcacos` and `RioMameyesPuenteRoto`, the units used for the gage height are in foot and not meter as for the other sites
+- For the 2 last sampling sites `RioIcacos` and `RioMameyesPuenteRoto`, `NH4` and not `NH4-N` is measured
+
+
+## Fixing units discrepencies
+
+```{r fixing_units, eval=FALSE}
+# fix attribute naming discrepencies -- To be improved 
+# Copy the units for Gage height
+luq_units_merged[which(luq_units_merged$attributeName=="Gage_Ht"), c("unit_RioIcacos", "unit_RioMameyesPuenteRoto")] <- "foot"
+
+# Copy the units for NH4
+luq_units_merged[which(luq_units_merged$attributeName=="NH4-N"), c("unit_RioIcacos", "unit_RioMameyesPuenteRoto")] <- "microgramsPerLiter"
+
+# drop the 2 last rows
+luq_units_merged <- head(luq_units_merged, -2)
+
+### Implement the unit conversion for RioIcacos and RioMameyesPuenteRoto ----
+
+## RioIcacos
+# Fix NAs
+luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$data[luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$data == -9999] <- NA
+
+# Simplify naming
+RioIcacos_data <- luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$data
+RioIcacos_attrmeta <- luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$attribute_metadata
+
+# Do the unit conversion  - Gage height - manual way
+# RioIcacos_data$Gage_Ht <- 
+#   RioIcacos_data$Gage_Ht * 0.3048
+
+# Do the unit conversion  - Gage height - udunits way
+RioIcacos_data$Gage_Ht <- ud.convert(RioIcacos_data$Gage_Ht,
+                                  RioMameyesPuenteRoto_attrmeta$unit[RioMameyesPuenteRoto_attrmeta$attributeLabel == "Gage height"]
+                                  , "meter")
+
+# Do the unit conversion for RioIcacos and RioMameyesPuenteRoto - NH4 to NH4-N
+RioIcacos_data$`NH4-N` <- RioIcacos_data$`NH4-N` * coeff_conv_NH4_to_NH4N
+
+# Update the main object 
+luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$data <- RioIcacos_data
+
+## RioMameyesPuenteRoto
+# Replace -9999 with NAs 
+luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$data[luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$data == -9999] <- NA
+
+# Simplify naming
+RioMameyesPuenteRoto_data <- luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$data
+RioMameyesPuenteRoto_attrmeta <- luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$attribute_metadata
+
+# Do the unit conversion  - Gage height - manual way
+RioMameyesPuenteRoto_data$Gage_Ht <- ud.convert(RioMameyesPuenteRoto_data$Gage_Ht, 
+                                                RioMameyesPuenteRoto_attrmeta$unit[RioMameyesPuenteRoto_attrmeta$attributeLabel == "Gage height"], 
+                                                "meter")
+
+# Do the unit conversion for RioMameyesPuenteRoto - NH4 to NH4-N
+RioMameyesPuenteRoto_data$`NH4-N` <- RioMameyesPuenteRoto_data$`NH4-N` * coeff_conv_NH4_to_NH4N
+
+# Update the main object
+luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$data <- RioMameyesPuenteRoto_data 
+
+```
+
+## Append all the sampling sites into one master data set
+
+```{r combine, eval=FALSE}
+# bind the sampling sites data into one master dataset for LUQ
+all_sites_luq <- bind_rows(df_luq, .id = "prov")
+
+# Replace -9999 with NAs
+all_sites_luq[all_sites_luq == -9999] <- NA
+
+# Write as csv
+write_csv(all_sites_luq, "stream_chem_all_LUQ.csv")
+```
+
