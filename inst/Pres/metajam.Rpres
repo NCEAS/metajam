@@ -1,0 +1,54 @@
+metajam
+========================================================
+author: Julien Brun, Irene Steves, Mitchell Maier
+date: `r Sys.Date()`
+autosize: true
+css: styles.css
+
+Motivation
+========================================================
+
+1. Access data and associated metadata simultaneously
+2. Keep data and metadata bundled together
+3. Simple interface for users unfamiliar with DataONE
+4. Simple output for users unfamiliar with EML/XML
+
+Simple to Run
+========================================================
+
+Just pass in:
+ 1. a data URL 
+ 2. a path to a folder
+
+
+``` {r, eval = FALSE}
+#set inputs
+
+data_obj <- "https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Aae6237a1-ac1b-4282-87a5-99f1ab0d11a5"
+path <- "~/Desktop/My_Data"
+```
+
+``` {r, eval = FALSE}
+#download data and metadata
+
+metajam::download_d1_data(data_obj, path)
+```
+
+Output Structure
+========================================================
+
+<center>
+<img src="File_Structure.png" style="background-color:transparent; border:0px; box-shadow:none;"></img>
+</center>
+
+Read File Into R
+========================================================
+
+``` {r, eval = TRUE}
+my_data <- metajam::read_d1_files("doi_10.18739_A2CD5M__ASDN_Bird_captures")
+summary(my_data)
+```
+
+``` {r, eval = TRUE}
+head(my_data$summary_metadata)
+```

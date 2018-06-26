@@ -1,0 +1,20 @@
+"name","value"
+"File_Name","ASDN_Bird_captures.csv"
+"Date_Downloaded","2018-06-26 14:49:50"
+"Data_ID","urn:uuid:ae6237a1-ac1b-4282-87a5-99f1ab0d11a5"
+"Data_URL","https://arcticdata.io/metacat/d1/mn/v2/object/urn:uuid:ae6237a1-ac1b-4282-87a5-99f1ab0d11a5"
+"Metadata_ID","doi:10.18739/A2CD5M"
+"Metadata_URL","https://arcticdata.io/metacat/d1/mn/v2/object/doi:10.18739%2FA2CD5M"
+"Description","This file provides data collected when a bird was captured, typically for banding or 
+sampling.  There is one record per capture, so birds captured more than once have multiple 
+records.
+      "
+"Dataset_Title","Arctic Shorebird Demographics Network"
+"Dataset_StartDate","1993-05-14"
+"Dataset_StartDate","2014-08-31"
+"Dataset_Location","CONTINENT > EUROPE > EASTERN EUROPE > RUSSIA, CANADA > MANITOBA, CANADA > ONTARIO, CANADA > NUNAVUT, CANADA > HUDSON BAY, GEOGRAPHIC REGION > ARCTIC, UNITED STATES OF AMERICA > ALASKA, CANADA > NORTHWEST TERRITORIES, "
+"Dataset_WestBoundingCoordinate","170.5994"
+"Dataset_EastBoundingCoordinate","-80.0000"
+"Dataset_NorthBoundingCoordinate","73.2000"
+"Dataset_SouthBoundingCoordinate","55.2000"
+"Dataset_Abstract","See ""01_ASDN_readme.txt"" (under ""Download Data"" tab) for data author and contact information. Field data on shorebird ecology and environmental conditions were collected from 1993-2014 at 16 field sites in Alaska, Canada, and Russia.  Data were not collected in every year at all sites. Studies of the population ecology of these birds included nest-monitoring to determine timing of reproduction and reproductive success; live capture of birds to collect blood samples, feathers, and fecal samples for investigations of population structure and pathogens; banding of birds to determine annual survival rates; resighting of color-banded birds to determine space use and site fidelity; and use of light-sensitive geolocators to investigate migratory movements. Data on climatic conditions, prey abundance, and predators were also collected. Environmental data included weather stations that recorded daily climatic conditions, surveys of seasonal snowmelt, weekly sampling of terrestrial and aquatic invertebrates that are prey of shorebirds, live trapping of small mammals (alternate prey for shorebird predators), and daily counts of potential predators (jaegers, falcons, foxes). Detailed field methods for each year are available in the ASDN_protocol_201X.pdf files.  All research was conducted under permits from relevant federal, state and university authorities. Potential users of these data should first contact the relevant data author(s), listed below.  This will enable coordination in terms of updates/corrections to the data and ongoing analyses.  Key analyses of the data are in progress and will be included in the theses and dissertations of graduate students who collected these field data. Please acknowledge this dataset and the authors in any analysis, publication, presentation, or other output that uses these data. 	If you use the full dataset, we suggest you cite it as:  		 Lanctot, RB, SC Brown, and BK Sandercock. 2017. Arctic Shorebird Demographics Network. NSF Arctic Data Center. doi: INSERT HERE. 	If you use data from only one or a few sites, we suggest you cite data for each site as per this example:  		Lanctot, RB and ST Saalfeld. 2017. Barrow, 2014. Arctic Shorebird Demographics Network. NSF Arctic Data Center. doi: INSERT HERE. Note that each updated version of the dataset has its own unique DOI. Disclaimers:  The dataset is distributed “as is” and with absolutely no warranty. The data providers have invested considerable effort to ensure that the data are of highest quality, but it is possible that undetected errors remain. Data have been processed with several steps for quality assurance, but the data providers accept no liability or guarantee that the data are up-to-date, correct, or complete. Access to data is provided on the understanding that the data providers are not responsible for any damages from inaccuracies in the data. "
