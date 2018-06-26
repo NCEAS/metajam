@@ -1,0 +1,130 @@
+"attributeName","attributeLabel","attributeDefinition","storageType","definition","measurementScale","domain","formatString","unit","numberType"
+"Book_page","Book_page","Corresponding book and page number for this record in the field notebook/datasheets","string","Format: book.pagenumber (e.g. X.XX)","nominal","textDomain",NA,NA,NA
+"Year",NA,"Year in which data were collected",NA,NA,"dateTime",NA,"YYYY",NA,NA
+"Site","Site","Four-letter code of site at which data were collected (nome)","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Bander","Bander","person who handled and banded the bird","string","First letter and last name (usually) or initials","nominal","textDomain",NA,NA,NA
+"Date","Date","Date of capture","string","Format: dd-month-yy","nominal","textDomain",NA,NA,NA
+"Date_julian","Date_julian","Julian date of capture","string","Julian date of capture","nominal","textDomain",NA,NA,NA
+"time","time","Time of capture (24 hr)","string","Format: 00:00","nominal","textDomain",NA,NA,NA
+"Nest_ID","Nest_ID","Unique ID of bird nest","string","If the bird was captured on a nest, a unique ID was given to the nest (see Bird_Nests for more information)","nominal","textDomain",NA,NA,NA
+"Plot_ID","Plot_ID","Name of study plot","string","Identifier of the study plot on which a bird was captured.  Some names may be duplicated across sites, but are unique within sites.  See Geodata for plot locations.","nominal","textDomain",NA,NA,NA
+"Plot_limit","Plot_limit","Bird capture location relative to plot boundaries","string","Indicates whether the nest was within (""in"") or outside of (""out"") the boundaries of a nest-monitoring study plot.  If not given, assume the nest was located on-plot. This value was determined in the field; see Plot_limit_corr for corrected value determined later with GIS.","nominal","textDomain",NA,NA,NA
+"Latitude","Latitude","Latitude of capture location in decimal degrees","integer",NA,"ratio","numericDomain",NA,"degree","real"
+"Longitude","Longitude","Longitude of capture location in decimal degrees","integer",NA,"ratio","numericDomain",NA,"degree","real"
+"Original_band","Original_band","Original unique bird band number","string","Unique number of the original metal band applied to the bird.  If no metal band was applied but bird is uniquely identifiable by color bands, bird is assigned an arbitrary 3-digit number.  ""noband"" = bird captured but no bands applied.","nominal","textDomain",NA,NA,NA
+"Band","Band","Current unique bird band number","string","Unique number of the metal band currently on the bird upon its release.  This may differ from Original_band if the metal band was changed.  If blank, same as Original_band.","nominal","textDomain",NA,NA,NA
+"Species","Species","Four-letter code for the species captured","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Sex","Sex","Sex of the bird, if determined at time of capture.","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Sex_method","Sex_method","Method of sexing","string","plumage = sex determined by color or shape of plumage;
+	bill = sex determined by culmen length (for species in which one sex reliably has a shorter or longer culmen);
+	brood patch = presence or absence of brood patch, for species in which only one sex incubates;
+	wing = determined by wing length;
+	tarsus = determined by tarsus length;
+	overall size = determined by multiple morphometric criteria;
+	mate_compare = sex determined by comparing morphology between members of a breeding pair;
+	prior_year or recapture = sex detemined in previous year using various methods;
+	cloaca size = distended cloaca from recent egg laying indicated female;
+	egg laying = bird laid an egg during handling;
+	dna = genetic analysis;
+	dfa = discriminant function analysis models, e.g. for Dunlin;
+	dfa_mate = assignment of sex is based on mates's DFA score (For example, if DFA score of mate is a female, we assume its mate is a male)","nominal","textDomain",NA,NA,NA
+"Age","Age","Age of bird as recorded in the field.","string","Age of bird as recorded in the field.","nominal","textDomain",NA,NA,NA
+"Age_method","Age_method","Method used to determine bird's age in the field","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Release_status","Release_status","Status of bird upon completion of handling","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Upper_left, Lower_left, Upper_right, Lower_right","Upper_left, Lower_left, Upper_right, Lower_right","Color band(s) applied to upper left leg (above the tarsal joint); Color band(s) applied to lower left leg below the tarsal joint); Color band(s) applied to upper right leg (above the tarsal joint); Color band(s) applied to lower right leg below the tarsal joint)","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Engraved_flag","Engraved_flag","Engraved flag code applied to bird","string","Three-digit alphanumeric code engraved on the colored leg flag applied to the bird.  Letters are recorded here in lowercase for clarity (e.g. ""0"" vs. ""o""), but engraved in uppercase.  If none given, engraved flag was not applied or code was not recorded.","nominal","textDomain",NA,NA,NA
+"Flag_type","Flag_type","Type of flag applied to bird","string","Flag is either engraved, plain, or not applied.","nominal","textDomain",NA,NA,NA
+"Recap_betwyear","Recap_betwyear","Whether the bird was captured in a previous year (should be double-checked against other data)","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Recap_withinyear","Recap_withinyear","Whether the bird was previously captured in the same year (should be double-checked against other data)","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Band_change","Band_change","Whether the bird's metal or color bands were changed during this handling event. Not relevant unless bird is a recapture","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Band_in","Band_in","Bird's previous metal band number","string","If any bands were changed, this provides the bird's previous metal band number (carried by the bird upon capture and replaced by ""Band,"" above, if different).","nominal","textDomain",NA,NA,NA
+"UL_in, LL_in, UR_in, LR_in","UL_in, LL_in, UR_in, LR_in","If any bands were changed, this provides the bird's previous color combination on the upper left leg, lower left leg, upper right leg, and lower right leg (carried by the bird upon capture and replaced by ""Upper_left"", ""Lower_left"", ""Upper_right"", and ""Lower_right"" above, if different).","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"eng_flag_in","eng_flag_in","Previous engraved flag id","string","
+                      If any bands were changed, this provides the bird's previous engraved flag code (carried by the bird upon capture and replaced by ""Engraved_flag"" above, if different).
+                    ","nominal","textDomain",NA,NA,NA
+"Radio_tag","Radio_tag","Radio Tag","string","
+                      Whether a radio or satellite tag was applied to the bird (blank = no tag).
+                    ","nominal","textDomain",NA,NA,NA
+"Geo_tag_out","Geo_tag_out","Identifier of geolocator tag","string","
+                      Whether a light-level geolocator tag was applied to the bird (either the identifier of the tag, or ""yes"" if a tag was applied but number was not recorded; blank = no tag applied).  Geolocators were applied with a leg band or flag attachment.
+                    ","nominal","textDomain",NA,NA,NA
+"Geo_time","Geo_time","Time of application","string","
+                      Time at which the geolocator was applied or (for recaptured birds) removed.
+                    ","nominal","textDomain",NA,NA,NA
+"Capture_method","Capture_method","Method by which bird was captured","string","
+                      method of capture (some described in the ASDN protocal PDF)
+                    ","nominal","textDomain",NA,NA,NA
+"Capture_stage","Capture_stage","Stage of breeding cycle at which bird was captured","string","
+                      pre-lay: pre-egg-laying period; laying: egg-laying period as determined by stage of nest or signs that bird is about to or has just laid an egg; inc: incubating eggs; brood: adult attending chicks (at or away from nest); postbreed: bird captured away from a nest during end of summer or fall; unknown: unknown breeding cycle
+                    ","nominal","textDomain",NA,NA,NA
+"Picture","Picture","Status of photographic data","string","
+                      Whether one or more photos were taken of the bird in the hand; n=no, y=yes. Sometimes indicates what photos were taken versus not: wing (spread wing feathers), combo (band combination on legs), data (datasheet with corresponding info)
+                    ","nominal","textDomain",NA,NA,NA
+"ffm_p1, ... ffm_p10","ffm_p1, ... ffm_p10","Flight Feather Molt Scores - primaries 1-10","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"ffm_s1, ... ffm_s10","ffm_s1, ... ffm_s10","Flight Feather Molt Scores - secondaries 1-10","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"tfm_1, ... tfm_6","tfm_1, ... tfm_6","Flight Feather Molt Scores - tertials 1-6","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"bm_head, bm_neck, bm_back, bm_brst, bm_abd","Body Molt","Body molt of head, neck, back, breast, and abdomen","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Culmen","Culmen","Exposed culmen length","integer",NA,"ratio","numericDomain",NA,"milliliter","real"
+"Total_head","Total_head","Measured with calipers from tip of culment to notch at back of head, measured to nearest 0.1 mm.  See ASDN_Protocol.pdf for further details.","integer",NA,"ratio","numericDomain",NA,"milliliter","real"
+"Tarsus","Tarsus","Diagonal tarsus, measured with calipers from indentation below the tarsal joint to the indentation above the longest toe, measured to nearest 0.1 mm.  See ASDN_Protocol.pdf for further details.","integer",NA,"ratio","numericDomain",NA,"milliliter","real"
+"Wing","Wing","Maximum flattened and straightened length of folded wing, measured with wing ruler to nearest mm.  See ASDN_Protocol.pdf for further details.","integer",NA,"ratio","numericDomain",NA,"milliliter","real"
+"Weight","Weight","Weight of bird plus measuring cone or bag, to nearest 0.1 g, measured with hanging Pesola scale","integer",NA,"ratio","numericDomain",NA,"gram","real"
+"Bag_wt","Bag_wt","Weight of cone or bag in which bird was weighed","integer",NA,"ratio","numericDomain",NA,"gram","real"
+"Final_wt","Final_wt","Net weight of bird (Weight - Bag_wt) to nearest 0.1 g","integer",NA,"ratio","numericDomain",NA,"gram","real"
+"Fat","Fat","Body fat score","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"blood_amt","blood_amt","Estimated blood volume collected based on number and percent of capillary tubes filled. y = blood taken but not recorded; trace = unmeasurably small amount taken.","integer",NA,"ratio","numericDomain",NA,"microliter","real"
+"malaria_blood","malaria_blood","Blood test for malaria","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Malaria_cap","Malaria_cap","Type of capillary tube used to collect sample for malaria test.","string","EDTA (anti-coagulant), heparin (heparinized anti-coagulant), or unknown. Numbers are occasionally provided but these are probably a data entry error.","nominal","textDomain",NA,NA,NA
+"malaria_pres","malaria_pres","Type of blood preservative used for malaria sample.","string","RNAlater, Lysis (Queen's Lysis Buffer), or unknown.","nominal","textDomain",NA,NA,NA
+"genetic_blood","genetic_blood","Blood collected for genetic sampling","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"gen_blood_amt","gen_blood_amt","Amount of blood taken for genetic sample","integer",NA,"ratio","numericDomain",NA,"microliter","real"
+"genetic_bloodpres","genetic_bloodpres","Type of preservative for genetic blood sample","string","
+                    longmire, Lysis, or unknown
+                  ","nominal","textDomain",NA,NA,NA
+"genetic_cap","genetic_cap","Type of capillary tube used to collect sample for genetic blood sample.","string","
+                   EDTA, heparin, plain (no anti-coagulant), hematocrit (no preservative, stored in capillary tube with ends capped), or unknown
+                  ","nominal","textDomain",NA,NA,NA
+"Hg_blood","Hg_blood","Blood collected for methyl mercury testing","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Hg_blood_amt","Hg_blood_amt","Amount of blood (µl) taken for methyl mercury testing","integer",NA,"ratio","numericDomain",NA,"microliter","real"
+"Hg_cap","Hg_cap","Type of capillary tube used to collect sample for methyl mercury testing","string","
+                    heparin, plain, or hematocrit
+                  ","nominal","textDomain",NA,NA,NA
+"ASDN_feather_sample","ASDN_feather_sample","Whether feathers were collected for the ASDN archive","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"feathers_coll","feathers_coll","Which feathers were collected for ASDN archive","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"moss_feather_sample","moss_feather_sample","Whether 3-5 breast feathers were collected for moss dispersal side-project","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"fecal_sample","fecal_sample","Whether fecal sample was collected (passive sampling by placing bird in box for few minutes) for gut microbiota side-project.","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"fecal_sample_pres","fecal_sample_pres","What type of preservative was used for fecal sample","string","
+                    100ethanol, 70isopropanol, 91isopropanol (numbers indicate proofs).
+                  ","nominal","textDomain",NA,NA,NA
+"AI_swab","AI_swab","Whether cloaca was swabbed for avian influenza testing","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"AI_sample_num","AI_sample_num","Avian influenza sample number if applicable","string","
+                    Avian influenza sample number if applicable
+                  ","nominal","textDomain",NA,NA,NA
+"AI_sample_type","AI_sample_type","Type of sample taken for avian influenca, if applicable.","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"malaria_plasma","malaria_plasma","Whether a blood plasma sample was taken for malaria testing.","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"malaria_RBC","malaria_RBC","Whether a red blood cell sample was taken for malaria testing.","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"malaria_rbcpres","malaria_rbcpres","Type of preservative for malaria red blood cell sample","string","longmire","nominal","textDomain",NA,NA,NA
+"RNALater_blood","RNALater_blood","Whether a blood sample was taken for RNALater analysis","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"RNALater_cap","RNALater_cap","Type of capillary tube used to collect RNALater blood sample","string","
+                        heparin, plain (no anti-coagulant), blank = no sample collected
+                      ","nominal","textDomain",NA,NA,NA
+"blood_pres","blood_pres","Preservative","string","
+                        Preservative used for other types of blood samples
+                      ","nominal","textDomain",NA,NA,NA
+"blood_cap","blood_cap","Type of capillary tube used to store blood sample","string","
+                        EDTA, plain, blank = no sample collected
+                      ","nominal","textDomain",NA,NA,NA
+"MethylHg_blood","MethylHg_blood","Whether a blood sample was taken for methyl mercury testing.","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"ChickEggNum","ChickEggNum","Label/identifier of egg or chick","string","
+                    Label/identifier of egg or chick from a particular nest (1 through 4).
+                  ","nominal","textDomain",NA,NA,NA
+"Chick_sample","Chick_sample","Whether a tissue sample was taken from a chick.","string",NA,"nominal","enumeratedDomain",NA,NA,NA
+"Chick_sample_type","Chick_sample_type","Type of tissue sample taken from chick, if applicable.","string","
+                    Type of tissue sample taken from chick, if applicable. ""Specimen"" indicates whole chick was preserved
+                  ","nominal","textDomain",NA,NA,NA
+"Comments",NA,"Additional comments","string","
+                    Any further field or data-management notes relevant to this record.  ""ELW note"" indicates data-management comment added by Emily Weiser.
+                  ","nominal","textDomain",NA,NA,NA
+"Plot_limit_corr","Plot_limit_corr","Corrected plot limit values calculated in GIS","string","
+                    Corrected ""Plot_limit"""" GIS calculations: indicates whether the bird was captured within (in) or outside (out) of the boundaries of a nest monitoring study plot. If not given, assume the bird was captured on-plot.
+                  ","nominal","textDomain",NA,NA,NA
