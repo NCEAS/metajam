@@ -49,10 +49,13 @@ map2(data_listing$pid, data_folder, download_d1_data)
 local_datasets <- dir(data_folder, full.names = TRUE)
 
 # Read them all in as a named list (probably not the way scientisits want to do it)
-test <- setNames(map(local_datasets, read_d1_files), basename(local_datasets))
+all_datasets <- setNames(map(local_datasets, read_d1_files), basename(local_datasets))
 
 
-
-
-
+# Finding problematic dataset
+# for (i in 1:length(local_datasets)) {
+#   print(local_datasets[i])
+#   ttt <- read_d1_files(local_datasets[i]) %>% 
+#     setNames(., basename(local_datasets[i]))
+# }
 
