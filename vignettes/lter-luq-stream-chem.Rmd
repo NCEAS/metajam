@@ -89,7 +89,7 @@ local_datasets <- dir(data_folder, full.names = TRUE)
 
 # Read all the datasets and their associated metadata in as a named list
 luq_datasets <- map(local_datasets, read_d1_files) %>% 
-  set_names(map(luq_datasets, ~.x$summary_metadata$value[.x$summary_metadata$name == "File_Name"]))
+  set_names(map(., ~.x$summary_metadata$value[.x$summary_metadata$name == "File_Name"]))
 ```
 
 ## Perform checks on data structure
