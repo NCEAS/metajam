@@ -1,7 +1,12 @@
+# This script download stream chemistry date for the LTER Luquino site
+# Data source: http://dx.doi.org/doi:10.6073/pasta/f9df56348f510da0113b1e6012fa2967
+
+
 # devtools::install_github("DataONEorg/rdataone")
 # devtools::install_github("cboettig/eml2")
 # devtools::install_github("NCEAS/metajam")
 library(metajam)
+library(udunits2)
 
 # the wranglers
 library(readxl)
@@ -106,7 +111,6 @@ luq_test_datasets <- test_datasets_listing %>%
 ### Download the data and metadata ----
 
 # batch download the datasets
-# map2(luq_test_datasets$`Data Repository (PASTA) URL to File`, data_folder, download_d1_data)
 map(luq_test_datasets$`Data Repository (PASTA) URL to File`, ~download_d1_data(.,data_folder))
 
 ### Bulk Read data files back into R as a named list ----
@@ -121,14 +125,21 @@ csv_meta <- csv_files[grepl("metadata.csv$", csv_files)]
 df_luq <- setNames(map(csv_data, read_csv), basename(csv_data))
 
 ###  Read a specific data set back into R as a named list ----
+# List the data set folders
+local_datasets <- dir(data_folder, full.names = TRUE)
 
-df_qs <- read_d1_files("~/Desktop/Data_SEC/https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__QuebradaSonadora")
+# Read them all in as a named list (probably not the way scientisits want to do it)
+luq_datasets <- setNames(map(local_datasets, read_d1_files), basename(local_datasets))
+
+
+# df_qs <- read_d1_files("~/Desktop/Data_SEC/https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__QuebradaSonadora")
 
 
 ### check if the attributes are identical for each sampling sites ----
 
 # list all the attributes
-attributes_luq <- setNames(map(names(df_luq), function(x){colnames(df_luq[x][[1]])}),names(df_luq))
+attributes_luq <- map(names(luq_datasets), function(x){colnames(luq_datasets[[x]]$data)}) %>%
+  setNames(.,names(luq_datasets))
 
 # Check if they are identical (could not find a way without a loop)
 for(ds in names(attributes_luq)) {
@@ -137,10 +148,96 @@ for(ds in names(attributes_luq)) {
 # => We are good, same data structure across the sampling sites
 
 ##->-------- SHOULD DO THE SAME ON UNITS!!! ----------<-###
+luq_units <- map(names(luq_datasets), function(x){luq_datasets[[x]]$attribute_metadata$unit}) %>%
+                setNames(.,names(luq_datasets))
+
+for(us in names(units_luq)) {
+  print(identical(units_luq[[1]], units_luq[us][[1]]))
+}
+
+# => The 2 last datasets have differen untis!!!!!!!!!!
+
+# Let's check
+setdiff(units_luq[[1]], units_luq[7][[1]])
+setdiff(units_luq[[1]], units_luq[8][[1]])
+
+# More advanced way of doing this
+luq_units_merged <- luq_datasets %>%
+  map(`[[`, "attribute_metadata") %>%
+  map(. %>% select(attributeName, unit)) %>%
+  reduce(full_join, by = "attributeName") # Could not figure out how to use the names of the list
+
+## Rename
+# Create the new names
+luq_new_colnames <- names(luq_units) %>%
+  str_split_fixed(., "__", n=2) %>%
+  .[,2] %>%
+  paste("unit", ., sep = "_")
+# Apply the new names
+colnames(luq_units_merged) <- c("attributeName", luq_new_colnames)
+
+
+# fix attribute naming discrepencies -- To be improved as hardwired like crazy --
+# Copy the units for Gage height
+luq_units_merged[which(luq_units_merged$attributeName=="Gage_Ht"), c("unit_RioIcacos", "unit_RioMameyesPuenteRoto")] <- "foot"
+
+# Copy the units for NH4
+luq_units_merged[which(luq_units_merged$attributeName=="NH4-N"), c("unit_RioIcacos", "unit_RioMameyesPuenteRoto")] <- "microgramsPerLiter"
+
+# drop the 2 last rows
+luq_units_merged <- head(luq_units_merged, -2)
+
+### Implement the unit conversion for RioIcacos and RioMameyesPuenteRoto ----
+
+## RioIcacos
+# Fix NAs
+luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$data[luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$data == -9999] <- NA
+
+# Simplify naming
+RioIcacos_data <- luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$data
+RioIcacos_attrmeta <- luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$attribute_metadata
+
+# Do the unit conversion  - Gage height - manual way
+# RioIcacos_data$Gage_Ht <- 
+#   RioIcacos_data$Gage_Ht * 0.3048
+
+# Do the unit conversion  - Gage height - udunits way
+RioIcacos_data$Gage_Ht <- ud.convert(RioIcacos_data$Gage_Ht, "foot", "meter")
+
+# Do the unit conversion for RioIcacos and RioMameyesPuenteRoto - NH4 to NH4-N
+cooeff_conv_NH4_to_NH4-N <- 0.7764676534
+RioIcacos_data$`NH4-N` <- RioIcacos_data$`NH4-N` * cooeff_conv_NH4_to_NH4
+
+# Update the main object 
+luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$data <- RioIcacos_data
+
+## RioMameyesPuenteRoto
+# Replace -9999 with NAs 
+luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$data[luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$data == -9999] <- NA
+RioMameyesPuenteRoto_data <- luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$data
+RioMameyesPuenteRoto_attrmeta <- luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$attribute_metadata
+
+
+# Do the unit conversion  - Gage height - manual way
+RioMameyesPuenteRoto_data$Gage_Ht <- ud.convert(RioMameyesPuenteRoto_data$Gage_Ht, "foot", "meter")
+
+# Do the unit conversion for RioMameyesPuenteRoto - NH4 to NH4-N
+RioMameyesPuenteRoto_data$`NH4-N` <- RioMameyesPuenteRoto_data$`NH4-N` * cooeff_conv_NH4_to_NH4
+
+# Update the main object
+luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$data <- RioMameyesPuenteRoto_data 
+
 
 ### bind the sampling sites data into one master dataset for LUQ ----
-all_sites_luq <- bind_rows(df_luq, .id = "prov")   #  <- filenames to be replaced by pids!!!!!!!!!!
+all_sites_luq <- bind_rows(df_luq, .id = "prov")
+# Replace -9999 with NAs
+all_sites_luq[all_sites_luq == -9999] <- NA
+# write as csv
+write_csv(all_sites_luq, "~/Desktop/stream_chem_all_LUQ.csv")
 
+
+
+#=========================== MATCHING TEMPLATE FROM WG ==============================#
 
 ### Map the attributes between the raw data and the template ----
 
