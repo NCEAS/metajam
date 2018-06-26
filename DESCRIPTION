@@ -15,4 +15,7 @@ Imports: dataone, dplyr, eml2, emld, lubridate, purrr, stringr, tibble, tidyr, x
 Remotes: cboettig/eml2,
          cboettig/emld,
          DataONEorg/rdataone
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

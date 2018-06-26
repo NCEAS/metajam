@@ -1,4 +1,4 @@
-# This script download stream chemistry date for the LTER Luquino site
+# This script download stream chemistry data for the LTER Luquillo site
 # Data source: http://dx.doi.org/doi:10.6073/pasta/f9df56348f510da0113b1e6012fa2967
 
 
@@ -136,7 +136,6 @@ luq_datasets <- setNames(map(local_datasets, read_d1_files), basename(local_data
 
 
 ### check if the attributes are identical for each sampling sites ----
-
 # list all the attributes
 attributes_luq <- map(names(luq_datasets), function(x){colnames(luq_datasets[[x]]$data)}) %>%
   setNames(.,names(luq_datasets))
@@ -151,21 +150,21 @@ for(ds in names(attributes_luq)) {
 luq_units <- map(names(luq_datasets), function(x){luq_datasets[[x]]$attribute_metadata$unit}) %>%
                 setNames(.,names(luq_datasets))
 
-for(us in names(units_luq)) {
-  print(identical(units_luq[[1]], units_luq[us][[1]]))
+for(us in names(luq_units)) {
+  print(identical(luq_units[[1]], luq_units[us][[1]]))
 }
 
-# => The 2 last datasets have differen untis!!!!!!!!!!
+# => The 2 last datasets have differen units!!!!!!!!!!
 
 # Let's check
-setdiff(units_luq[[1]], units_luq[7][[1]])
-setdiff(units_luq[[1]], units_luq[8][[1]])
+setdiff(luq_units[[1]], luq_units[7][[1]])
+setdiff(luq_units[[1]], luq_units[8][[1]])
 
 # More advanced way of doing this
 luq_units_merged <- luq_datasets %>%
   map(`[[`, "attribute_metadata") %>%
   map(. %>% select(attributeName, unit)) %>%
-  reduce(full_join, by = "attributeName") # Could not figure out how to use the names of the list
+  reduce(full_join, by = "attributeName") 
 
 ## Rename
 # Create the new names
@@ -205,8 +204,8 @@ RioIcacos_attrmeta <- luq_datasets$`https_pasta.lternet.edu_package_metadata_eml
 RioIcacos_data$Gage_Ht <- ud.convert(RioIcacos_data$Gage_Ht, "foot", "meter")
 
 # Do the unit conversion for RioIcacos and RioMameyesPuenteRoto - NH4 to NH4-N
-cooeff_conv_NH4_to_NH4-N <- 0.7764676534
-RioIcacos_data$`NH4-N` <- RioIcacos_data$`NH4-N` * cooeff_conv_NH4_to_NH4
+coeff_conv_NH4_to_NH4N <- 0.7764676534
+RioIcacos_data$`NH4-N` <- RioIcacos_data$`NH4-N` * coeff_conv_NH4_to_NH4N
 
 # Update the main object 
 luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioIcacos`$data <- RioIcacos_data
@@ -222,7 +221,7 @@ RioMameyesPuenteRoto_attrmeta <- luq_datasets$`https_pasta.lternet.edu_package_m
 RioMameyesPuenteRoto_data$Gage_Ht <- ud.convert(RioMameyesPuenteRoto_data$Gage_Ht, "foot", "meter")
 
 # Do the unit conversion for RioMameyesPuenteRoto - NH4 to NH4-N
-RioMameyesPuenteRoto_data$`NH4-N` <- RioMameyesPuenteRoto_data$`NH4-N` * cooeff_conv_NH4_to_NH4
+RioMameyesPuenteRoto_data$`NH4-N` <- RioMameyesPuenteRoto_data$`NH4-N` * coeff_conv_NH4_to_NH4N
 
 # Update the main object
 luq_datasets$`https_pasta.lternet.edu_package_metadata_eml_knb-lter-luq_20_4923051__RioMameyesPuenteRoto`$data <- RioMameyesPuenteRoto_data 
