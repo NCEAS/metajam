@@ -11,7 +11,7 @@ Maintainer: Julien Brun <brun@nceas.ucsb.edu>
 Description: Tools to download data and metadata from DataONE (https://www.dataone.org) and load this information in R
 License: CC0
 RoxygenNote: 6.0.1.9000
-Imports: dataone, dplyr, eml2, emld, lubridate, purrr, stringr, tibble, tidyr, xml2, readr
+Imports: dataone, dplyr, eml2, emld, lubridate, purrr, stringr, tibble, tidyr, readr
 Remotes: cboettig/eml2,
          cboettig/emld,
          DataONEorg/rdataone

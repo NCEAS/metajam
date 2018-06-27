@@ -9,7 +9,6 @@
 #' @import purrr
 #' @import dataone
 #' @import tidyr
-#' @importFrom xml2 read_xml write_xml
 #' @importFrom emld as_emld
 #' @importFrom lubridate ymd_hms
 #' 
