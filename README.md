@@ -1,4 +1,5 @@
 # metajam
+[![Travis-CI Build Status](https://travis-ci.org/nceas/metajam.svg?branch=master)](https://travis-ci.org/nceas/metajam)
 
 Download and read data and metadata from repositories in the DataONE network.  
 

@@ -4,12 +4,14 @@
 \alias{read_d1_files}
 \title{Read data along with metadata based on dowload_d1_data file structure}
 \usage{
-read_d1_files(folder_path, fnc = "read_csv")
+read_d1_files(folder_path, fnc = "read_csv", ...)
 }
 \arguments{
 \item{folder_path}{(character) Path to a directory where data and metadata are located}
 
 \item{fnc}{(character) Function to be used to read the data (default is readr::read_csv)}
+
+\item{...}{Parameters to pass onto the function specified in \code{fnc}}
 }
 \value{
 (list) named list containing data and metadata as data frames
