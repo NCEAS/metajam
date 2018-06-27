@@ -2,6 +2,7 @@
 #'
 #' @param folder_path (character) Path to a directory where data and metadata are located
 #' @param fnc (character) Function to be used to read the data (default is readr::read_csv)
+#' @param ... Parameters to pass onto the function specified in \code{fnc}
 #'
 #' @import purrr
 #' @import readr
@@ -17,7 +18,7 @@
 #' }
 #'
 
-read_d1_files <- function(folder_path, fnc = "read_csv") {
+read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
   
   files <- list.files(folder_path, full.names = TRUE)
   # files <- files[!grepl(pattern='full_metadata.xml', files)]
@@ -32,7 +33,7 @@ read_d1_files <- function(folder_path, fnc = "read_csv") {
     if (grepl("[^_]+_metadata(?=\\.csv)", basename(x), perl = TRUE)) {
       readr::read_csv(x)
     } else if (tools::file_path_sans_ext(basename(x)) == filename) {
-      eval(parse(text = paste0(fnc, '("', x, '")')))
+      eval(parse(text = paste0(fnc, '("', x, '", ...)')))
     }
   }) 
   data_meta_names <- purrr::map(files, function(x){
