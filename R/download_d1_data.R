@@ -119,23 +119,24 @@ download_d1_data <- function(data_obj, path) {
     ## TODO:: Collect fields more selectively
     entity_meta <- suppressWarnings(list(
       File_Name = entity_data$physical$objectName,
+      File_Description = entity_data$entityDescription,
+      File_Label = entity_data$entityLabel,
       Date_Downloaded = paste0(Sys.time()),
       Data_ID = data_id,
       Data_URL = data_nodes$data$url[[1]],
       Metadata_ID = meta_id[[1]],
       Metadata_URL = metadata_nodes$data$url[1],
-      Description = entity_data$entityDescription,
-      Label = entity_data$entityLabel,
       Dataset_Title = meta_tabular$title,
       Dataset_StartDate = meta_tabular$temporalCoverage.beginDate,
-      Dataset_StartDate = meta_tabular$temporalCoverage.endDate,
+      Dataset_EndDate = meta_tabular$temporalCoverage.endDate,
       Dataset_Location = meta_tabular$geographicCoverage.geographicDescription,
       Dataset_WestBoundingCoordinate = meta_tabular$geographicCoverage.westBoundingCoordinate,
       Dataset_EastBoundingCoordinate = meta_tabular$geographicCoverage.eastBoundingCoordinate,
       Dataset_NorthBoundingCoordinate = meta_tabular$geographicCoverage.northBoundingCoordinate,
       Dataset_SouthBoundingCoordinate = meta_tabular$geographicCoverage.southBoundingCoordinate,
       Dataset_Abstract = meta_tabular$abstract,
-      Dataset_Methods = meta_tabular$methods
+      Dataset_Methods = meta_tabular$methods,
+      Dataset_People = meta_tabular$people
     ))
     
     entity_meta <- entity_meta %>% unlist() %>% enframe()
