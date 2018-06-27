@@ -77,9 +77,7 @@ download_d1_data <- function(data_obj, path) {
     message("Download complete")
     metadata_nodes <- dataone::resolve(cn, meta_id)
     
-    #workaround since eml2::read_eml currently can't take raw
-    xml <- xml2::read_xml(meta_obj)
-    eml <- tryCatch({emld::as_emld(xml)},  # If eml make EML object
+    eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
                     error = function(e) {NULL})
     
     # Get attributes ----------
@@ -169,8 +167,8 @@ download_d1_data <- function(data_obj, path) {
   file.rename(data_files, file.path(new_dir, paste0(data_name, data_files_ext)))
   
   ## write metadata xml/tabular form if exists
-  if(exists("xml")) {
-    xml2::write_xml(xml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
+  if(exists("eml")) {
+    eml2::write_eml(eml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
     suppressWarnings(utils::write.csv(x = entity_meta, col.names = FALSE, row.names = FALSE,
                                       file = file.path(new_dir, paste0(data_name, "__summary_metadata.csv"))))
   }
