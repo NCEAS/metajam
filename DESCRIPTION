@@ -17,5 +17,6 @@ Remotes: cboettig/eml2,
          DataONEorg/rdataone
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    udunits2
 VignetteBuilder: knitr
