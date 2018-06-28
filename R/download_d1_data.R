@@ -123,6 +123,7 @@ download_d1_data <- function(data_obj, path) {
       Data_URL = data_nodes$data$url[[1]],
       Metadata_ID = meta_id[[1]],
       Metadata_URL = metadata_nodes$data$url[1],
+      DataSet_URL = paste0("https://search.dataone.org/#view/", meta_id[[1]]),
       Dataset_Title = meta_tabular$title,
       Dataset_StartDate = meta_tabular$temporalCoverage.beginDate,
       Dataset_EndDate = meta_tabular$temporalCoverage.endDate,
