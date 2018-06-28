@@ -4,8 +4,11 @@ language: R
 sudo: true
 cache: packages
 addons:
-   apt:
+  apt:
+    sources:
+      - sourceline: 'ppa:opencpu/jq'
     packages:
       - librdf0-dev
       - libv8-dev
       - libjq-dev
+      - libudunits2-dev
