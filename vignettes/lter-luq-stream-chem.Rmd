@@ -57,7 +57,7 @@ coeff_conv_NH4_to_NH4N <- 0.7764676534
 dir.create(data_folder, showWarnings = FALSE)
 
 # Get the datasets unique identifiers
-test_datasets_listing <- read_csv(system.file("extdata", "[LTER - SEC] Data sets listing - Searched data.csv", 
+test_datasets_listing <- read_csv(system.file("extdata", "LTER-SEC_DatasetsListing_SearchedData.csv", 
                                               package = "metajam"))
 
 # Keep only the LUQ related datasets

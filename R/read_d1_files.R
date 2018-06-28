@@ -7,6 +7,7 @@
 #' @import purrr
 #' @import readr
 #' @import stringr
+#' @importFrom stats setNames
 #'
 #' @return (list) named list containing data and metadata as data frames
 #' @export
@@ -43,7 +44,7 @@ read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
       "data"
     }
   }) 
-  data_meta <- setNames(data_meta, data_meta_names) %>%
+  data_meta <- stats::setNames(data_meta, data_meta_names) %>%
     purrr::compact()
   return(data_meta)
 }
