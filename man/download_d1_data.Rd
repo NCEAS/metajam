@@ -4,10 +4,10 @@
 \alias{download_d1_data}
 \title{Downloads data from DataOne along with metadata}
 \usage{
-download_d1_data(data_obj, path)
+download_d1_data(data_url, path)
 }
 \arguments{
-\item{data_obj}{(character) An identifier or url for a DataONE object to download.}
+\item{data_url}{(character) An identifier or url for a DataONE object to download.}
 
 \item{path}{(character) Path to a directory to download data to}
 }

@@ -2,7 +2,7 @@
 
 #' Downloads data from DataOne along with metadata
 #'
-#' @param data_obj (character) An identifier or url for a DataONE object to download.
+#' @param data_url (character) An identifier or url for a DataONE object to download.
 #' @param path (character) Path to a directory to download data to
 #' 
 #' @import eml2
@@ -16,16 +16,16 @@
 #'
 #' @export
 
-download_d1_data <- function(data_obj, path) {
+download_d1_data <- function(data_url, path) {
   # TODO: add meta_doi to explicitly specify doi
   # TODO: refine summary_metadata Irene
   
-  stopifnot(is.character(data_obj))
+  stopifnot(is.character(data_url))
   stopifnot(dir.exists(path))
   
-  ## Try to get DataONE data_id from data_obj ---------
-  data_obj <- utils::URLdecode(data_obj)
-  data_versions <- check_version(data_obj, formatType = "data")
+  ## Try to get DataONE data_id from data_url ---------
+  data_url <- utils::URLdecode(data_url)
+  data_versions <- check_version(data_url, formatType = "data")
   
   if(nrow(data_versions) == 1){
     data_id <- data_versions$identifier
@@ -34,7 +34,7 @@ download_d1_data <- function(data_obj, path) {
     data_versions$dateUploaded <- lubridate::ymd_hms(data_versions$dateUploaded)
     data_id <- data_versions$identifier[data_versions$dateUploaded == max(data_versions$dateUploaded)]
   } else {
-    stop("The DataOne ID could not be found for ", data_obj)
+    stop("The DataOne ID could not be found for ", data_url)
   }
   
   ## Set Nodes ------------
@@ -96,13 +96,13 @@ download_d1_data <- function(data_obj, path) {
                              purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
     
     if (length(entity_data) == 0) {
-      warning("No data metadata could not be found for ", data_obj)
+      warning("No data metadata could not be found for ", data_url)
       
     } else {
       
       if (length(entity_data) > 1) {
       warning("multiple data metadata records found:\n",
-              data_obj,
+              data_url,
               "\nThe first record was used")
       }
       
@@ -123,6 +123,7 @@ download_d1_data <- function(data_obj, path) {
       Data_URL = data_nodes$data$url[[1]],
       Metadata_ID = meta_id[[1]],
       Metadata_URL = metadata_nodes$data$url[1],
+      DataSet_URL = paste0("https://search.dataone.org/#view/", meta_id[[1]]),
       Dataset_Title = meta_tabular$title,
       Dataset_StartDate = meta_tabular$temporalCoverage.beginDate,
       Dataset_EndDate = meta_tabular$temporalCoverage.endDate,
