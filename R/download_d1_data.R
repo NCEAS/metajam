@@ -1,5 +1,3 @@
-## TODO:: create check_versions function Irene
-
 #' Downloads data from DataOne along with metadata
 #'
 #' @param data_url (character) An identifier or url for a DataONE object to download.
@@ -113,16 +111,12 @@ download_d1_data <- function(data_url, path) {
     
     meta_tabular <- tabularize_eml(eml) %>% tidyr::spread(name, value)
     
-    ## TODO:: Collect fields more selectively
+    ## Summary metadata from EML (combine with general metadata later)
     entity_meta <- suppressWarnings(list(
-      File_Name = entity_data$physical$objectName,
-      File_Description = entity_data$entityDescription,
-      File_Label = entity_data$entityLabel,
-      Date_Downloaded = paste0(Sys.time()),
-      Data_ID = data_id,
-      Data_URL = data_nodes$data$url[[1]],
       Metadata_ID = meta_id[[1]],
       Metadata_URL = metadata_nodes$data$url[1],
+      File_Description = entity_data$entityDescription,
+      File_Label = entity_data$entityLabel,
       DataSet_URL = paste0("https://search.dataone.org/#view/", meta_id[[1]]),
       Dataset_Title = meta_tabular$title,
       Dataset_StartDate = meta_tabular$temporalCoverage.beginDate,
@@ -136,12 +130,7 @@ download_d1_data <- function(data_url, path) {
       Dataset_Methods = meta_tabular$methods,
       Dataset_People = meta_tabular$people
     ))
-    
-    entity_meta <- entity_meta %>% unlist() %>% enframe()
-    # entity_meta <- entity_meta %>% 
-    #   purrr::compact() %>% 
-    #   dplyr::bind_rows() %>% 
-    #   tidyr::gather()
+
   }
   
   # Write files & download data--------
@@ -161,16 +150,27 @@ download_d1_data <- function(data_url, path) {
   message("Download complete")
   
   # change downloaded data object name to data_name
-  data_files <- list.files(new_dir, pattern = ".csv$", full.names = TRUE)
-  data_files <- data_files[!grepl(pattern='_metadata.csv', data_files)]
+  data_files <- list.files(new_dir, full.names = TRUE)
   data_files_ext <- stringr::str_extract(data_files, ".[^.]{2,4}$")
   file.rename(data_files, file.path(new_dir, paste0(data_name, data_files_ext)))
+  
+  entity_meta_general <- list(File_Name = data_name,
+                              Date_Downloaded = paste0(Sys.time()),
+                              Data_ID = data_id,
+                              Data_URL = data_nodes$data$url[[1]]
+                              )
   
   ## write metadata xml/tabular form if exists
   if(exists("eml")) {
     eml2::write_eml(eml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
-    suppressWarnings(utils::write.csv(x = entity_meta, col.names = FALSE, row.names = FALSE,
-                                      file = file.path(new_dir, paste0(data_name, "__summary_metadata.csv"))))
+    
+    entity_meta_combined <- c(entity_meta_general, entity_meta) %>% unlist() %>% enframe()
+    readr::write_csv(entity_meta_combined, 
+                     file.path(new_dir, paste0(data_name, "__summary_metadata.csv")))
+  } else {
+    entity_meta_general <- entity_meta_general %>% unlist() %>% enframe()
+    readr::write_csv(entity_meta_general, 
+                     file.path(new_dir, paste0(data_name, "__summary_metadata.csv")))
   }
   
   # write attribute tables if data metadata exists
