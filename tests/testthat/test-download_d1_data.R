@@ -57,3 +57,18 @@ test_that("test Arctic Data Center data URL (fully up to date data file) with mu
   file.remove(list.files(out, recursive = TRUE, full.names = TRUE))
   file.remove(out)
 })
+
+test_that("Data without metadata downloads and returns summary metadata", {
+  temp_dir <- tempdir()
+  out <- download_d1_data("urn:uuid:7bdab6cc-8dc1-4c49-a80b-ca771c18eaa9", 
+                          temp_dir)
+  files <- list.files(out)
+  
+  expect_equal(length(files), 2)
+  expect_true(any(stringr::str_detect(files, "summary_metadata.csv")))
+
+  # remove files
+  file.remove(list.files(out, recursive = TRUE, full.names = TRUE))
+  file.remove(out)
+})
+
