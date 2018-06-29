@@ -32,7 +32,7 @@
 #'
 
 check_version <- function(pid, formatType = NULL){
-  while(nchar(pid) > 0) {
+  while(nchar(pid) > 5) {
     results <- suppressMessages(
       dataone::query(dataone::CNode(),
                      list(q = sprintf('identifier:"%s"', pid),
