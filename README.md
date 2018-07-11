@@ -39,6 +39,14 @@ The output is saved in a folder with the name `{metadata_id}__{file_name}`, whic
 - `{file_name}__attribute_metadata.csv` - attribute metadata in a tabular format, if included in the metadata xml
 - `{file_name}__attribute_factor_metadata.csv` - attribute factor metadata in a tabular format, if included in the metadata xml
 
+## How to get the URL to your dataset of interest ?
+
+From DataONE or any currently supported data repository ([KNB](https://knb.ecoinformatics.org/), [Artic Data Center](https://arcticdata.io/), [LTER PASTA](https://portal.lternet.edu/nis/home.jsp) or [EDI](https://portal.edirepository.org/nis/home.jsp)), you can right-click on the `Download` button of a specific dataset and choose `Copy Link Address` to cpopy the URL to your clipboard
+
+<br>
+<img src="inst/getting_dataet_url.png" width="100%"/>
+<br>
+
 ## Read data
 
 The `read_d1_files` function allows you to read the downloaded data and metadata directly into your R environment. Simply run the function with the folder path to the downloaded objects, and all data and metadata files will be returned as data frames stored in a list. Use `{object_name}$data` to access the data, and `{object_name}${metadata_type}_metadata` to access its associated metadata.
