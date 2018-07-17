@@ -23,6 +23,9 @@ Read data along with metadata based on dowload_d1_data file structure
 \dontrun{
 data_folder <- system.file("extdata", "test_data", package = "metajam")
 soil_moist_data <- read_d1_files(data_folder)
+
+# You can specify the function you would like to use to read the file, as well as passing parameters
+soil_moist_data_skipped <- read_d1_files(data_folder, "read.csv", skip = 8, stringsAsFactors=FALSE)
 }
 
 }
