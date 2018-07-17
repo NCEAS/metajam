@@ -42,7 +42,7 @@ library(stringr)
 ## Constants
 
 ```{r constants}
-# Where we download the data from D1
+# Where we download the data from DataONE on your local machine
 data_folder <- "Data_SEC"
 
 # Ammonium to Ammoniacal-nitrogen conversion
