@@ -69,6 +69,14 @@ luq_test_datasets <- test_datasets_listing %>%
   na.omit()
 
 # Batch download the datasets
+
+# the apply way
+# lapply(luq_test_datasets$`Data Repository (PASTA) URL to File`, download_d1_data, data_folder)
+
+# the map way
+# map(luq_test_datasets$`Data Repository (PASTA) URL to File`, function(x) {download_d1_data(x, data_folder)})
+
+# the tidiest way
 map(luq_test_datasets$`Data Repository (PASTA) URL to File`, ~download_d1_data(.x, data_folder))
 ```
 
