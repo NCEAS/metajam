@@ -26,10 +26,10 @@ library(metajam)
 download_d1_data("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Ac102bac4-a5ea-4699-bfec-8d4ba60948d8", path = ".")
 ```
 <br>
-<img src="inst/download-output.png" width="60%"/>
+<img src="inst/images/download-output.png" width="60%"/>
 <br>
 <br>
-<img src="inst/file-output.png" width="50%"/>
+<img src="inst/images/file-output.png" width="50%"/>
 <br>
 
 The output is saved in a folder with the name `{metadata_id}__{file_name}`, which contains the data file and its associated metadata. The metadata follows these conventions:
@@ -44,7 +44,7 @@ The output is saved in a folder with the name `{metadata_id}__{file_name}`, whic
 From DataONE or any currently supported data repository ([KNB](https://knb.ecoinformatics.org/), [Artic Data Center](https://arcticdata.io/), [LTER PASTA](https://portal.lternet.edu/nis/home.jsp) or [EDI](https://portal.edirepository.org/nis/home.jsp)), you can right-click on the `Download` button of a specific dataset and choose `Copy Link Address` to cpopy the URL to your clipboard
 
 <br>
-<img src="inst/getting_dataet_url.png" width="100%"/>
+<img src="inst/images/copy-link.png" width="100%"/>
 <br>
 
 ## Read data
@@ -56,5 +56,5 @@ schools <- read_d1_files("./doi_10.18739_A2DP3X__Alaska_Schools_Rentention2009_1
 ```
 
 <br>
-<img src="inst/read-output.png" width="60%"/>
+<img src="inst/images/read-output.png" width="60%"/>
 <br>
