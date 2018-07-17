@@ -220,5 +220,6 @@ write_csv(all_sites_luq, "stream_chem_all_LUQ.csv")
 
 ## General Conclusion
 
-- Although the column names were the same in all the datasets, looking at the metadata we discover that the 2 datasets are measuring stream gage height and NH4 concentration in a different way
-- We used the metadata to perform the necessary conversions to homogenize the 8 datasets
+- Although the column names were the same in all the datasets / sampling sites, looking at the metadata we discovered that 2 sampling sites are measuring stream gage height and NH4 concentration using different protocoles.
+- We used the metadata to perform the necessary unit conversions to homogenize the 8 datasets before merging them into one master dataset.
+- During the merge process, we added a provenance column to be able to track the origin of each row, allowing users of the master datasets to check the original datasets metadata when necessary.
