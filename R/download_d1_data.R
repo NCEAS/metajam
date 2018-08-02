@@ -71,7 +71,7 @@ download_d1_data <- function(data_url, path) {
   if (!is.null(meta_id)) {
     message("\nDownloading metadata ", meta_id, " ...")
     meta_obj <- dataone::getObject(d1c@mn, meta_id) 
-    message("Download complete")
+    message("Download metadata complete")
     metadata_nodes <- dataone::resolve(cn, meta_id)
     
     eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
@@ -143,6 +143,13 @@ download_d1_data <- function(data_url, path) {
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
   
   new_dir <- file.path(path, paste0(meta_name, "__", data_name)) 
+  
+  # Check if the dataset has already been downloaded at this location. If so, exit the function
+  if (dir.exists(new_dir)) {
+    warning("This dataset has already been downloaded. Please delete or move the folder to download the dataset again.")
+    return(new_dir)
+  }
+
   dir.create(new_dir)
   
   ## download Data
