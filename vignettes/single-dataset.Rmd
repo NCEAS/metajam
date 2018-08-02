@@ -33,7 +33,7 @@ library(metajam)
 
 ```{r constants}
 # Directory to save the data set
-data_folder <- "Data_polaris"
+path_folder <- "Data_polaris"
 
 # URL to download the dataset from DataONE
 data_url <- "https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Aec704da8-f174-49db-b993-bae479cdc5d9"
@@ -44,12 +44,13 @@ data_url <- "https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Aec704da8
 ## Download the dataset
 
 ```{r download, eval=FALSE}
-# Create the local directory to store datasets
-dir.create(data_folder, showWarnings = FALSE)
+# Create the local directory to download the datasets
+dir.create(path_folder, showWarnings = FALSE)
 
-# Download the datasets
-metajam::download_d1_data(data_url, data_folder)
-
+# Download the dataset and associated metdata 
+data_folder <- metajam::download_d1_data(data_url, path_folder)
+# data_folder
+# "Data_polaris/doi_10.18739_A2KK3F__Polaris_2017_Permafrost"
 ```
 
 At this point, you should have the data and the metadata downloaded inside your main directory; `Data_polaris` in this example. `metajam` organize the files as follow: 
@@ -71,11 +72,9 @@ knitr::include_graphics("../inst/images/metajam_v1_folder.png")
 ## Read the data and metadata in your R environment
 
 ```{r read_data, eval=FALSE}
-# List the dataset folders
-local_dataset_dir <- dir(data_folder, full.names = TRUE)
-
 # Read all the datasets and their associated metadata in as a named list
-polaris17_permafrost <- metajam::read_d1_files(local_dataset_dir)
+polaris17_permafrost <- metajam::read_d1_files(data_folder)
+
 ```
 
 ## Structure of the named list object
