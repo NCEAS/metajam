@@ -27,7 +27,7 @@ To download a data object, specify the data object URL and local download path i
 ```
 library(metajam)
 
-download_d1_data("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Ac102bac4-a5ea-4699-bfec-8d4ba60948d8", path = ".")
+download_d1_data("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e123f84-ce0d-4094-b898-c9e73680eafa", path = ".")
 ```
 <br>
 <img src="inst/images/download-output.png" width="60%"/>
