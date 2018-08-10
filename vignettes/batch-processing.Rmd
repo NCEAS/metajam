@@ -27,7 +27,7 @@ Our **goal** is to read the data for the 8 different sampling sites and aggregat
 
 ## Libraries
 
-```{r libraries, warning=FALSE}
+```{r libraries, message=FALSE}
 # devtools::install_github("NCEAS/metajam")
 library(metajam)  
 library(udunits2)
@@ -68,16 +68,16 @@ luq_test_datasets <- test_datasets_listing %>%
          `Data Repository (PASTA) URL to File`,`Data Repository (PASTA) Filename`) %>%
   na.omit()
 
-# Batch download the datasets
+## Batch download the datasets
 
 # the apply way
-# lapply(luq_test_datasets$`Data Repository (PASTA) URL to File`, download_d1_data, data_folder)
+# local_datasets <- lapply(luq_test_datasets$`Data Repository (PASTA) URL to File`, download_d1_data, data_folder)
 
 # the map way
-# map(luq_test_datasets$`Data Repository (PASTA) URL to File`, function(x) {download_d1_data(x, data_folder)})
+# local_datasets <- map(luq_test_datasets$`Data Repository (PASTA) URL to File`, function(x) {download_d1_data(x, data_folder)})
 
 # the tidiest way
-map(luq_test_datasets$`Data Repository (PASTA) URL to File`, ~download_d1_data(.x, data_folder))
+local_datasets <- map(luq_test_datasets$`Data Repository (PASTA) URL to File`, ~download_d1_data(.x, data_folder))
 ```
 
 At this point, you should have all the data and the metadata downloaded inside your main directory; `Data_SEC` in this example. `metajam` organize the files as follow: 
@@ -92,12 +92,13 @@ At this point, you should have all the data and the metadata downloaded inside y
 ## Read the data and metadata in your R environment
 
 ```{r read_data, eval=FALSE}
-# List the dataset folders
-local_datasets <- dir(data_folder, full.names = TRUE)
+# You could list the datasets dowloaded in the `Data_SEC` folder 
+# local_datasets <- dir(data_folder, full.names = TRUE)
 
+# or you can directly use the outputed paths from download_d1_data 
 # Read all the datasets and their associated metadata in as a named list
 luq_datasets <- map(local_datasets, read_d1_files) %>% 
-  set_names(map(., ~.x$summary_metadata$value[.x$summary_metadata$name == "File_Name"]))
+  purrr::set_names(map(., ~.x$summary_metadata$value[.x$summary_metadata$name == "File_Name"]))
 ```
 
 ## Perform checks on data structure
@@ -166,37 +167,37 @@ luq_units_merged[which(luq_units_merged$attributeName == "NH4-N"), c("unit_RioIc
 # drop the 2 last rows
 luq_units_merged <- head(luq_units_merged, -2)
 
+
 ### Implement the unit conversion for RioIcacos and RioMameyesPuenteRoto ----
 
 ## RioIcacos
 # Fix NAs
-luq_datasets$`RioIcacos.csv`$data[luq_datasets$`RioIcacos.csv`$data == -9999] <- NA
+luq_datasets$RioIcacos$data[luq_datasets$RioIcacos$data == -9999] <- NA
 
 # Simplify naming
-RioIcacos_data <- luq_datasets$`RioIcacos.csv`$data
-RioIcacos_attrmeta <- luq_datasets$`RioIcacos.csv`$attribute_metadata
+RioIcacos_data <- luq_datasets$RioIcacos$data
+RioIcacos_attrmeta <- luq_datasets$RioIcacos$attribute_metadata
 
 # Do the unit conversion  - Gage height - manual way
-# RioIcacos_data$Gage_Ht <- 
-#   RioIcacos_data$Gage_Ht * 0.3048
+# RioIcacos_data$Gage_Ht <- RioIcacos_data$Gage_Ht * 0.3048
 
 # Do the unit conversion  - Gage height - udunits way
 RioIcacos_data$Gage_Ht <- ud.convert(RioIcacos_data$Gage_Ht,
                                      RioIcacos_attrmeta$unit[RioIcacos_attrmeta$attributeLabel == "Gage height"], "meter")
 
 # Do the unit conversion for RioIcacos and RioMameyesPuenteRoto - NH4 to NH4-N
-RioIcacos_data$`NH4-N` <- RioIcacos_data$`NH4-N` * coeff_conv_NH4_to_NH4N
+RioIcacos_data$`NH4-N` <- RioIcacos_data$`NH4-N`* coeff_conv_NH4_to_NH4N
 
 # Update the main object 
-luq_datasets$`RioIcacos.csv`$data <- RioIcacos_data
+luq_datasets$RioIcacos$data <- RioIcacos_data
 
 ## RioMameyesPuenteRoto
 # Replace -9999 with NAs 
-luq_datasets$`RioMameyesPuenteRoto.csv`$data[luq_datasets$`RioMameyesPuenteRoto.csv`$data == -9999] <- NA
+luq_datasets$RioMameyesPuenteRoto$data[luq_datasets$RioMameyesPuenteRoto$data == -9999] <- NA
 
 # Simplify naming
-RioMameyesPuenteRoto_data <- luq_datasets$`RioMameyesPuenteRoto.csv`$data
-RioMameyesPuenteRoto_attrmeta <- luq_datasets$`RioMameyesPuenteRoto.csv`$attribute_metadata
+RioMameyesPuenteRoto_data <- luq_datasets$RioMameyesPuenteRoto$data
+RioMameyesPuenteRoto_attrmeta <- luq_datasets$RioMameyesPuenteRoto$attribute_metadata
 
 # Do the unit conversion  - Gage height - manual way
 RioMameyesPuenteRoto_data$Gage_Ht <- ud.convert(RioMameyesPuenteRoto_data$Gage_Ht,
@@ -207,7 +208,7 @@ RioMameyesPuenteRoto_data$Gage_Ht <- ud.convert(RioMameyesPuenteRoto_data$Gage_H
 RioMameyesPuenteRoto_data$`NH4-N` <- RioMameyesPuenteRoto_data$`NH4-N` * coeff_conv_NH4_to_NH4N
 
 # Update the main object
-luq_datasets$`RioMameyesPuenteRoto.csv`$data <- RioMameyesPuenteRoto_data 
+luq_datasets$RioMameyesPuenteRoto$data <- RioMameyesPuenteRoto_data 
 
 ```
 
