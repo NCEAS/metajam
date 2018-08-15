@@ -65,8 +65,10 @@ luq_test_datasets <- test_datasets_listing %>%
   filter(grepl("LUQ", .$`LTER site abbreviation`)) %>%
   select(`LTER site abbreviation`,
          `Data Repository (PASTA) URL to Archive/Metadata`,
-         `Data Repository (PASTA) URL to File`,`Data Repository (PASTA) Filename`) %>%
-  na.omit()
+         `Data Repository (PASTA) URL to File`,
+         `Data Repository (PASTA) Filename`) %>%
+  na.omit() %>%
+  arrange(`Data Repository (PASTA) Filename`) # sort the data sets alphabetically
 
 ## Batch download the datasets
 
@@ -98,7 +100,7 @@ At this point, you should have all the data and the metadata downloaded inside y
 # or you can directly use the outputed paths from download_d1_data 
 # Read all the datasets and their associated metadata in as a named list
 luq_datasets <- map(local_datasets, read_d1_files) %>% 
-  purrr::set_names(map(., ~.x$summary_metadata$value[.x$summary_metadata$name == "File_Name"]))
+  set_names(map(., ~.x$summary_metadata$value[.x$summary_metadata$name == "File_Name"]))
 ```
 
 ## Perform checks on data structure
@@ -229,6 +231,6 @@ write_csv(all_sites_luq, "stream_chem_all_LUQ.csv")
 
 ## General Conclusion
 
-- Although the column names were the same in all the datasets / sampling sites, looking at the metadata we discovered that 2 sampling sites are measuring stream gage height and NH4 concentration using different protocoles.
+- Although the column names were the same in all the datasets / sampling sites, looking at the metadata we discovered that 2 sampling sites are measuring stream gage height and NH4 concentration using different protocols.
 - We used the metadata to perform the necessary unit conversions to homogenize the 8 datasets before merging them into one master dataset.
 - During the merge process, we added a provenance column to be able to track the origin of each row, allowing users of the master datasets to check the original datasets metadata when necessary.
