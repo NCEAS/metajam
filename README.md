@@ -1,10 +1,10 @@
-<img src="inst/images/metajam_hex.png" align="right" width="15%" />
+<img src="inst/images/metajam_hex.png" align="right" width="100%" />
 
-<br>
 
 # metajam 
 
 [![Travis-CI Build Status](https://travis-ci.org/NCEAS/metajam.svg?branch=master)](https://travis-ci.org/NCEAS/metajam)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/metajam)](https://cran.r-project.org/metajam)
 
 Download and read data and metadata from repositories in the DataONE network.  
 
