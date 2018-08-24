@@ -1,0 +1,8 @@
+pandoc: 1.19.2.1
+pkgdown: 1.1.0.9000
+pkgdown_sha: b2798656f04ce282edea3e12734ba5588c6acd6e
+articles:
+  batch-processing: batch-processing.html
+  downloading-entire-packages: downloading-entire-packages.html
+  single-dataset: single-dataset.html
+
