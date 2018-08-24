@@ -1,0 +1,64 @@
+---
+title: "Use Case - Downloading entire data packages using DOIs"
+author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{"Use Case - Downloading one dataset using metajam"}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Summary
+
+This vignette aims to showcase a use case when the user wants to download all the datasets of a data package using  `metajam` - `download_d1_data_pkg`. 
+
+In this example we use a csv file storing packages returned after seraching for `soil bulk density` on [Artic Data Center](https://arcticdata.io/) and [KNB](https://knb.ecoinformatics.org/) data repositories.
+
+
+## Libraries and constants
+
+```{r libraries, warning=FALSE}
+# devtools::install_github("NCEAS/metajam")
+library(metajam)  
+library(readr)
+library(purrr)
+```
+
+```{r constants}
+# Directory to save the data set
+path_folder <- "~/Desktop/Soil_bulk"
+
+# URL to read the search results stored as a csv on Google Drive
+csv_search_results_url <- "https://drive.google.com/uc?export=download&id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV"
+
+```
+
+
+## Download the datasets from data packages using DOIs
+
+```{r download, eval=FALSE}
+# Create the local directory to store data sets
+dir.create(path_folder, showWarnings = FALSE)
+
+# Read the data listing from Google Drive: https://drive.google.com/open?id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV
+data_listing <- read_csv(csv_search_results_url) 
+
+
+### Download the data and metadata ----
+
+# Create the list of unique dois
+dois <- unique(data_listing$identifier)
+
+# batch download the datasets
+data_folders <- map(dois, ~download_d1_data_pkg(.x, data_folder))
+```
+
+
