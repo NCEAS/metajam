@@ -13,6 +13,12 @@
 #' @return (character) Path where data is downloaded to
 #'
 #' @export
+#' 
+#' @examples 
+#' \dontrun{
+#' download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = "~/Desktop/Data")
+#' download_d1_data("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = ".")
+#' }
 
 download_d1_data <- function(data_url, path) {
   # TODO: add meta_doi to explicitly specify doi

@@ -1,31 +1,28 @@
-# Download data package
 
-# merged csv's - add as option?
-# pros
-  # fewer files - single key file
-  # better if dataset files have similar structure
-# cons
-  # different output than other fxn 
-  # easier to see whether files are missing metadata
-  # merge attributes that have nothing to do with each other
+#' Download all the datasets from a data package
+#'
+#' @param meta_obj (character) A DOI for a DataONE package to download.
+#' @param path (character) Path to a directory to download data to
+#'
+#' @import purrr
+#'
+#' @return (character) Path where data is downloaded to
+#' @export
+#'
+#' @examples 
+#' \dontrun{
+#' download_d1_data_pkg("doi:10.18739/A2028W")
+#' download_d1_data_pkg("https://doi.org/10.18739/A2028W")
+#' }
+#' 
 
-# 1) Get package 
-# 2) Run lapply over download object
-# downloadD1Data
-# meta_obj = "doi.org/10.18739/A2TR4Q"
 download_d1_data_pkg <- function(meta_obj, path) {
   stopifnot(is.character(meta_obj))
-  stopifnot(dir.exists(path))
-  
-  ## Try to get DataONE data_id from data_obj ---------
   meta_obj <- utils::URLdecode(meta_obj)
-  meta_version <- check_version(meta_obj, formatType = "metadata")
-  
-  
-  
   # check to see if there's a new version of the package and throw warning
-  # does not n
-  
+  pids <- get_pkg_pids(meta_obj)
+  dir_list <- purrr::map(pids$data, ~download_d1_data(.x, path))
+  return(dir_list)
 }
 
 
