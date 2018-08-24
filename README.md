@@ -1,4 +1,4 @@
-<img src="inst/images/metajam_hex.png" align="right" width="10%" />
+<img src="inst/images/metajam_hex.png" align="right" width="15%" />
 
 
 # metajam 
