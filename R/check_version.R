@@ -36,10 +36,10 @@ check_version <- function(pid, formatType = NULL){
     results <- suppressMessages(
       dataone::query(dataone::CNode(),
                      list(q = sprintf('identifier:"%s"', pid),
-                          fl = "identifier, dateUploaded, formatType, obsoletedBy"),
+                          fl = "identifier, dateUploaded, formatType, obsoletedBy, resourceMap"),
                      as = "data.frame")
     )
-    
+    #if results is null or empty dataframe, remove part of the URI 
     if (is.null(results) || nrow(results) == 0) {
       pid <- gsub("^[^/=]+[/=]*", "", pid)
       
