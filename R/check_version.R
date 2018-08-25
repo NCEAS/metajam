@@ -17,7 +17,9 @@
 #' check_version("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570")
 #' 
 #' # Returns a warning if several identifiers are returned:
-#' check_version("https://pasta.lternet.edu/package/data/eml/edi/195/2/51abf1c7a36a33a2a8bb05ccbf8c81c6")
+#' check_version(
+#'   "https://pasta.lternet.edu/package/data/eml/edi/195/2/51abf1c7a36a33a2a8bb05ccbf8c81c6"
+#'   )
 #' check_version("doi:10.18739/A2ZF6M")
 #' 
 #' # You can specify a formatType (metadata, data, resource)

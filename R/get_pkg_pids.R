@@ -29,6 +29,12 @@ get_pkg_pids <- function(pkg_doi){
     #TODO: test on pids that start with dx.doi
   }
   
+  # It seems sometimes the id is duplicated; handles this
+  in_case_set_wrong <- strsplit(rm_pid," ")[[1]] 
+  if (length(in_case_set_wrong) > 1) {
+    rm_pid <- in_case_set_wrong[grepl(pattern = "resource_map_doi:", in_case_set_wrong)]
+  }
+  
   # Query to gt all the pids
   query_params <- list(q = sprintf('resourceMap:"%s"', rm_pid),
                        fl = "identifier, formatType", rows = 10000)

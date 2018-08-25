@@ -1,5 +1,5 @@
 ---
-title: "Use Case - Processing Stream Chemistry Data for the LTER Luquillo Site"
+title: "Use Case 2 - Processing Stream Chemistry Data for the LTER Luquillo Site"
 author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
