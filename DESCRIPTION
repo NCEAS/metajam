@@ -20,3 +20,5 @@ Suggests: testthat,
     rmarkdown,
     udunits2
 VignetteBuilder: knitr
+URL: https://github.com/nceas/metajam
+BugReports: https://github.com/nceas/metajam/issues
