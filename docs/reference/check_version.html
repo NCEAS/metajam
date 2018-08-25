@@ -84,13 +84,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/1-single-dataset.html">Use Case 1 - Processing a single dataset</a>
+      <a href="../articles/batch-processing.html">Use Case 2 - Processing Stream Chemistry Data for the LTER Luquillo Site</a>
     </li>
     <li>
-      <a href="../articles/2-batch-processing.html">Use Case 2 - Processing Stream Chemistry Data for the LTER Luquillo Site</a>
+      <a href="../articles/downloading-entire-packages.html">Use Case 3 - Downloading entire data packages using DOIs</a>
     </li>
     <li>
-      <a href="../articles/3-downloading-entire-packages.html">Use Case 3 - Downloading entire data packages using DOIs</a>
+      <a href="../articles/single-dataset.html">Use Case 1 - Processing a single dataset</a>
     </li>
   </ul>
 </li>
@@ -143,7 +143,9 @@
 <span class='fu'>check_version</span>(<span class='st'>"https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570"</span>)
 
 <span class='co'># Returns a warning if several identifiers are returned:</span>
-<span class='fu'>check_version</span>(<span class='st'>"https://pasta.lternet.edu/package/data/eml/edi/195/2/51abf1c7a36a33a2a8bb05ccbf8c81c6"</span>)
+<span class='fu'>check_version</span>(
+  <span class='st'>"https://pasta.lternet.edu/package/data/eml/edi/195/2/51abf1c7a36a33a2a8bb05ccbf8c81c6"</span>
+  )
 <span class='fu'>check_version</span>(<span class='st'>"doi:10.18739/A2ZF6M"</span>)
 
 <span class='co'># You can specify a formatType (metadata, data, resource)</span>

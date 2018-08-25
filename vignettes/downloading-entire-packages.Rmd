@@ -34,7 +34,7 @@ library(purrr)
 
 ```{r constants}
 # Directory to save the data set
-path_folder <- "~/Desktop/Soil_bulk"
+path_folder <- "./Soil_bulk"
 
 # URL to read the search results stored as a csv on Google Drive
 csv_search_results_url <- "https://drive.google.com/uc?export=download&id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV"
