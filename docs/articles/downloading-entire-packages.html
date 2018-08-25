@@ -97,21 +97,23 @@
 <h2 class="hasAnchor">
 <a href="#libraries-and-constants" class="anchor"></a>Libraries and constants</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github("NCEAS/metajam")</span>
-<span class="kw">library</span>(metajam)  </code></pre></div>
+<span class="kw">library</span>(metajam)  
+<span class="kw">library</span>(readr)
+<span class="kw">library</span>(purrr)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Directory to save the data set</span>
 path_folder &lt;-<span class="st"> "~/Desktop/Soil_bulk"</span>
 
 <span class="co"># URL to read the search results stored as a csv on Google Drive</span>
 csv_search_results_url &lt;-<span class="st"> "https://drive.google.com/uc?export=download&amp;id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV"</span></code></pre></div>
 </div>
-<div id="download-the-datasets-from-data-packages-using-dois" class="section level2">
+<div id="download-all-the-datasets-from-data-packages-using-dois" class="section level2">
 <h2 class="hasAnchor">
-<a href="#download-the-datasets-from-data-packages-using-dois" class="anchor"></a>Download the datasets from data packages using DOIs</h2>
+<a href="#download-all-the-datasets-from-data-packages-using-dois" class="anchor"></a>Download all the datasets from data packages using DOIs</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create the local directory to store data sets</span>
 <span class="kw">dir.create</span>(path_folder, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Read the data listing from Google Drive: https://drive.google.com/open?id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV</span>
-data_listing &lt;-<span class="st"> </span><span class="kw">read_csv</span>(csv_search_results_url) 
+data_listing &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_delim">read_csv</a></span>(csv_search_results_url) 
 
 
 ### Download the data and metadata ----
@@ -120,7 +122,7 @@ data_listing &lt;-<span class="st"> </span><span class="kw">read_csv</span>(csv_
 dois &lt;-<span class="st"> </span><span class="kw">unique</span>(data_listing<span class="op">$</span>identifier)
 
 <span class="co"># batch download the datasets</span>
-data_folders &lt;-<span class="st"> </span><span class="kw">map</span>(dois, <span class="op">~</span><span class="kw"><a href="../reference/download_d1_data_pkg.html">download_d1_data_pkg</a></span>(.x, data_folder))</code></pre></div>
+data_folders &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(dois, <span class="op">~</span><span class="kw"><a href="../reference/download_d1_data_pkg.html">download_d1_data_pkg</a></span>(.x, path_folder))</code></pre></div>
 </div>
   </div>
 
@@ -131,7 +133,7 @@ data_folders &lt;-<span class="st"> </span><span class="kw">map</span>(dois, <sp
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#summary">Summary</a></li>
       <li><a href="#libraries-and-constants">Libraries and constants</a></li>
-      <li><a href="#download-the-datasets-from-data-packages-using-dois">Download the datasets from data packages using DOIs</a></li>
+      <li><a href="#download-all-the-datasets-from-data-packages-using-dois">Download all the datasets from data packages using DOIs</a></li>
       </ul>
 </div>
       </div>

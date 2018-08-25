@@ -42,7 +42,7 @@ csv_search_results_url <- "https://drive.google.com/uc?export=download&id=1WTLP2
 ```
 
 
-## Download the datasets from data packages using DOIs
+## Download all the datasets from data packages using DOIs
 
 ```{r download, eval=FALSE}
 # Create the local directory to store data sets
@@ -58,7 +58,7 @@ data_listing <- read_csv(csv_search_results_url)
 dois <- unique(data_listing$identifier)
 
 # batch download the datasets
-data_folders <- map(dois, ~download_d1_data_pkg(.x, data_folder))
+data_folders <- map(dois, ~download_d1_data_pkg(.x, path_folder))
 ```
 
 
