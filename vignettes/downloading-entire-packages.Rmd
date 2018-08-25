@@ -1,5 +1,5 @@
 ---
-title: "Use Case - Downloading entire data packages using DOIs"
+title: "Use Case 3 - Downloading entire data packages using DOIs"
 author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

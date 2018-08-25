@@ -1,5 +1,5 @@
 ---
-title: "Use Case - Processing a single dataset"
+title: "Use Case 1 - Processing a single dataset"
 author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
