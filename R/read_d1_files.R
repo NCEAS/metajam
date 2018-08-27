@@ -1,4 +1,4 @@
-#' Read data along with metadata based on dowload_d1_data file structure
+#' Read data along with metadata into your R environment based on dowload_d1_data file structure
 #'
 #' @param folder_path (character) Path to a directory where data and metadata are located
 #' @param fnc (character) Function to be used to read the data (default is readr::read_csv)

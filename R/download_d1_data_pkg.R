@@ -1,7 +1,7 @@
 
-#' Download all the datasets from a data package
+#' Downloads all the datasets of a data package from DataONE
 #'
-#' @param meta_obj (character) A DOI for a DataONE package to download.
+#' @param meta_obj (character) A DOI for a DataONE package to download
 #' @param path (character) Path to a directory to download data to
 #'
 #' @import purrr

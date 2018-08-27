@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_d1_files.R
 \name{read_d1_files}
 \alias{read_d1_files}
-\title{Read data along with metadata based on dowload_d1_data file structure}
+\title{Read data along with metadata into your R environment based on dowload_d1_data file structure}
 \usage{
 read_d1_files(folder_path, fnc = "read_csv", ...)
 }
@@ -17,7 +17,7 @@ read_d1_files(folder_path, fnc = "read_csv", ...)
 (list) named list containing data and metadata as data frames
 }
 \description{
-Read data along with metadata based on dowload_d1_data file structure
+Read data along with metadata into your R environment based on dowload_d1_data file structure
 }
 \examples{
 \dontrun{
