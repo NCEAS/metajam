@@ -2,12 +2,12 @@
 % Please edit documentation in R/download_d1_data_pkg.R
 \name{download_d1_data_pkg}
 \alias{download_d1_data_pkg}
-\title{Download all the datasets from a data package}
+\title{Downloads all the datasets of a data package from DataONE}
 \usage{
 download_d1_data_pkg(meta_obj, path)
 }
 \arguments{
-\item{meta_obj}{(character) A DOI for a DataONE package to download.}
+\item{meta_obj}{(character) A DOI for a DataONE package to download}
 
 \item{path}{(character) Path to a directory to download data to}
 }
@@ -15,7 +15,7 @@ download_d1_data_pkg(meta_obj, path)
 (character) Path where data is downloaded to
 }
 \description{
-Download all the datasets from a data package
+Downloads all the datasets of a data package from DataONE
 }
 \examples{
 \dontrun{

@@ -1,0 +1,7 @@
+reference:
+  - title: metajam functions
+    contents:
+    - '`download_d1_data`'
+    - '`download_d1_data_pkg`'
+    - '`read_d1_files`'
+    - '`check_version`'

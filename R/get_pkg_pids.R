@@ -7,8 +7,6 @@
 #' @importFrom dataone query CNode
 #' @importFrom purrr %||%
 #'
-#' @export
-#'
 #' @examples
 #' \dontrun{
 #' #get all pids in the data package
