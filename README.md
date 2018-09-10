@@ -62,3 +62,14 @@ schools <- read_d1_files("./doi_10.18739_A2DP3X__Alaska_Schools_Rentention2009_1
 <br>
 <img src="inst/images/read-output.png" width="60%"/>
 <br>
+
+## Acknowledgements
+
+Work on this package was supported by:
+
+- NSF-PLR grant #1546024 to M. B. Jones, S. Baker-Yeboah, J. Dozier, M. Schildhauer, and A. Budden
+- Long Term Ecological Research (LTER) National Communications Office (LNCO), NSF grant #1545288 to F. Davis, M. Schildhauer, S. Rebich Hespanha, J. Caselle and C. Blanchette
+
+Thanks also go to NCEAS computing team members Mark Schildhauer, Peter Slaughter, Dominic Muellen, Steven Chong, Jesse Goldstein and Matt Jones for their inputs on this package. 
+
+![NCEAS logo](https://www.nceas.ucsb.edu/files/logos/NCEAS/NCEAS-full%20logo-4C.jpg)
