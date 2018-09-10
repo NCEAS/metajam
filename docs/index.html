@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">metajam</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.0.9000</span>
       </span>
     </div>
 
@@ -51,14 +51,14 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/batch-processing.html">Use Case 2 - Processing Stream Chemistry Data for the LTER Luquillo Site</a>
+    <li>
+      <a href="articles/dataset-single.html">Use Case 1 - Processing a single dataset</a>
     </li>
     <li>
-      <a href="articles/downloading-entire-packages.html">Use Case 3 - Downloading entire data packages using DOIs</a>
+      <a href="articles/dataset-batch-processing.html">Use Case 2 - Processing Stream Chemistry Data for the LTER Luquillo Site</a>
     </li>
     <li>
-      <a href="articles/single-dataset.html">Use Case 1 - Processing a single dataset</a>
+      <a href="articles/package-download.html">Use Case 3 - Downloading entire data packages using DOIs</a>
     </li>
   </ul>
 </li>
@@ -131,6 +131,17 @@ download_d1_data("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e1
 <p>The <code>read_d1_files</code> function allows you to read the downloaded data and metadata directly into your R environment. Simply run the function with the folder path to the downloaded objects, and all data and metadata files will be returned as data frames stored in a list. Use <code>{object_name}$data</code> to access the data, and <code>{object_name}${metadata_type}_metadata</code> to access its associated metadata.</p>
 <pre><code>schools &lt;- read_d1_files("./doi_10.18739_A2DP3X__Alaska_Schools_Rentention2009_15")</code></pre>
 <p><br><img src="inst/images/read-output.png" width="60%"><br></p>
+</div>
+<div id="acknowledgements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#acknowledgements" class="anchor"></a>Acknowledgements</h2>
+<p>Work on this package was supported by:</p>
+<ul>
+<li>NSF-PLR grant #1546024 to M. B. Jones, S. Baker-Yeboah, J. Dozier, M. Schildhauer, and A. Budden</li>
+<li>Long Term Ecological Research (LTER) National Communications Office (LNCO), NSF grant #1545288 to F. Davis, M. Schildhauer, S. Rebich Hespanha, J. Caselle and C. Blanchette</li>
+</ul>
+<p>Thanks also go to NCEAS computing team members Mark Schildhauer, Peter Slaughter, Dominic Muellen, Steven Chong, Jesse Goldstein and Matt Jones for their inputs on this package.</p>
+<p><img src="https://www.nceas.ucsb.edu/files/logos/NCEAS/NCEAS-full%20logo-4C.jpg" alt="NCEAS logo"></p>
 </div>
 </div>
 
