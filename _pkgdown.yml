@@ -1,7 +1,22 @@
 reference:
-  - title: metajam functions
-    contents:
-    - '`download_d1_data`'
-    - '`download_d1_data_pkg`'
-    - '`read_d1_files`'
-    - '`check_version`'
+- title: 'Download functions'
+  contents:
+  - '`download_d1_data`'
+  - '`download_d1_data_pkg`'
+  - '`check_version`'
+- title: 'Read functions'
+  contents:
+  - '`read_d1_files`'
+articles:
+- title: 'Processing Datasets'
+  contents:
+  - dataset-single
+  - dataset-batch-processing
+- title: 'Processing Data Packages'
+  contents:
+  - package-download
+navbar:
+  components:
+    articles:
+      text: Articles
+      href: articles/index.html
