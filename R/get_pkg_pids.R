@@ -33,7 +33,7 @@ get_pkg_pids <- function(pkg_doi){
     rm_pid <- in_case_set_wrong[grepl(pattern = "resource_map_doi:", in_case_set_wrong)]
   }
   
-  # Query to gt all the pids
+  # Query to get all the pids
   query_params <- list(q = sprintf('resourceMap:"%s"', rm_pid),
                        fl = "identifier, formatType", rows = 10000)
   pids <- dataone::query(dataone::CNode(), query_params, as = "data.frame")

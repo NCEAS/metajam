@@ -34,6 +34,12 @@
 #'
 
 check_version <- function(pid, formatType = NULL){
+  
+  # check that pid is of type character
+  if (!all(is.character(pid), all(nchar(pid) > 0))) {
+    stop("Argument 'pids' must be character class with non-zero number of characters.")
+  }
+  
   while(nchar(pid) > 5) {
     results <- suppressMessages(
       dataone::query(dataone::CNode(),

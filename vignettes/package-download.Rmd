@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Summary
 
-This vignette aims to showcase a use case when the user wants to download all the datasets of a data package using  `metajam` - `download_d1_data_pkg`. 
+This vignette aims to showcase a use case when the user wants to download all the datasets of a data package using  `metajam` - `download_d1_data_pkg`.
 
 In this example we use a csv file storing packages returned after seraching for `soil bulk density` on [Artic Data Center](https://arcticdata.io/) and [KNB](https://knb.ecoinformatics.org/) data repositories.
 
@@ -49,7 +49,7 @@ csv_search_results_url <- "https://drive.google.com/uc?export=download&id=1WTLP2
 dir.create(path_folder, showWarnings = FALSE)
 
 # Read the data listing from Google Drive: https://drive.google.com/open?id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV
-data_listing <- read_csv(csv_search_results_url) 
+data_listing <- read_csv(csv_search_results_url)
 
 
 ### Download the data and metadata ----
@@ -60,5 +60,3 @@ dois <- unique(data_listing$identifier)
 # batch download the datasets
 data_folders <- map(dois, ~download_d1_data_pkg(.x, path_folder))
 ```
-
-
