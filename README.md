@@ -17,7 +17,7 @@ Irene Steves, Mitchell Maier and Julien Brun; NCEAS
 The `metajam` package can be installed from GitHub using the `devtools` package:
 
 ```
-devtools::install_github("nceas/metajam")
+devtools::install_github('NCEAS/metajam', build_vignettes = TRUE)
 ```
 
 ## Download data
