@@ -1,22 +1,33 @@
 reference:
-- title: 'Download functions'
+- title: Download functions
   contents:
-  - '`download_d1_data`'
-  - '`download_d1_data_pkg`'
-  - '`check_version`'
-- title: 'Read functions'
+  - download_d1_data
+  - download_d1_data_pkg
+  - check_version
+- title: Read functions
   contents:
-  - '`read_d1_files`'
+  - read_d1_files
+
 articles:
-- title: 'Processing Datasets'
+- title: Processing Datasets
   contents:
   - dataset-single
   - dataset-batch-processing
-- title: 'Processing Data Packages'
+- title: Processing Data Packages
   contents:
   - package-download
+
 navbar:
   components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
     articles:
       text: Articles
       href: articles/index.html
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/nceas/metajam

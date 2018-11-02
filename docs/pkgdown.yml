@@ -1,16 +1,8 @@
 pandoc: 1.19.2.1
 pkgdown: 1.1.0.9000
-pkgdown_sha: b2798656f04ce282edea3e12734ba5588c6acd6e
+pkgdown_sha: 36bedb20e8d68ee91d33834c76f0e3dd03d5086a
 articles:
-- title: 'Processing Datasets'
-  contents:
-  - dataset-single
-  - dataset-batch-processing
-- title: 'Processing Data Packages'
-  contents:
-  - package-download
-navbar:
-  components:
-    articles:
-      text: Articles
-      href: articles/index.html
+  dataset-batch-processing: dataset-batch-processing.html
+  dataset-single: dataset-single.html
+  package-download: package-download.html
+
