@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 This vignette aims to showcase a use case using the 2 main functions of `metajam` - `download_d1_data` and `read_d1_files` to download one dataset from the [Artic Data Center](https://arcticdata.io/) data repository.
 
-As example, we are using permafrost data from the Polaris Project 2017:  Sarah Ludwig, Robert M Holmes, Susan Natali, Paul Mann, John Schade, et al. 2018. Polaris Project 2017: Permafrost carbon and nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. [doi:10.18739/A2KK3F]( https://doi.org/10.18739/A2KK3). 
+As example, we are using permafrost data from the Polaris Project 2017:  Sarah Ludwig, Robert M Holmes, Susan Natali, Paul Mann, John Schade, et al. 2018. Polaris Project 2017: Permafrost carbon and nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. [doi:10.18739/A2KK3F](https://doi.org/10.18739/A2KK3F). 
 
 
 ## Libraries and constants
