@@ -10,7 +10,7 @@ Authors@R: c(
 Maintainer: Julien Brun <brun@nceas.ucsb.edu>
 Description: Tools to download data and metadata from DataONE (https://www.dataone.org) and load this information in R. 
 License: Apache License (== 2.0)
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Imports: dataone, dplyr, eml2, emld, lubridate, purrr, readr, stats, stringr, tibble, tidyr
 Remotes: cboettig/eml2,
          cboettig/emld,

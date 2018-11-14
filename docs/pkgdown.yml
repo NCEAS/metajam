@@ -1,6 +1,6 @@
 pandoc: 1.19.2.1
-pkgdown: 1.1.0.9000
-pkgdown_sha: 36bedb20e8d68ee91d33834c76f0e3dd03d5086a
+pkgdown: 1.1.0
+pkgdown_sha: ~
 articles:
   dataset-batch-processing: dataset-batch-processing.html
   dataset-single: dataset-single.html
