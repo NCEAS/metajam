@@ -103,7 +103,7 @@ download_d1_data <- function(data_url, path) {
                              purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
     
     if (length(entity_data) == 0) {
-      warning("No data metadata could not be found for ", data_url)
+      warning("No data metadata could be found for ", data_url)
       
     } else {
       

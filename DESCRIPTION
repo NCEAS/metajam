@@ -8,17 +8,32 @@ Authors@R: c(
   person("Irene", "Steves", comment = "https://github.com/isteves", role = "aut"),
   person("Mitchell", "Maier", email = "mitchell.maier@gmail.com", role = "aut"))
 Maintainer: Julien Brun <brun@nceas.ucsb.edu>
-Description: Tools to download data and metadata from DataONE (https://www.dataone.org) and load this information in R. 
+Description: Tools to download data and metadata from DataONE (https://www.dataone.org) and load this information in R.
 License: Apache License (== 2.0)
-RoxygenNote: 6.1.1
-Imports: dataone, dplyr, eml2, emld, lubridate, purrr, readr, stats, stringr, tibble, tidyr
-Remotes: cboettig/eml2,
-         cboettig/emld,
-         DataONEorg/rdataone
-Suggests: testthat,
+URL: https://github.com/nceas/metajam
+BugReports: https://github.com/nceas/metajam/issues
+Encoding: UTF-8
+Imports:
+    dataone,
+    dplyr,
+    eml2,
+    emld,
+    lubridate,
+    purrr,
+    readr,
+    stats,
+    stringr,
+    tibble,
+    tidyr
+Remotes:
+    cboettig/eml2,
+    cboettig/emld,
+    DataONEorg/rdataone
+Suggests:
+    testthat,
     knitr,
     rmarkdown,
     udunits2
 VignetteBuilder: knitr
-URL: https://github.com/nceas/metajam
-BugReports: https://github.com/nceas/metajam/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
