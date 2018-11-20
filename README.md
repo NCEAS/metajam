@@ -17,6 +17,7 @@ Irene Steves, Mitchell Maier and Julien Brun; NCEAS
 The `metajam` package can be installed from GitHub using the `devtools` package:
 
 ```
+#install.packages("devtools")
 devtools::install_github('NCEAS/metajam', build_vignettes = TRUE)
 ```
 
@@ -62,6 +63,11 @@ schools <- read_d1_files("./doi_10.18739_A2DP3X__Alaska_Schools_Rentention2009_1
 <br>
 <img src="inst/images/read-output.png" width="60%"/>
 <br>
+
+## Quick Overview of `metajam`
+
+- Recent presentation on `metajam` and its functionalities: [Click here](https://brunj7.github.io/metajam-presentations/metajam-nceas-roundtable18.html)
+- Package website: https://nceas.github.io/metajam/
 
 ## Acknowledgements
 
