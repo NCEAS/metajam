@@ -168,7 +168,7 @@ download_d1_data <- function(data_url, path) {
   
   # change downloaded data object name to data_name
   data_files <- list.files(new_dir, full.names = TRUE)
-  data_files_ext <- stringr::str_extract(data_files, ".[^.]{2,4}$")
+  data_files_ext <- stringr::str_extract(data_files, ".[^.]{1,4}$")
   file.rename(data_files, file.path(new_dir, paste0(data_name, data_files_ext)))
   
   entity_meta_general <- list(File_Name = data_name,
