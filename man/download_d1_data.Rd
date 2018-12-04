@@ -2,20 +2,20 @@
 % Please edit documentation in R/download_d1_data.R
 \name{download_d1_data}
 \alias{download_d1_data}
-\title{Downloads data from DataOne along with metadata}
+\title{Download data and metadata from DataONE}
 \usage{
 download_d1_data(data_url, path)
 }
 \arguments{
 \item{data_url}{(character) An identifier or url for a DataONE object to download.}
 
-\item{path}{(character) Path to a directory to download data to}
+\item{path}{(character) Path to a directory to download data to.}
 }
 \value{
-(character) Path where data is downloaded to
+(character) Path where data is downloaded to.
 }
 \description{
-Downloads data from DataOne along with metadata
+Downloads data from DataONE along with metadata.
 }
 \examples{
 \dontrun{

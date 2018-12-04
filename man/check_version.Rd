@@ -7,9 +7,12 @@
 check_version(pid, formatType = NULL)
 }
 \arguments{
-\item{pid}{(character) The persistent identifier of a data, metadata, or resource map object on a DataONE member node}
+\item{pid}{(character) The persistent identifier of a data, metadata, or resource map object on a DataONE member node.}
 
-\item{formatType}{(character) Optional. The format type to return (DATA, METADATA, RESOURCE)}
+\item{formatType}{(character) Optional. The format type to return (DATA, METADATA, RESOURCE).}
+}
+\value{
+A data.frame of object version PIDs and related information.
 }
 \description{
 This function takes an identifier and checks to see if it has been obsoleted.
@@ -34,5 +37,4 @@ check_version("doi:10.18739/A2HF7Z", formatType = "metadata")
 # Returns an error if no matching identifiers are found
 check_version("a_test_pid")
 }
-
 }
