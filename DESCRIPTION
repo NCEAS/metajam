@@ -15,7 +15,7 @@ BugReports: https://github.com/nceas/metajam/issues
 Imports:
     dataone,
     dplyr,
-    eml2,
+    EML,
     emld,
     lubridate,
     purrr,
@@ -25,7 +25,7 @@ Imports:
     tibble,
     tidyr
 Remotes:
-    cboettig/eml2,
+    ropensci/EML,
     cboettig/emld,
     DataONEorg/rdataone
 Suggests:

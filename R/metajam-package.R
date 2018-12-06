@@ -6,10 +6,10 @@
 #'
 #' @docType package
 #' @name metajam
-#' @import eml2
-#'
+#' @import EML
+
 NULL
 
-if(getRversion() >= "2.1.15") {
+if (getRversion() >= "2.1.15") {
   utils::globalVariables(c("name", "value"))
 }

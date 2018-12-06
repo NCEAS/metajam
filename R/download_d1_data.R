@@ -6,7 +6,7 @@
 #' @param path (character) Path to a directory to download data to.
 #'
 #' @import dataone
-#' @import eml2
+#' @import EML
 #' @import purrr
 #' @import readr
 #' @import tidyr
@@ -95,7 +95,7 @@ download_d1_data <- function(data_url, path) {
     entities <- c("dataTable", "spatialRaster", "spatialVector", "storedProcedure", "view", "otherEntity")
     entities <- entities[entities %in% names(eml$dataset)]
 
-    entity_objs <- purrr::map(entities, ~eml2::eml_get(eml, .x)) %>%
+    entity_objs <- purrr::map(entities, ~EML::eml_get(eml, .x)) %>%
       # restructure so that all entities are at the same level
       purrr::map_if(~!is.null(.x$entityName), list) %>%
       unlist(recursive = FALSE)
@@ -120,7 +120,7 @@ download_d1_data <- function(data_url, path) {
       entity_data <- entity_data[[1]]
     }
 
-    attributeList <- suppressWarnings(eml2::get_attributes(entity_data$attributeList, eml))
+    attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
 
     meta_tabular <- tabularize_eml(eml) %>% tidyr::spread(name, value)
 
@@ -185,7 +185,7 @@ download_d1_data <- function(data_url, path) {
 
   ## write metadata xml/tabular form if exists
   if (exists("eml")) {
-    eml2::write_eml(eml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
+    EML::write_eml(eml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
 
     entity_meta_combined <- c(entity_meta_general, entity_meta) %>% unlist() %>% enframe()
     readr::write_csv(entity_meta_combined,
