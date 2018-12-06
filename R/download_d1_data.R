@@ -13,7 +13,7 @@
 #' @import stringr
 #' @importFrom emld as_emld
 #' @importFrom lubridate ymd_hms
-#' @importFrom utils URLdecode write.csv
+#' @importFrom utils URLdecode
 #'
 #' @return (character) Path where data is downloaded to.
 #'
@@ -199,15 +199,15 @@ download_d1_data <- function(data_url, path) {
   # write attribute tables if data metadata exists
   if (exists("attributeList")) {
     if (nrow(attributeList$attributes) > 0) {
-      utils::write.csv(x = attributeList$attributes,
-                       file = file.path(new_dir, paste0(data_name, "__attribute_metadata.csv")),
-                       row.names = FALSE)
+      atts <- attributeList$attributes %>% mutate(metadata_pid = meta_id)
+      readr::write_csv(atts,
+                       file.path(new_dir, paste0(data_name, "__attribute_metadata.csv")))
     }
 
     if (!is.null(attributeList$factors)) {
-      utils::write.csv(x = attributeList$factors,
-                       file = file.path(new_dir, paste0(data_name, "__attribute_factor_metadata.csv")),
-                       row.names = FALSE)
+      facts <- attributeList$factors %>% mutate(metadata_pid = meta_id)
+      readr::write_csv(facts,
+                       file.path(new_dir, paste0(data_name, "__attribute_factor_metadata.csv")))
     }
   }
 
