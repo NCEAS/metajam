@@ -2,11 +2,18 @@
 #'
 #' This function takes a path to an EML (.xml) metadata file and returns a data frame.
 #'
-#' @param eml An emld class object, the path to an EML (.xml) metadata file, or a raw EML object
-#' @param full (logical) Returns the most commonly used metadata fields by default. 
-#' If \code{full = TRUE} is specified, the full set of metadata fields are returned.
+#' @param eml An emld class object, the path to an EML (.xml) metadata file, or a raw EML object.
+#' @param full (logical) Returns the most commonly used metadata fields by default.
+#'   If \code{full = TRUE} is specified, the full set of metadata fields are returned.
 #'
+#' @return A data.frame of selected EML values.
+#'
+#' @import dplyr
+#' @importFrom emld as_emld
 #' @importFrom tibble enframe
+#' @importFrom stringr str_trim
+#'
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
@@ -14,25 +21,25 @@
 #'    tabularize_eml(eml)
 #'    tabularize_eml(eml, full = TRUE)
 #' }
-#'
 
-tabularize_eml <- function(eml, full = FALSE){
-  
-  if(any(class(eml) == "emld")) {
+tabularize_eml <- function(eml, full = FALSE) {
+
+  if (any(class(eml) == "emld")) {
     eml <- eml
-  } else if(is.character(eml) | is.raw(eml)) {
+  } else if (is.character(eml) | is.raw(eml)) {
     eml <- emld::as_emld(eml)
   } else {
-    stop("The eml input could not be parsed.")
+    stop("The EML input could not be parsed.")
   }
-  
-  metadata <- eml %>% 
-    unlist() %>% 
+
+  metadata <- eml %>%
+    unlist() %>%
     tibble::enframe()
-  
-  if(full == FALSE){
-    metadata <- metadata %>% 
-      dplyr::mutate(name = case_when(
+
+  if (full == FALSE) {
+    metadata <- metadata %>%
+      dplyr::mutate(name = dplyr::case_when(
+        grepl("schemaLocation", name) ~ "eml.version",
         grepl("title", name) ~ "title",
         grepl("individualName", name) ~ "people",
         grepl("abstract", name) ~ "abstract",
@@ -44,18 +51,18 @@ tabularize_eml <- function(eml, full = FALSE){
         grepl("southBoundingCoordinate", name) ~ "geographicCoverage.southBoundingCoordinate",
         grepl("beginDate", name) ~ "temporalCoverage.beginDate",
         grepl("endDate", name) ~ "temporalCoverage.endDate",
-        #taxonomicCoverage
+        grepl("taxonRankValue", name) ~ "taxonomicCoverage",
         grepl("methods", name) ~ "methods",
         grepl("objectName", name) ~ "objectName",
         grepl("online.url", name) ~ "url"
-      )) %>% 
-      dplyr::filter(!is.na(name)) %>% 
-      dplyr::mutate(value = stringr::str_trim(value)) %>% 
-      dplyr::distinct() %>% 
-      dplyr::group_by(name) %>% 
-      dplyr::summarize(value = paste(value, collapse = "; ")) %>% 
+      )) %>%
+      dplyr::filter(!is.na(name)) %>%
+      dplyr::mutate(value = stringr::str_trim(value)) %>%
+      dplyr::distinct() %>%
+      dplyr::group_by(name) %>%
+      dplyr::summarize(value = paste(value, collapse = "; ")) %>%
       dplyr::mutate(value = gsub("\n", "", value)) #without this, fields get truncated in Excel
   }
-  
+
   return(metadata)
 }
