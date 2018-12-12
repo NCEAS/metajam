@@ -9,10 +9,10 @@
 #' @import EML
 #' @import purrr
 #' @import readr
-#' @import tidyr
-#' @import stringr
 #' @importFrom emld as_emld
 #' @importFrom lubridate ymd_hms
+#' @importFrom stringr str_extract
+#' @importFrom tidyr spread
 #' @importFrom utils URLdecode
 #'
 #' @return (character) Path where data is downloaded to.
@@ -128,7 +128,7 @@ download_d1_data <- function(data_url, path) {
     entity_meta <- suppressWarnings(list(
       Metadata_ID = meta_id[[1]],
       Metadata_URL = metadata_nodes$data$url[1],
-      Metadata_EML_Version = paste(stringr::str_extract_all(meta_tabular$eml.version, "[0-9]", simplify = TRUE), collapse = "."),
+      Metadata_EML_Version = stringr::str_extract(meta_tabular$eml.version, "\\d\\.\\d\\.\\d"),
       File_Description = entity_data$entityDescription,
       File_Label = entity_data$entityLabel,
       Dataset_URL = paste0("https://search.dataone.org/#view/", meta_id[[1]]),

@@ -6,7 +6,8 @@ Date: 2018-06-12
 Authors@R: c(
   person("Julien", "Brun", email = "brun@nceas.ucsb.edu", role = c("cre", "aut")),
   person("Irene", "Steves", comment = "https://github.com/isteves", role = "aut"),
-  person("Mitchell", "Maier", email = "mitchell.maier@gmail.com", role = "aut"))
+  person("Mitchell", "Maier", email = "mitchell.maier@gmail.com", role = "aut"),
+  person("Derek", "Strong", email = "dstrong@nceas.ucsb.edu", role = "ctb"))
 Maintainer: Julien Brun <brun@nceas.ucsb.edu>
 Description: Tools to download data and metadata from DataONE (https://www.dataone.org) and load this information in R.
 License: Apache License (== 2.0)
