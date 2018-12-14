@@ -7,7 +7,7 @@
 download_d1_data(data_url, path)
 }
 \arguments{
-\item{data_url}{(character) An identifier or url for a DataONE object to download.}
+\item{data_url}{(character) An identifier or URL for a DataONE object to download.}
 
 \item{path}{(character) Path to a directory to download data to.}
 }
@@ -15,7 +15,7 @@ download_d1_data(data_url, path)
 (character) Path where data is downloaded to.
 }
 \description{
-Downloads data from DataONE along with metadata.
+Downloads a data object from DataONE along with metadata.
 }
 \examples{
 \dontrun{
@@ -25,4 +25,7 @@ download_d1_data(
     path = "."
     )
 }
+}
+\seealso{
+\code{\link[=read_d1_files]{read_d1_files()}} \code{\link[=download_d1_data_pkg]{download_d1_data_pkg()}}
 }

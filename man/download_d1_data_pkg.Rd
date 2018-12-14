@@ -2,25 +2,27 @@
 % Please edit documentation in R/download_d1_data_pkg.R
 \name{download_d1_data_pkg}
 \alias{download_d1_data_pkg}
-\title{Downloads all the datasets of a data package from DataONE}
+\title{Download all data and metadata of a data package from DataONE}
 \usage{
 download_d1_data_pkg(meta_obj, path)
 }
 \arguments{
-\item{meta_obj}{(character) A DOI for a DataONE package to download}
+\item{meta_obj}{(character) A DOI or metadata object PID for a DataONE package to download.}
 
-\item{path}{(character) Path to a directory to download data to}
+\item{path}{(character) Path to a directory to download data to.}
 }
 \value{
-(character) Path where data is downloaded to
+(list) Paths where data are downloaded to.
 }
 \description{
-Downloads all the datasets of a data package from DataONE
+Downloads all the data objects of a data package from DataONE along with metadata.
 }
 \examples{
 \dontrun{
-download_d1_data_pkg("doi:10.18739/A2028W")
-download_d1_data_pkg("https://doi.org/10.18739/A2028W")
+download_d1_data_pkg("doi:10.18739/A2028W", ".")
+download_d1_data_pkg("https://doi.org/10.18739/A2028W", ".")
 }
-
+}
+\seealso{
+\code{\link[=read_d1_files]{read_d1_files()}} \code{\link[=download_d1_data]{download_d1_data()}}
 }

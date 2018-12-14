@@ -6,7 +6,7 @@
 #' @param full (logical) Returns the most commonly used metadata fields by default.
 #'   If \code{full = TRUE} is specified, the full set of metadata fields are returned.
 #'
-#' @return A data.frame of selected EML values.
+#' @return (data.frame) A data frame of selected EML values.
 #'
 #' @import dplyr
 #' @importFrom emld as_emld

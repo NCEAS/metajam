@@ -1,14 +1,14 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+language: r
 sudo: true
-cache: packages
+# cache: packages
 addons:
   apt:
     sources:
-      - sourceline: 'ppa:opencpu/jq'
+      - sourceline: 'ppa:opencpu/jq' # for EML
     packages:
-      - librdf0-dev
-      - libv8-dev
-      - libjq-dev
-      - libudunits2-dev
+      - librdf0-dev # for dataone
+      - libv8-dev # for EML
+      - libjq-dev # for EML
+      - libudunits2-dev # for udunits2
