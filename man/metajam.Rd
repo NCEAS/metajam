@@ -6,7 +6,7 @@
 \alias{metajam-package}
 \title{\code{metajam} package}
 \description{
-Metadata jam
+Metadata jam - bringing data and metadata together
 }
 \details{
 See \href{https://github.com/nceas/metajam}{GitHub}

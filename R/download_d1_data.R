@@ -1,9 +1,11 @@
 #' Download data and metadata from DataONE
 #'
-#' Downloads data from DataONE along with metadata.
+#' Downloads a data object from DataONE along with metadata.
 #'
-#' @param data_url (character) An identifier or url for a DataONE object to download.
+#' @param data_url (character) An identifier or URL for a DataONE object to download.
 #' @param path (character) Path to a directory to download data to.
+#'
+#' @return (character) Path where data is downloaded to.
 #'
 #' @import dataone
 #' @import EML
@@ -15,9 +17,9 @@
 #' @importFrom tidyr spread
 #' @importFrom utils URLdecode
 #'
-#' @return (character) Path where data is downloaded to.
-#'
 #' @export
+#'
+#' @seealso [read_d1_files()] [download_d1_data_pkg()]
 #'
 #' @examples
 #' \dontrun{
@@ -31,8 +33,8 @@
 download_d1_data <- function(data_url, path) {
   # TODO: add meta_doi to explicitly specify doi
 
-  stopifnot(is.character(data_url))
-  stopifnot(dir.exists(path))
+  stopifnot(is.character(data_url), length(data_url) == 1, nchar(data_url) > 0)
+  stopifnot(is.character(path), length(path) == 1, nchar(path) > 0, dir.exists(path))
 
   ## Try to get DataONE data_id from data_url ---------
   data_url <- utils::URLdecode(data_url)
