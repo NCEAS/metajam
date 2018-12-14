@@ -4,7 +4,7 @@ author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"Use Case - Downloading one dataset using metajam"}
+  %\VignetteIndexEntry{"Use Case - Downloading entire data packages using metajam"}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 This vignette aims to showcase a use case when the user wants to download all the datasets of a data package using  `metajam` - `download_d1_data_pkg`.
 
-In this example we use a csv file storing packages returned after seraching for `soil bulk density` on [Artic Data Center](https://arcticdata.io/) and [KNB](https://knb.ecoinformatics.org/) data repositories.
+In this example we use a csv file storing packages returned after searching for `soil bulk density` on [Arctic Data Center](https://arcticdata.io/) and [KNB](https://knb.ecoinformatics.org/) data repositories.
 
 
 ## Libraries and constants

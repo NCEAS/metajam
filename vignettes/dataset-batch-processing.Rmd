@@ -1,5 +1,5 @@
 ---
-title: "Use Case 2 - Processing Stream Chemistry Data for the LTER Luquillo Site"
+title: "Use Case 2 - Processing stream chemistry data for the LTER Luquillo site"
 author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -157,10 +157,10 @@ colnames(luq_units_merged) <- c("attributeName", luq_new_colnames)
 - For the 2 last sampling sites `RioIcacos` and `RioMameyesPuenteRoto`, the units used for the gage height are in foot and not meter as for the other sites
 - For the 2 last sampling sites `RioIcacos` and `RioMameyesPuenteRoto`, `NH4` and not `NH4-N` is measured
 
-## Fixing units discrepencies
+## Fixing units discrepancies
 
 ```{r fixing_units, eval=FALSE}
-# fix attribute naming discrepencies -- to be improved 
+# fix attribute naming discrepancies -- to be improved 
 # Copy the units for Gage height
 luq_units_merged[which(luq_units_merged$attributeName == "Gage_Ht"), c("unit_RioIcacos", "unit_RioMameyesPuenteRoto")] <- "foot"
 
