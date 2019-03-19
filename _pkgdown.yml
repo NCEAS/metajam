@@ -18,16 +18,22 @@ articles:
   - package-download
 
 navbar:
-  components:
-    home:
-      icon: fa-home fa-lg
+  left:
+    - icon: fa-home fa-lg
       href: index.html
-    reference:
-      text: Reference
+    - text: Reference
       href: reference/index.html
-    articles:
-      text: Articles
+    - text: Articles
       href: articles/index.html
-    github:
-      icon: fa-github fa-lg
+      menu:
+      - text: Processing Datasets
+      - text: Use Case 1 - Processing a single dataset
+        href: articles/dataset-single.html
+      - text: Use Case 2 - Processing stream chemistry data for the LTER Luquillo site
+        href: articles/dataset-batch-processing.html
+      - text: Processing Data Packages
+      - text: Use Case 3 - Downloading entire data packages using DOIs
+        href: articles/package-download.html
+  right:
+    - icon: fa-github fa-lg
       href: https://github.com/nceas/metajam
