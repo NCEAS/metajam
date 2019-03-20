@@ -31,8 +31,10 @@ navbar:
         href: articles/dataset-single.html
       - text: Use Case 2 - Processing stream chemistry data for the LTER Luquillo site
         href: articles/dataset-batch-processing.html
+      - text: Use Case 3 - Processing raster data
+        href: articles/reading-raster.html
       - text: Processing Data Packages
-      - text: Use Case 3 - Downloading entire data packages using DOIs
+      - text: Use Case 4 - Downloading entire data packages using DOIs
         href: articles/package-download.html
   right:
     - icon: fa-github fa-lg
