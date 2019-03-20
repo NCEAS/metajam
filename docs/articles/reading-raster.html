@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Use Case 3 - Downloading entire data packages using DOIs • metajam</title>
+<title>Use Case 3 - Processing a raster dataset • metajam</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Use Case 3 - Downloading entire data packages using DOIs">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Use Case 3 - Processing a raster dataset">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -88,13 +88,13 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Use Case 3 - Downloading entire data packages using DOIs</h1>
-                        <h4 class="author">Julien Brun, Mitchell Maier and Irene Steves, NCEAS</h4>
+      <h1>Use Case 3 - Processing a raster dataset</h1>
+                        <h4 class="author">Julien Brun, Mitchell Maier, Derek Strong and Irene Steves, NCEAS</h4>
             
             <h4 class="date">2019-03-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/master/vignettes/package-download.Rmd"><code>vignettes/package-download.Rmd</code></a></small>
-      <div class="hidden name"><code>package-download.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/master/vignettes/reading-raster.Rmd"><code>vignettes/reading-raster.Rmd</code></a></small>
+      <div class="hidden name"><code>reading-raster.Rmd</code></div>
 
     </div>
 
@@ -103,39 +103,60 @@
 <div id="summary" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h2>
-<p>This vignette aims to showcase a use case when the user wants to download all the datasets of a data package using <code>metajam</code> - <code>download_d1_data_pkg</code>.</p>
-<p>In this example we use a csv file storing packages returned after searching for <code>soil bulk density</code> on <a href="https://arcticdata.io/">Arctic Data Center</a> and <a href="https://knb.ecoinformatics.org/">KNB</a> data repositories.</p>
+<p>This vignette aims to showcase how to overwrite the default function used by <code><a href="../reference/read_d1_files.html">metajam::read_d1_files</a></code> (spoiler alert it is <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv</a></code>) to read none tabular dara. In this specific vignette, we use the example of reading a geotiff file using the <code>raster</code> package.</p>
+<p>As example, we are using shipping routes frequency data used in the final human impacts model of 17 marine ecosystems and the 22 stressor drivers <a href="https://doi.org/10.5063/F15M63Z8">DOI: 10.5063/F15M63Z8</a>. For more information on this research, please see Micheli F, Halpern BS, Walbridge S, Ciriaco S, Ferretti F, Fraschetti S, et al. (2013) Cumulative Human Impacts on Mediterranean and Black Sea Marine Ecosystems: Assessing Current Pressures and Opportunities. PLoS ONE 8(12). <a href="https://doi.org/10.1371/journal.pone.0079889" class="uri">https://doi.org/10.1371/journal.pone.0079889</a>.</p>
 </div>
 <div id="libraries-and-constants" class="section level2">
 <h2 class="hasAnchor">
 <a href="#libraries-and-constants" class="anchor"></a>Libraries and constants</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># devtools::install_github("NCEAS/metajam")</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(metajam)  </a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readr)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(purrr)</a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(raster)</a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Directory to save the data set</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">path_folder &lt;-<span class="st"> "./Soil_bulk"</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">path_folder &lt;-<span class="st"> "Human_impacts"</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># URL to read the search results stored as a csv on Google Drive</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">csv_search_results_url &lt;-<span class="st"> "https://drive.google.com/uc?export=download&amp;id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV"</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># URL to download the dataset from DataONE</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">data_url &lt;-<span class="st"> "https://cn.dataone.org/cn/v2/resolve/urn:uuid:6f101827-2fc3-43da-8c8d-7b1f927c4c73"</span></a></code></pre></div>
 </div>
-<div id="download-all-the-datasets-from-data-packages-using-dois" class="section level2">
+<div id="download-the-raster-dataset" class="section level2">
 <h2 class="hasAnchor">
-<a href="#download-all-the-datasets-from-data-packages-using-dois" class="anchor"></a>Download all the datasets from data packages using DOIs</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Create the local directory to store data sets</span></a>
+<a href="#download-the-raster-dataset" class="anchor"></a>Download the raster dataset</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Create the local directory to download the datasets</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.create</a></span>(path_folder, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># Read the data listing from Google Drive: https://drive.google.com/open?id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">data_listing &lt;-<span class="st"> </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(csv_search_results_url)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">### Download the data and metadata ----</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co"># Create the list of unique dois</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">dois &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(data_listing<span class="op">$</span>identifier)</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co"># batch download the datasets</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14">data_folders &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(dois, <span class="op">~</span><span class="kw"><a href="../reference/download_d1_data_pkg.html">download_d1_data_pkg</a></span>(.x, path_folder))</a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># Download the dataset and associated metdata </span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">data_folder &lt;-<span class="st"> </span>metajam<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/metajam/topics/download_d1_data">download_d1_data</a></span>(data_url, path_folder)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co"># data_folder</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># "Data_polaris/doi_10.18739_A2KK3F__Polaris_2017_Permafrost"</span></a></code></pre></div>
+<p>At this point, you should have the data and the metadata downloaded inside your main directory; <code>human_impacts</code> in this example. <code>metajam</code> organize the files as follow:</p>
+<ul>
+<li>Each dataset is stored a sub-directory named after the package DOI and the file name</li>
+<li>Inside this sub-directory, you will find
+<ul>
+<li>the data: <code>shipping.tif</code>
+</li>
+<li>the raw EML with the naming convention <em>file name</em> + <code>__full_metadata.xml</code>: <code>my_data__full_metadata.xml</code>
+</li>
+<li>the package level metadata summary with the naming convention <em>file name</em> + <code>__summary_metadata.csv</code>: <code>my_data__summary_metadata.csv</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="read-the-raster-file-and-metadata-in-your-r-environment" class="section level2">
+<h2 class="hasAnchor">
+<a href="#read-the-raster-file-and-metadata-in-your-r-environment" class="anchor"></a>Read the raster file and metadata in your R environment</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Read the raster file and its associated metadata in as a named list</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># using the raster:raster function</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">shipping_routes &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_d1_files.html">read_d1_files</a></span>(data_folder, <span class="st">"raster"</span>)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co"># Plot the raster data</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(shipping_routes<span class="op">$</span>data)</a></code></pre></div>
+</div>
+<div id="investigate-the-metadata" class="section level1">
+<h1 class="hasAnchor">
+<a href="#investigate-the-metadata" class="anchor"></a>Investigate the metadata</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">shipping_routes<span class="op">$</span>summary_metadata</a></code></pre></div>
 </div>
   </div>
 
@@ -146,7 +167,9 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#summary">Summary</a></li>
       <li><a href="#libraries-and-constants">Libraries and constants</a></li>
-      <li><a href="#download-all-the-datasets-from-data-packages-using-dois">Download all the datasets from data packages using DOIs</a></li>
+      <li><a href="#download-the-raster-dataset">Download the raster dataset</a></li>
+      <li><a href="#read-the-raster-file-and-metadata-in-your-r-environment">Read the raster file and metadata in your R environment</a></li>
+      <li><a href="#investigate-the-metadata">Investigate the metadata</a></li>
       </ul>
 </div>
       </div>

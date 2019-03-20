@@ -59,9 +59,12 @@
     <li>
       <a href="../articles/dataset-batch-processing.html">Use Case 2 - Processing stream chemistry data for the LTER Luquillo site</a>
     </li>
+    <li>
+      <a href="../articles/reading-raster.html">Use Case 3 - Processing raster data</a>
+    </li>
     <li class="dropdown-header">Processing Data Packages</li>
     <li>
-      <a href="../articles/package-download.html">Use Case 3 - Downloading entire data packages using DOIs</a>
+      <a href="../articles/package-download.html">Use Case 4 - Downloading entire data packages using DOIs</a>
     </li>
   </ul>
 </li>
@@ -88,7 +91,7 @@
       <h1>Use Case 2 - Processing stream chemistry data for the LTER Luquillo site</h1>
                         <h4 class="author">Julien Brun, Mitchell Maier and Irene Steves, NCEAS</h4>
             
-            <h4 class="date">2018-12-14</h4>
+            <h4 class="date">2019-03-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/master/vignettes/dataset-batch-processing.Rmd"><code>vignettes/dataset-batch-processing.Rmd</code></a></small>
       <div class="hidden name"><code>dataset-batch-processing.Rmd</code></div>
@@ -107,59 +110,62 @@
 <div id="libraries" class="section level2">
 <h2 class="hasAnchor">
 <a href="#libraries" class="anchor"></a>Libraries</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github("NCEAS/metajam")</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(metajam)  
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(udunits2)
-
-<span class="co"># For wrangling the data</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readr)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(purrr)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stringr)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># devtools::install_github("NCEAS/metajam")</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(metajam)  </a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(udunits2)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># For wrangling the data</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readr)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; Warning: package 'dplyr' was built under R version 3.5.2</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(purrr)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stringr)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; Warning: package 'stringr' was built under R version 3.5.2</span></a></code></pre></div>
 </div>
 <div id="constants" class="section level2">
 <h2 class="hasAnchor">
 <a href="#constants" class="anchor"></a>Constants</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Where we download the data from DataONE on your local machine</span>
-data_folder &lt;-<span class="st"> "Data_SEC"</span>
-
-<span class="co"># Ammonium to Ammoniacal-nitrogen conversion</span>
-coeff_conv_NH4_to_NH4N &lt;-<span class="st"> </span><span class="fl">0.7764676534</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Where we download the data from DataONE on your local machine</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">data_folder &lt;-<span class="st"> "Data_SEC"</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Ammonium to Ammoniacal-nitrogen conversion</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">coeff_conv_NH4_to_NH4N &lt;-<span class="st"> </span><span class="fl">0.7764676534</span></a></code></pre></div>
 </div>
 <div id="download-the-datasets" class="section level2">
 <h2 class="hasAnchor">
 <a href="#download-the-datasets" class="anchor"></a>Download the datasets</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create the local directory to store datasets</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.create</a></span>(data_folder, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)
-
-<span class="co"># Get the datasets unique identifiers</span>
-test_datasets_listing &lt;-<span class="st"> </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"LTER-SEC_DatasetsListing_SearchedData.csv"</span>, 
-                                              <span class="dt">package =</span> <span class="st">"metajam"</span>))
-
-<span class="co"># Keep only the LUQ related datasets</span>
-luq_test_datasets &lt;-<span class="st"> </span>test_datasets_listing <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="st">"LUQ"</span>, .<span class="op">$</span><span class="st">`</span><span class="dt">LTER site abbreviation</span><span class="st">`</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="st">`</span><span class="dt">LTER site abbreviation</span><span class="st">`</span>,
-         <span class="st">`</span><span class="dt">Data Repository (PASTA) URL to Archive/Metadata</span><span class="st">`</span>,
-         <span class="st">`</span><span class="dt">Data Repository (PASTA) URL to File</span><span class="st">`</span>,
-         <span class="st">`</span><span class="dt">Data Repository (PASTA) Filename</span><span class="st">`</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/na.fail">na.omit</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="st">`</span><span class="dt">Data Repository (PASTA) Filename</span><span class="st">`</span>) <span class="co"># sort the data sets alphabetically</span>
-
-## Batch download the datasets
-
-<span class="co"># the apply way</span>
-<span class="co"># local_datasets &lt;- lapply(luq_test_datasets$`Data Repository (PASTA) URL to File`, download_d1_data, data_folder)</span>
-
-<span class="co"># the map way</span>
-<span class="co"># local_datasets &lt;- map(luq_test_datasets$`Data Repository (PASTA) URL to File`, function(x) {download_d1_data(x, data_folder)})</span>
-
-<span class="co"># the tidiest way</span>
-local_datasets &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(luq_test_datasets<span class="op">$</span><span class="st">`</span><span class="dt">Data Repository (PASTA) URL to File</span><span class="st">`</span>, <span class="op">~</span><span class="kw"><a href="../reference/download_d1_data.html">download_d1_data</a></span>(.x, data_folder))</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Create the local directory to store datasets</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.create</a></span>(data_folder, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># Get the datasets unique identifiers</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">test_datasets_listing &lt;-<span class="st"> </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"LTER-SEC_DatasetsListing_SearchedData.csv"</span>, </a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">                                              <span class="dt">package =</span> <span class="st">"metajam"</span>))</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># Keep only the LUQ related datasets</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">luq_test_datasets &lt;-<span class="st"> </span>test_datasets_listing <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="st">"LUQ"</span>, .<span class="op">$</span><span class="st">`</span><span class="dt">LTER site abbreviation</span><span class="st">`</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="st">`</span><span class="dt">LTER site abbreviation</span><span class="st">`</span>,</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">         <span class="st">`</span><span class="dt">Data Repository (PASTA) URL to Archive/Metadata</span><span class="st">`</span>,</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">         <span class="st">`</span><span class="dt">Data Repository (PASTA) URL to File</span><span class="st">`</span>,</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">         <span class="st">`</span><span class="dt">Data Repository (PASTA) Filename</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/na.fail">na.omit</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="st">`</span><span class="dt">Data Repository (PASTA) Filename</span><span class="st">`</span>) <span class="co"># sort the data sets alphabetically</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">## Batch download the datasets</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co"># the apply way</span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># local_datasets &lt;- lapply(luq_test_datasets$`Data Repository (PASTA) URL to File`, download_d1_data, data_folder)</span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co"># the map way</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co"># local_datasets &lt;- map(luq_test_datasets$`Data Repository (PASTA) URL to File`, function(x) {download_d1_data(x, data_folder)})</span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co"># the tidiest way</span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27">local_datasets &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(luq_test_datasets<span class="op">$</span><span class="st">`</span><span class="dt">Data Repository (PASTA) URL to File</span><span class="st">`</span>, <span class="op">~</span><span class="kw"><a href="../reference/download_d1_data.html">download_d1_data</a></span>(.x, data_folder))</a></code></pre></div>
 <p>At this point, you should have all the data and the metadata downloaded inside your main directory; <code>Data_SEC</code> in this example. <code>metajam</code> organize the files as follow:</p>
 <ul>
 <li>Each dataset is stored a sub-directory named after the package DOI and the file name</li>
-<li>Inside this sub-directory, you will find</li>
+<li>Inside this sub-directory, you will find
+<ul>
 <li>the data: <code>my_data.csv</code>
 </li>
 <li>the raw EML with the naming convention <em>file name</em> + <code>__full_metadata.xml</code>: <code>my_data__full_metadata.xml</code>
@@ -171,30 +177,32 @@ local_datasets &lt;-<span class="st"> </span><span class="kw"><a href="https://p
 <li>If relevant, the factor level metadata with the naming convention <em>file name</em> + <code>__attribute_factor_metadata.csv</code>: my_data<code>__attribute_factor_metadata.csv</code>
 </li>
 </ul>
+</li>
+</ul>
 </div>
 <div id="read-the-data-and-metadata-in-your-r-environment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#read-the-data-and-metadata-in-your-r-environment" class="anchor"></a>Read the data and metadata in your R environment</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># You could list the datasets dowloaded in the `Data_SEC` folder </span>
-<span class="co"># local_datasets &lt;- dir(data_folder, full.names = TRUE)</span>
-
-<span class="co"># or you can directly use the outputed paths from download_d1_data </span>
-<span class="co"># Read all the datasets and their associated metadata in as a named list</span>
-luq_datasets &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(local_datasets, read_d1_files) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span>(<span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(., <span class="op">~</span>.x<span class="op">$</span>summary_metadata<span class="op">$</span>value[.x<span class="op">$</span>summary_metadata<span class="op">$</span>name <span class="op">==</span><span class="st"> "File_Name"</span>]))</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># You could list the datasets dowloaded in the `Data_SEC` folder </span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># local_datasets &lt;- dir(data_folder, full.names = TRUE)</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># or you can directly use the outputed paths from download_d1_data </span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co"># Read all the datasets and their associated metadata in as a named list</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">luq_datasets &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(local_datasets, read_d1_files) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span>(<span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(., <span class="op">~</span>.x<span class="op">$</span>summary_metadata<span class="op">$</span>value[.x<span class="op">$</span>summary_metadata<span class="op">$</span>name <span class="op">==</span><span class="st"> "File_Name"</span>]))</a></code></pre></div>
 </div>
 <div id="perform-checks-on-data-structure" class="section level2">
 <h2 class="hasAnchor">
 <a href="#perform-checks-on-data-structure" class="anchor"></a>Perform checks on data structure</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># list all the attributes</span>
-attributes_luq &lt;-<span class="st"> </span>luq_datasets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="st">"data"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(colnames)
-
-<span class="co"># Check if they are identical by comparing all against the first site</span>
-<span class="cf">for</span>(ds <span class="cf">in</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(attributes_luq)) {
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/identical">identical</a></span>(attributes_luq[[<span class="dv">1</span>]], attributes_luq[[ds]]))
-}
-
-<span class="co">#&gt; =&gt; We are good, same data structure across the sampling sites</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># list all the attributes</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">attributes_luq &lt;-<span class="st"> </span>luq_datasets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="st">"data"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(colnames)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># Check if they are identical by comparing all against the first site</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="cf">for</span>(ds <span class="cf">in</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(attributes_luq)) {</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/identical">identical</a></span>(attributes_luq[[<span class="dv">1</span>]], attributes_luq[[ds]]))</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; =&gt; We are good, same data structure across the sampling sites</span></a></code></pre></div>
 <div id="conclusion" class="section level3">
 <h3 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h3>
@@ -206,31 +214,31 @@ attributes_luq &lt;-<span class="st"> </span>luq_datasets <span class="op">%&gt;
 <div id="perform-checks-on-the-units" class="section level2">
 <h2 class="hasAnchor">
 <a href="#perform-checks-on-the-units" class="anchor"></a>Perform checks on the units</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># List all the units used</span>
-luq_units &lt;-<span class="st"> </span>luq_datasets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="st">"attribute_metadata"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="op">~</span>.[[<span class="st">"unit"</span>]])
-
-<span class="co"># Check if they are identical by comparing all against the first site</span>
-<span class="cf">for</span>(us <span class="cf">in</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(luq_units)) {
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/identical">identical</a></span>(luq_units[[<span class="dv">1</span>]], luq_units[[us]]))
-}
-
-<span class="co">#&gt;!!! =&gt; The 2 last datasets have different units!!!!!!!!!!</span>
-
-<span class="co"># Let's check the differences</span>
-luq_units_merged &lt;-<span class="st"> </span>luq_datasets <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="st">"attribute_metadata"</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(. <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(attributeName, unit)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/reduce.html">reduce</a></span>(full_join, <span class="dt">by =</span> <span class="st">"attributeName"</span>) 
-
-## Rename
-<span class="co"># Create the new names</span>
-luq_new_colnames &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(luq_units) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stringr/topics/str_split">str_split</a></span>(<span class="st">"[.]"</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="op">~</span>.[<span class="dv">1</span>]) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"unit"</span>, ., <span class="dt">sep =</span> <span class="st">"_"</span>)
-
-<span class="co"># Apply the new names</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(luq_units_merged) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"attributeName"</span>, luq_new_colnames)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># List all the units used</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">luq_units &lt;-<span class="st"> </span>luq_datasets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="st">"attribute_metadata"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="op">~</span>.[[<span class="st">"unit"</span>]])</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co"># Check if they are identical by comparing all against the first site</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="cf">for</span>(us <span class="cf">in</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(luq_units)) {</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/identical">identical</a></span>(luq_units[[<span class="dv">1</span>]], luq_units[[us]]))</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;!!! =&gt; The 2 last datasets have different units!!!!!!!!!!</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co"># Let's check the differences</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">luq_units_merged &lt;-<span class="st"> </span>luq_datasets <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="st">"attribute_metadata"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(. <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(attributeName, unit)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/reduce.html">reduce</a></span>(full_join, <span class="dt">by =</span> <span class="st">"attributeName"</span>) </a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">## Rename</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co"># Create the new names</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19">luq_new_colnames &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(luq_units) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="st">  </span><span class="kw"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span>(<span class="st">"[.]"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="op">~</span>.[<span class="dv">1</span>]) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"unit"</span>, ., <span class="dt">sep =</span> <span class="st">"_"</span>)</a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co"># Apply the new names</span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(luq_units_merged) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"attributeName"</span>, luq_new_colnames)</a></code></pre></div>
 <div id="conclusion-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#conclusion-1" class="anchor"></a>Conclusion</h3>
@@ -243,72 +251,72 @@ luq_new_colnames &lt;-<span class="st"> </span><span class="kw"><a href="https:/
 <div id="fixing-units-discrepancies" class="section level2">
 <h2 class="hasAnchor">
 <a href="#fixing-units-discrepancies" class="anchor"></a>Fixing units discrepancies</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fix attribute naming discrepancies -- to be improved </span>
-<span class="co"># Copy the units for Gage height</span>
-luq_units_merged[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(luq_units_merged<span class="op">$</span>attributeName <span class="op">==</span><span class="st"> "Gage_Ht"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"unit_RioIcacos"</span>, <span class="st">"unit_RioMameyesPuenteRoto"</span>)] &lt;-<span class="st"> "foot"</span>
-
-<span class="co"># Copy the units for NH4</span>
-luq_units_merged[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(luq_units_merged<span class="op">$</span>attributeName <span class="op">==</span><span class="st"> "NH4-N"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"unit_RioIcacos"</span>, <span class="st">"unit_RioMameyesPuenteRoto"</span>)] &lt;-<span class="st"> "microgramsPerLiter"</span>
-
-<span class="co"># drop the 2 last rows</span>
-luq_units_merged &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(luq_units_merged, <span class="op">-</span><span class="dv">2</span>)
-
-
-### Implement the unit conversion for RioIcacos and RioMameyesPuenteRoto ----
-
-## RioIcacos
-<span class="co"># Fix NAs</span>
-luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>data[luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>data <span class="op">==</span><span class="st"> </span><span class="op">-</span><span class="dv">9999</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
-
-<span class="co"># Simplify naming</span>
-RioIcacos_data &lt;-<span class="st"> </span>luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>data
-RioIcacos_attrmeta &lt;-<span class="st"> </span>luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>attribute_metadata
-
-<span class="co"># Do the unit conversion  - Gage height - manual way</span>
-<span class="co"># RioIcacos_data$Gage_Ht &lt;- RioIcacos_data$Gage_Ht * 0.3048</span>
-
-<span class="co"># Do the unit conversion  - Gage height - udunits way</span>
-RioIcacos_data<span class="op">$</span>Gage_Ht &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/udunits2/topics/ud.convert">ud.convert</a></span>(RioIcacos_data<span class="op">$</span>Gage_Ht,
-                                     RioIcacos_attrmeta<span class="op">$</span>unit[RioIcacos_attrmeta<span class="op">$</span>attributeLabel <span class="op">==</span><span class="st"> "Gage height"</span>], <span class="st">"meter"</span>)
-
-<span class="co"># Do the unit conversion for RioIcacos and RioMameyesPuenteRoto - NH4 to NH4-N</span>
-RioIcacos_data<span class="op">$</span><span class="st">`</span><span class="dt">NH4-N</span><span class="st">`</span> &lt;-<span class="st"> </span>RioIcacos_data<span class="op">$</span><span class="st">`</span><span class="dt">NH4-N</span><span class="st">`</span><span class="op">*</span><span class="st"> </span>coeff_conv_NH4_to_NH4N
-
-<span class="co"># Update the main object </span>
-luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>data &lt;-<span class="st"> </span>RioIcacos_data
-
-## RioMameyesPuenteRoto
-<span class="co"># Replace -9999 with NAs </span>
-luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>data[luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>data <span class="op">==</span><span class="st"> </span><span class="op">-</span><span class="dv">9999</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
-
-<span class="co"># Simplify naming</span>
-RioMameyesPuenteRoto_data &lt;-<span class="st"> </span>luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>data
-RioMameyesPuenteRoto_attrmeta &lt;-<span class="st"> </span>luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>attribute_metadata
-
-<span class="co"># Do the unit conversion  - Gage height - manual way</span>
-RioMameyesPuenteRoto_data<span class="op">$</span>Gage_Ht &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/udunits2/topics/ud.convert">ud.convert</a></span>(RioMameyesPuenteRoto_data<span class="op">$</span>Gage_Ht,
-                                                RioMameyesPuenteRoto_attrmeta<span class="op">$</span>unit[RioMameyesPuenteRoto_attrmeta<span class="op">$</span>attributeLabel <span class="op">==</span><span class="st"> "Gage height"</span>], 
-                                                <span class="st">"meter"</span>)
-
-<span class="co"># Do the unit conversion for RioMameyesPuenteRoto - NH4 to NH4-N</span>
-RioMameyesPuenteRoto_data<span class="op">$</span><span class="st">`</span><span class="dt">NH4-N</span><span class="st">`</span> &lt;-<span class="st"> </span>RioMameyesPuenteRoto_data<span class="op">$</span><span class="st">`</span><span class="dt">NH4-N</span><span class="st">`</span> <span class="op">*</span><span class="st"> </span>coeff_conv_NH4_to_NH4N
-
-<span class="co"># Update the main object</span>
-luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>data &lt;-<span class="st"> </span>RioMameyesPuenteRoto_data </code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># fix attribute naming discrepancies -- to be improved </span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># Copy the units for Gage height</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">luq_units_merged[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(luq_units_merged<span class="op">$</span>attributeName <span class="op">==</span><span class="st"> "Gage_Ht"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"unit_RioIcacos"</span>, <span class="st">"unit_RioMameyesPuenteRoto"</span>)] &lt;-<span class="st"> "foot"</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># Copy the units for NH4</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">luq_units_merged[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(luq_units_merged<span class="op">$</span>attributeName <span class="op">==</span><span class="st"> "NH4-N"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"unit_RioIcacos"</span>, <span class="st">"unit_RioMameyesPuenteRoto"</span>)] &lt;-<span class="st"> "microgramsPerLiter"</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co"># drop the 2 last rows</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">luq_units_merged &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(luq_units_merged, <span class="dv">-2</span>)</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">### Implement the unit conversion for RioIcacos and RioMameyesPuenteRoto ----</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">## RioIcacos</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co"># Fix NAs</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16">luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>data[luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>data <span class="op">==</span><span class="st"> </span><span class="dv">-9999</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co"># Simplify naming</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">RioIcacos_data &lt;-<span class="st"> </span>luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>data</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">RioIcacos_attrmeta &lt;-<span class="st"> </span>luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>attribute_metadata</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co"># Do the unit conversion  - Gage height - manual way</span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co"># RioIcacos_data$Gage_Ht &lt;- RioIcacos_data$Gage_Ht * 0.3048</span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co"># Do the unit conversion  - Gage height - udunits way</span></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">RioIcacos_data<span class="op">$</span>Gage_Ht &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/udunits2/topics/ud.convert">ud.convert</a></span>(RioIcacos_data<span class="op">$</span>Gage_Ht,</a>
+<a class="sourceLine" id="cb7-27" data-line-number="27">                                     RioIcacos_attrmeta<span class="op">$</span>unit[RioIcacos_attrmeta<span class="op">$</span>attributeLabel <span class="op">==</span><span class="st"> "Gage height"</span>], <span class="st">"meter"</span>)</a>
+<a class="sourceLine" id="cb7-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co"># Do the unit conversion for RioIcacos and RioMameyesPuenteRoto - NH4 to NH4-N</span></a>
+<a class="sourceLine" id="cb7-30" data-line-number="30">RioIcacos_data<span class="op">$</span><span class="st">`</span><span class="dt">NH4-N</span><span class="st">`</span> &lt;-<span class="st"> </span>RioIcacos_data<span class="op">$</span><span class="st">`</span><span class="dt">NH4-N</span><span class="st">`</span><span class="op">*</span><span class="st"> </span>coeff_conv_NH4_to_NH4N</a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co"># Update the main object </span></a>
+<a class="sourceLine" id="cb7-33" data-line-number="33">luq_datasets<span class="op">$</span>RioIcacos<span class="op">$</span>data &lt;-<span class="st"> </span>RioIcacos_data</a>
+<a class="sourceLine" id="cb7-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">## RioMameyesPuenteRoto</span></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co"># Replace -9999 with NAs </span></a>
+<a class="sourceLine" id="cb7-37" data-line-number="37">luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>data[luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>data <span class="op">==</span><span class="st"> </span><span class="dv">-9999</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co"># Simplify naming</span></a>
+<a class="sourceLine" id="cb7-40" data-line-number="40">RioMameyesPuenteRoto_data &lt;-<span class="st"> </span>luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>data</a>
+<a class="sourceLine" id="cb7-41" data-line-number="41">RioMameyesPuenteRoto_attrmeta &lt;-<span class="st"> </span>luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>attribute_metadata</a>
+<a class="sourceLine" id="cb7-42" data-line-number="42"></a>
+<a class="sourceLine" id="cb7-43" data-line-number="43"><span class="co"># Do the unit conversion  - Gage height - manual way</span></a>
+<a class="sourceLine" id="cb7-44" data-line-number="44">RioMameyesPuenteRoto_data<span class="op">$</span>Gage_Ht &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/udunits2/topics/ud.convert">ud.convert</a></span>(RioMameyesPuenteRoto_data<span class="op">$</span>Gage_Ht,</a>
+<a class="sourceLine" id="cb7-45" data-line-number="45">                                                RioMameyesPuenteRoto_attrmeta<span class="op">$</span>unit[RioMameyesPuenteRoto_attrmeta<span class="op">$</span>attributeLabel <span class="op">==</span><span class="st"> "Gage height"</span>], </a>
+<a class="sourceLine" id="cb7-46" data-line-number="46">                                                <span class="st">"meter"</span>)</a>
+<a class="sourceLine" id="cb7-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb7-48" data-line-number="48"><span class="co"># Do the unit conversion for RioMameyesPuenteRoto - NH4 to NH4-N</span></a>
+<a class="sourceLine" id="cb7-49" data-line-number="49">RioMameyesPuenteRoto_data<span class="op">$</span><span class="st">`</span><span class="dt">NH4-N</span><span class="st">`</span> &lt;-<span class="st"> </span>RioMameyesPuenteRoto_data<span class="op">$</span><span class="st">`</span><span class="dt">NH4-N</span><span class="st">`</span> <span class="op">*</span><span class="st"> </span>coeff_conv_NH4_to_NH4N</a>
+<a class="sourceLine" id="cb7-50" data-line-number="50"></a>
+<a class="sourceLine" id="cb7-51" data-line-number="51"><span class="co"># Update the main object</span></a>
+<a class="sourceLine" id="cb7-52" data-line-number="52">luq_datasets<span class="op">$</span>RioMameyesPuenteRoto<span class="op">$</span>data &lt;-<span class="st"> </span>RioMameyesPuenteRoto_data </a></code></pre></div>
 </div>
 <div id="append-all-the-sampling-sites-into-one-master-dataset" class="section level2">
 <h2 class="hasAnchor">
 <a href="#append-all-the-sampling-sites-into-one-master-dataset" class="anchor"></a>Append all the sampling sites into one master dataset</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bind the sampling sites data into one master dataset for LUQ</span>
-all_sites_luq &lt;-<span class="st"> </span>luq_datasets <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="st">"data"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="dt">.id =</span> <span class="st">"prov"</span>)
-
-<span class="co"># Replace -9999 with NAs</span>
-all_sites_luq[all_sites_luq <span class="op">==</span><span class="st"> </span><span class="op">-</span><span class="dv">9999</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
-
-<span class="co"># Write as csv</span>
-<span class="kw"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span>(all_sites_luq, <span class="st">"stream_chem_all_LUQ.csv"</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># bind the sampling sites data into one master dataset for LUQ</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">all_sites_luq &lt;-<span class="st"> </span>luq_datasets <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="st">"data"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="dt">.id =</span> <span class="st">"prov"</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co"># Replace -9999 with NAs</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">all_sites_luq[all_sites_luq <span class="op">==</span><span class="st"> </span><span class="dv">-9999</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co"># Write as csv</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="kw"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span>(all_sites_luq, <span class="st">"stream_chem_all_LUQ.csv"</span>)</a></code></pre></div>
 </div>
 <div id="general-conclusion" class="section level2">
 <h2 class="hasAnchor">

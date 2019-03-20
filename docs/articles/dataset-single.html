@@ -59,9 +59,12 @@
     <li>
       <a href="../articles/dataset-batch-processing.html">Use Case 2 - Processing stream chemistry data for the LTER Luquillo site</a>
     </li>
+    <li>
+      <a href="../articles/reading-raster.html">Use Case 3 - Processing raster data</a>
+    </li>
     <li class="dropdown-header">Processing Data Packages</li>
     <li>
-      <a href="../articles/package-download.html">Use Case 3 - Downloading entire data packages using DOIs</a>
+      <a href="../articles/package-download.html">Use Case 4 - Downloading entire data packages using DOIs</a>
     </li>
   </ul>
 </li>
@@ -88,7 +91,7 @@
       <h1>Use Case 1 - Processing a single dataset</h1>
                         <h4 class="author">Julien Brun, Mitchell Maier and Irene Steves, NCEAS</h4>
             
-            <h4 class="date">2018-12-14</h4>
+            <h4 class="date">2019-03-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/master/vignettes/dataset-single.Rmd"><code>vignettes/dataset-single.Rmd</code></a></small>
       <div class="hidden name"><code>dataset-single.Rmd</code></div>
@@ -101,29 +104,29 @@
 <h2 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h2>
 <p>This vignette aims to showcase a use case using the 2 main functions of <code>metajam</code> - <code>download_d1_data</code> and <code>read_d1_files</code> to download one dataset from the <a href="https://arcticdata.io/">Arctic Data Center</a> data repository.</p>
-<p>As example, we are using permafrost data from the Polaris Project 2017: Sarah Ludwig, Robert M Holmes, Susan Natali, Paul Mann, John Schade, et al. 2018. Polaris Project 2017: Permafrost carbon and nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. <a href="https://doi.org/10.18739/A2KK3F">doi:10.18739/A2KK3F</a>.</p>
+<p>As example, we are using permafrost data from the Polaris Project 2017: Sarah Ludwig, Robert M Holmes, Susan Natali, Paul Mann, John Schade, et al. 2018. Polaris Project 2017: Permafrost carbon and nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. <a href="https://doi.org/10.18739/A2KK3F">doi:10.18739/A2KK3F</a>.</p>
 </div>
 <div id="libraries-and-constants" class="section level2">
 <h2 class="hasAnchor">
 <a href="#libraries-and-constants" class="anchor"></a>Libraries and constants</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github("NCEAS/metajam")</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(metajam)  </code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Directory to save the data set</span>
-path_folder &lt;-<span class="st"> "Data_polaris"</span>
-
-<span class="co"># URL to download the dataset from DataONE</span>
-data_url &lt;-<span class="st"> "https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Aec704da8-f174-49db-b993-bae479cdc5d9"</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># devtools::install_github("NCEAS/metajam")</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(metajam)  </a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Directory to save the data set</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">path_folder &lt;-<span class="st"> "Data_polaris"</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># URL to download the dataset from DataONE</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">data_url &lt;-<span class="st"> "https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Aec704da8-f174-49db-b993-bae479cdc5d9"</span></a></code></pre></div>
 </div>
 <div id="download-the-dataset" class="section level2">
 <h2 class="hasAnchor">
 <a href="#download-the-dataset" class="anchor"></a>Download the dataset</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create the local directory to download the datasets</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.create</a></span>(path_folder, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)
-
-<span class="co"># Download the dataset and associated metdata </span>
-data_folder &lt;-<span class="st"> </span>metajam<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/metajam/topics/download_d1_data">download_d1_data</a></span>(data_url, path_folder)
-<span class="co"># data_folder</span>
-<span class="co"># "Data_polaris/doi_10.18739_A2KK3F__Polaris_2017_Permafrost"</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Create the local directory to download the datasets</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.create</a></span>(path_folder, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># Download the dataset and associated metdata </span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">data_folder &lt;-<span class="st"> </span>metajam<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/metajam/topics/download_d1_data">download_d1_data</a></span>(data_url, path_folder)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co"># data_folder</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># "Data_polaris/doi_10.18739_A2KK3F__Polaris_2017_Permafrost"</span></a></code></pre></div>
 <p>At this point, you should have the data and the metadata downloaded inside your main directory; <code>Data_polaris</code> in this example. <code>metajam</code> organize the files as follow:</p>
 <ul>
 <li>Each dataset is stored a sub-directory named after the package DOI and the file name</li>
@@ -151,8 +154,8 @@ Local file structure of a dataset downloaded by metajam
 <div id="read-the-data-and-metadata-in-your-r-environment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#read-the-data-and-metadata-in-your-r-environment" class="anchor"></a>Read the data and metadata in your R environment</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Read all the datasets and their associated metadata in as a named list</span>
-polaris17_permafrost &lt;-<span class="st"> </span>metajam<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/metajam/topics/read_d1_files">read_d1_files</a></span>(data_folder)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Read all the datasets and their associated metadata in as a named list</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">polaris17_permafrost &lt;-<span class="st"> </span>metajam<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/metajam/topics/read_d1_files">read_d1_files</a></span>(data_folder)</a></code></pre></div>
 </div>
 <div id="structure-of-the-named-list-object" class="section level2">
 <h2 class="hasAnchor">
