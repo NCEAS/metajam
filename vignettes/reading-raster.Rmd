@@ -58,8 +58,8 @@ At this point, you should have the data and the metadata downloaded inside your 
 - Each dataset is stored a sub-directory named after the package DOI and the file name
 - Inside this sub-directory, you will find
     - the data: `shipping.tif`
-    - the raw EML with the naming convention _file name_ + `__full_metadata.xml`: `my_data__full_metadata.xml`
-    - the package level metadata summary with the naming convention _file name_ + `__summary_metadata.csv`: `my_data__summary_metadata.csv`
+    - the raw EML with the naming convention _file name_ + `__full_metadata.xml`: `shipping__full_metadata.xml`
+    - the package level metadata summary with the naming convention _file name_ + `__summary_metadata.csv`: `shipping__summary_metadata.csv`
 
 
 ## Read the raster file and metadata in your R environment

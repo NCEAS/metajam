@@ -91,7 +91,7 @@
       <h1>Use Case 3 - Processing a raster dataset</h1>
                         <h4 class="author">Julien Brun, Mitchell Maier, Derek Strong and Irene Steves, NCEAS</h4>
             
-            <h4 class="date">2019-03-19</h4>
+            <h4 class="date">2019-03-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/master/vignettes/reading-raster.Rmd"><code>vignettes/reading-raster.Rmd</code></a></small>
       <div class="hidden name"><code>reading-raster.Rmd</code></div>
@@ -104,13 +104,13 @@
 <h2 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h2>
 <p>This vignette aims to showcase how to overwrite the default function used by <code><a href="../reference/read_d1_files.html">metajam::read_d1_files</a></code> (spoiler alert it is <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv</a></code>) to read none tabular dara. In this specific vignette, we use the example of reading a geotiff file using the <code>raster</code> package.</p>
-<p>As example, we are using shipping routes frequency data used in the final human impacts model of 17 marine ecosystems and the 22 stressor drivers <a href="https://doi.org/10.5063/F15M63Z8">DOI: 10.5063/F15M63Z8</a>. For more information on this research, please see Micheli F, Halpern BS, Walbridge S, Ciriaco S, Ferretti F, Fraschetti S, et al. (2013) Cumulative Human Impacts on Mediterranean and Black Sea Marine Ecosystems: Assessing Current Pressures and Opportunities. PLoS ONE 8(12). <a href="https://doi.org/10.1371/journal.pone.0079889" class="uri">https://doi.org/10.1371/journal.pone.0079889</a>.</p>
+<p>As example, we are using shipping routes frequency data used in the final human impacts model of 17 marine ecosystems and the 22 stressor drivers <a href="https://doi.org/10.5063/F15M63Z8">DOI: 10.5063/F15M63Z8</a>.. For more information on this research, please see Micheli F, Halpern BS, Walbridge S, Ciriaco S, Ferretti F, Fraschetti S, et al. (2013) Cumulative Human Impacts on Mediterranean and Black Sea Marine Ecosystems: Assessing Current Pressures and Opportunities. PLoS ONE 8(12). <a href="https://doi.org/10.1371/journal.pone.0079889" class="uri">https://doi.org/10.1371/journal.pone.0079889</a>.</p>
 </div>
 <div id="libraries-and-constants" class="section level2">
 <h2 class="hasAnchor">
 <a href="#libraries-and-constants" class="anchor"></a>Libraries and constants</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># devtools::install_github("NCEAS/metajam")</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(metajam)  </a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(metajam)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(raster)</a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Directory to save the data set</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">path_folder &lt;-<span class="st"> "Human_impacts"</span></a>
@@ -126,8 +126,20 @@
 <a class="sourceLine" id="cb3-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># Download the dataset and associated metdata </span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5">data_folder &lt;-<span class="st"> </span>metajam<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/metajam/topics/download_d1_data">download_d1_data</a></span>(data_url, path_folder)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co"># data_folder</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># "Data_polaris/doi_10.18739_A2KK3F__Polaris_2017_Permafrost"</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; urn:uuid:6f101827-2fc3-43da-8c8d-7b1f927c4c73</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; is the latest version for identifier</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; urn:uuid:6f101827-2fc3-43da-8c8d-7b1f927c4c73</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; Downloading metadata doi:10.5063/F15M63Z8 ...</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; Download metadata complete</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Downloading data urn:uuid:6f101827-2fc3-43da-8c8d-7b1f927c4c73 ...</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; Warning in metajam::download_d1_data(data_url, path_folder): This dataset</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; has already been downloaded. Please delete or move the folder to download</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; the dataset again.</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co"># data_folder</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co"># "Human_impacts/doi_10.5063_F15M63Z8__shipping__tif"</span></a></code></pre></div>
 <p>At this point, you should have the data and the metadata downloaded inside your main directory; <code>human_impacts</code> in this example. <code>metajam</code> organize the files as follow:</p>
 <ul>
 <li>Each dataset is stored a sub-directory named after the package DOI and the file name</li>
@@ -135,9 +147,9 @@
 <ul>
 <li>the data: <code>shipping.tif</code>
 </li>
-<li>the raw EML with the naming convention <em>file name</em> + <code>__full_metadata.xml</code>: <code>my_data__full_metadata.xml</code>
+<li>the raw EML with the naming convention <em>file name</em> + <code>__full_metadata.xml</code>: <code>shipping__full_metadata.xml</code>
 </li>
-<li>the package level metadata summary with the naming convention <em>file name</em> + <code>__summary_metadata.csv</code>: <code>my_data__summary_metadata.csv</code>
+<li>the package level metadata summary with the naming convention <em>file name</em> + <code>__summary_metadata.csv</code>: <code>shipping__summary_metadata.csv</code>
 </li>
 </ul>
 </li>
@@ -148,15 +160,36 @@
 <a href="#read-the-raster-file-and-metadata-in-your-r-environment" class="anchor"></a>Read the raster file and metadata in your R environment</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Read the raster file and its associated metadata in as a named list</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># using the raster:raster function</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">shipping_routes &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_d1_files.html">read_d1_files</a></span>(data_folder, <span class="st">"raster"</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">shipping_routes &lt;-<span class="st">  </span><span class="kw"><a href="../reference/read_d1_files.html">read_d1_files</a></span>(data_folder, <span class="st">"raster"</span>)</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co"># Plot the raster data</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(shipping_routes<span class="op">$</span>data)</a></code></pre></div>
+<p><img src="reading-raster_files/figure-html/read_raster-1.png" width="700"></p>
 </div>
 <div id="investigate-the-metadata" class="section level1">
 <h1 class="hasAnchor">
 <a href="#investigate-the-metadata" class="anchor"></a>Investigate the metadata</h1>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">shipping_routes<span class="op">$</span>summary_metadata</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">shipping_routes<span class="op">$</span>summary_metadata</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 17 x 2</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;    name                    value                                           </span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;                   &lt;chr&gt;                                           </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  1 File_Name               shipping                                        </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  2 Date_Downloaded         2019-03-20 09:21:25                             </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  3 Data_ID                 urn:uuid:6f101827-2fc3-43da-8c8d-7b1f927c4c73   </span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  4 Data_URL                https://knb.ecoinformatics.org/knb/d1/mn/v2/obj…</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  5 Metadata_ID             doi:10.5063/F15M63Z8                            </span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;  6 Metadata_URL            https://knb.ecoinformatics.org/knb/d1/mn/v2/obj…</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt;  7 Metadata_EML_Version    2.1.1                                           </span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;  8 File_Description        commercial shipping, tiff                       </span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;  9 Dataset_URL             https://search.dataone.org/#view/doi:10.5063/F1…</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; 10 Dataset_Title           Cumulative Human Impacts on Mediterranean and B…</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; 11 Dataset_Location        Mediterranean and Black Seas                    </span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; 12 Dataset_WestBoundingCo… -13.5                                           </span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; 13 Dataset_EastBoundingCo… 43.3                                            </span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 14 Dataset_NorthBoundingC… 46.5                                            </span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 15 Dataset_SouthBoundingC… 23.3                                            </span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; 16 Dataset_Abstract        Management of marine ecosystems requires spatia…</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; 17 Dataset_People          Fiorenza; Micheli; Benjamin; Halpern; Shaun; Wa…</span></a></code></pre></div>
 </div>
   </div>
 
