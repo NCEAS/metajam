@@ -160,26 +160,7 @@ download_d1_data <- function(data_url, path) {
   data_name <- gsub("\\.[^.]*$", "", data_name) #remove extension
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
 
-  # FIXME: Names of directories and files are too long for the 260 character
-  # limit for Windows OS paths. For the time being, create directory name from
-  # first 20 characters of title.
-  new_dir <- try(
-    file.path(
-      path,
-      stringr::str_replace_all(
-        substr(entity_meta$Dataset_Title, 1, 20),
-        ' ',
-        '_'
-      )
-    )
-  )
-
-  if (class(new_dir) == 'try-error'){
-    new_dir <- file.path(
-      path,
-      'pkg_name'
-    )
-  }
+  new_dir <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
 
   # Check if the dataset has already been downloaded at this location. If so, exit the function
   if (dir.exists(new_dir)) {
