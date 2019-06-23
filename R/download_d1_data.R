@@ -160,7 +160,7 @@ download_d1_data <- function(data_url, path) {
   data_name <- gsub("\\.[^.]*$", "", data_name) #remove extension
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
 
-  new_dir <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
+  new_dir <- file.path(path, paste0(data_name, "__", data_extension))
 
   # Check if the dataset has already been downloaded at this location. If so, exit the function
   if (dir.exists(new_dir)) {
