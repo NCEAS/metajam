@@ -189,11 +189,11 @@ download_d1_data <- function(data_url, path) {
   if (exists("eml")) {
     EML::write_eml(eml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
 
-    entity_meta_combined <- c(entity_meta_general, entity_meta) %>% unlist() %>% enframe()
+    entity_meta_combined <- c(entity_meta_general, entity_meta) %>% unlist() %>% tibble::enframe()
     readr::write_csv(entity_meta_combined,
                      file.path(new_dir, paste0(data_name, "__summary_metadata.csv")))
   } else {
-    entity_meta_general <- entity_meta_general %>% unlist() %>% enframe()
+    entity_meta_general <- entity_meta_general %>% unlist() %>% tibble::enframe()
     readr::write_csv(entity_meta_general,
                      file.path(new_dir, paste0(data_name, "__summary_metadata.csv")))
   }
