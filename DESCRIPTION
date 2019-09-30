@@ -4,7 +4,7 @@ Title: Tools to download data and metadata from DataONE
 Version: 0.2.0.9000
 Date: 2018-06-12
 Authors@R: c(
-  person("Julien", "Brun", email = "brun@nceas.ucsb.edu", role = c("cre", "aut")),
+  person("Julien", "Brun", email = "brun@nceas.ucsb.edu", comment = c(ORCID = "0000-0002-7751-6238"), role = c("cre", "aut")),
   person("Irene", "Steves", comment = "https://github.com/isteves", role = "aut"),
   person("Mitchell", "Maier", email = "mitchell.maier@gmail.com", role = "aut"),
   person("Derek", "Strong", email = "dstrong@nceas.ucsb.edu", role = "ctb")
@@ -26,10 +26,6 @@ Imports:
     stringr,
     tibble,
     tidyr
-Remotes:
-    DataONEorg/rdataone,
-    ropensci/EML,
-    cboettig/emld
 Suggests:
     testthat,
     knitr,
