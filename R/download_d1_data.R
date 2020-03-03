@@ -30,6 +30,19 @@
 #'     )
 #' }
 
+
+# trying to download the same dataset twice (can do the second time with dir_name = "dummy_name")
+download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+                 path = file.path("/Users/nathan/Desktop/testing"),
+                 dir_name = "not_really_new"
+                 )
+
+# downloading an outdated version -> the right version
+download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/cbfs.21.6",
+                 path = file.path("/Users/nathan/Desktop/testing"),
+                 dir_name = "outdated")
+
+
 download_d1_data <- function(data_url, path, dir_name = NULL) {
   # TODO: add meta_doi to explicitly specify doi
 
@@ -73,12 +86,12 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
 
   # depending on results, return warnings
   if (length(meta_id) == 0) {
-    warning("no metadata records found")
+    warning("no metadata records found", immediate. = T)
     meta_id <- NULL
   } else if (length(meta_id) > 1) {
     warning("multiple metadata records found:\n",
             paste(meta_id, collapse = "\n"),
-            "\nThe first record was used")
+            "\nThe first record was used", immediate. = T)
     meta_id <- meta_id[1]
   }
 
@@ -109,14 +122,14 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
                              purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
 
     if (length(entity_data) == 0) {
-      warning("No data metadata could be found for ", data_url)
+      warning("No data metadata could be found for ", data_url, immediate. = T)
 
     } else {
 
       if (length(entity_data) > 1) {
       warning("Multiple data metadata records found:\n",
               data_url,
-              "\nThe first record was used")
+              "\nThe first record was used", immediate. = T)
       }
 
       entity_data <- entity_data[[1]]
@@ -164,25 +177,26 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   old_dir_path <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
 
   log_path <- file.path(path, "metajam_log")
-  old_dataid <- ""
+  old_dir_path_log <- ""
 
-  # Check to see if log exists (ie data has been download at this location).
+  # Check to see if log exists (ie some data has been download at this location).
     # If it does, then get the version number downloaded, and save it into old_dataid
   if(file.exists(log_path)){
     old_log <- suppressMessages(readr::read_csv(log_path))
-    old_dataid <- old_log %>%
-      tail(1) %>%
-      dplyr::pull(Data_ID)
-    old_dir_path <- old_log %>%
-      tail(1) %>%
-      dplyr::pull(Location)
+    if(data_id %in% old_log$Data_ID){
+      old_dir_path_log <- old_log %>%
+        dplyr::filter(Data_ID == data_id) %>%
+        tail(1) %>%
+        dplyr::pull(Location)
+    }
   }
 
   # If the latest version is already downloaded, then exit the function
     # first condition checks old naming scheme, second condition checks log (so folder can have any name)
-  if(dir.exists(old_dir_path) | old_dataid == data_id){
-    warning(paste("This dataset has already been downloaded here:", old_dir_path, "Please delete or move the folder to download the dataset again.", sep = "\n"))
-    return(new_dir)
+  if(dir.exists(old_dir_path)){
+    stop(paste("This dataset has already been downloaded here:", old_dir_path, "Please delete or move the folder to download the dataset again.", sep = "\n"))
+  } else if(dir.exists(old_dir_path_log)) {
+    stop(paste("This dataset has already been downloaded here:", old_dir_path_log, "Please delete or move the folder to download the dataset again.", sep = "\n"))
   }
 
   # Name the new folder, checking for optional parameter dir_name
@@ -261,3 +275,4 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   ## Output folder name
   return(new_dir)
 }
+
