@@ -29,19 +29,7 @@
 #'     path = "."
 #'     )
 #' }
-
-
-# trying to download the same dataset twice (can do the second time with dir_name = "dummy_name")
-download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
-                 path = file.path("/Users/nathan/Desktop/testing"),
-                 dir_name = "not_really_new"
-                 )
-
-# downloading an outdated version -> the right version
-download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/cbfs.21.6",
-                 path = file.path("/Users/nathan/Desktop/testing"),
-                 dir_name = "outdated")
-
+#'
 
 download_d1_data <- function(data_url, path, dir_name = NULL) {
   # TODO: add meta_doi to explicitly specify doi
@@ -176,7 +164,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   # Check for backwards compatability.
   old_dir_path <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
 
-  log_path <- file.path(path, "metajam_log")
+  log_path <- file.path(path, "metajam.log")
   old_dir_path_log <- ""
 
   # Check to see if log exists (ie some data has been download at this location).
@@ -266,6 +254,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
                             Dataset_URL = data_nodes$data$url,
                             Location = new_dir)
 
+  # If the log file doesn't exist yet, then create it.
   if(file.exists(log_path)){
     readr::write_csv(data_to_log, path = log_path, append = TRUE)
   } else {
