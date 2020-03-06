@@ -4,6 +4,7 @@
 #'
 #' @param data_url (character) An identifier or URL for a DataONE object to download.
 #' @param path (character) Path to a directory to download data to.
+#' @param dir_name (character) (Optional) Desired name for the folder containing the downloaded data. Defaults to the data file name.
 #'
 #' @return (character) Path where data is downloaded to.
 #'
