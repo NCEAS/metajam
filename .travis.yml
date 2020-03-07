@@ -3,6 +3,9 @@
 language: r
 sudo: true
 cache: packages
+
+warnings_are_errors: false
+
 addons:
   apt:
     sources:

@@ -4,12 +4,14 @@
 \alias{download_d1_data}
 \title{Download data and metadata from DataONE}
 \usage{
-download_d1_data(data_url, path)
+download_d1_data(data_url, path, dir_name = NULL)
 }
 \arguments{
 \item{data_url}{(character) An identifier or URL for a DataONE object to download.}
 
 \item{path}{(character) Path to a directory to download data to.}
+
+\item{dir_name}{(character) (Optional) Desired name for the folder containing the downloaded data. Defaults to the data file name.}
 }
 \value{
 (character) Path where data is downloaded to.
@@ -25,6 +27,7 @@ download_d1_data(
     path = "."
     )
 }
+
 }
 \seealso{
 \code{\link[=read_d1_files]{read_d1_files()}} \code{\link[=download_d1_data_pkg]{download_d1_data_pkg()}}
