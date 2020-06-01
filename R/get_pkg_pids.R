@@ -26,6 +26,10 @@ get_pkg_pids <- function(pkg_doi) {
     rm_pid <- pkg_pid$identifier
   } else if (pkg_pid$formatType == "METADATA") {
     rm_pid <- pkg_pid$resourceMap
+    # handling case the ressource map is not built correctly
+    if (is.null(rm_pid)) {
+      rm_pid <- pkg_pid$identifier
+    }
   } else {
     stop("The data package could not be found. Please check the DOI and try again.")
     #TODO: test on pids that start with dx.doi
