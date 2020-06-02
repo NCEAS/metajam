@@ -46,7 +46,7 @@ read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
     if (grepl("[^_]+_metadata(?=\\.csv)", basename(x), perl = TRUE)) {
       readr::read_csv(x)
     } else if (tools::file_path_sans_ext(basename(x)) == filename) {
-      eval(parse(text = paste0(fnc, '("', x, '", ...)')))
+      eval(parse(text = paste0(fnc, '("', normalizePath(x, winslash = '/'), '", ...)')))
     }
   })
 
