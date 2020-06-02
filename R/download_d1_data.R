@@ -122,7 +122,10 @@ download_d1_data <- function(data_url, path) {
       entity_data <- entity_data[[1]]
     }
 
-    attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
+    # Test for the case a dataTable entity does not have attribute level metadata
+    if (!is.null(entity_data$attributeList)){
+      attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
+    }
 
     meta_tabular <- tabularize_eml(eml) %>% tidyr::spread(name, value)
 
