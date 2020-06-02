@@ -1,7 +1,7 @@
 Package: metajam
 Type: Package
 Title: Tools to download data and metadata from DataONE
-Version: 0.2.0.9000
+Version: 0.2.2.9000
 Date: 2018-06-12
 Authors@R: c(
               person("Julien", "Brun", 
@@ -16,6 +16,14 @@ Authors@R: c(
                   role = "aut"),
               person("Derek", "Strong", 
                 email = "dstrong@nceas.ucsb.edu", 
+                role = "ctb"),
+              person("Colin", "Smith", 
+                email = "colin.smith@wisc.edu", 
+                comment = c(ORCID = "0000-0003-2261-9931"),
+                role = "ctb"),
+              person("Kristen", "Peach", 
+                email = "peach@nceas.ucsb.edu", 
+                comment = c(ORCID = ""),
                 role = "ctb")
               )
 Maintainer: Julien Brun <brun@nceas.ucsb.edu>
