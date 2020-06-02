@@ -23,7 +23,7 @@ Authors@R: c(
                 role = "ctb"),
               person("Kristen", "Peach", 
                 email = "peach@nceas.ucsb.edu", 
-                comment = c(ORCID = ""),
+                comment = c(ORCID = "0000-0002-6388-0901"),
                 role = "ctb")
               )
 Maintainer: Julien Brun <brun@nceas.ucsb.edu>
