@@ -22,7 +22,7 @@ test_that("test Arctic Data Center data URL (fully up to date data file)", {
   expect_true(any(stringr::str_detect(files, "summary_metadata.csv")))
 
   folder_name <- stringr::str_extract(out, "[^/]*$")
-  expect_true(stringr::str_detect(folder_name, "^doi")) #starts with doi
+  expect_true(any(stringr::str_detect(list.files(temp_dir), "metajam.log")))
 
   # remove files
   file.remove(list.files(out, recursive = TRUE, full.names = TRUE))
@@ -41,7 +41,7 @@ test_that("test Arctic Data Center data URL (fully up to date data file) with on
   expect_true(any(stringr::str_detect(files, "summary_metadata.csv")))
 
   folder_name <- stringr::str_extract(out, "[^/]*$")
-  expect_true(stringr::str_detect(folder_name, "^doi")) #starts with doi
+  expect_true(any(stringr::str_detect(list.files(temp_dir), "metajam.log")))
 
   # remove files
   file.remove(list.files(out, recursive = TRUE, full.names = TRUE))
@@ -61,7 +61,7 @@ test_that("test Arctic Data Center data URL (fully up to date data file) with mu
   expect_true(any(stringr::str_detect(files, "summary_metadata.csv")))
 
   folder_name <- stringr::str_extract(out, "[^/]*$")
-  expect_true(stringr::str_detect(folder_name, "^doi")) #starts with doi
+  expect_true(any(stringr::str_detect(list.files(temp_dir), "metajam.log")))
 
   # remove files
   file.remove(list.files(out, recursive = TRUE, full.names = TRUE))
@@ -81,4 +81,49 @@ test_that("Data without metadata downloads and returns summary metadata", {
   file.remove(list.files(out, recursive = TRUE, full.names = TRUE))
   file.remove(out)
 })
+
+test_that("Downloading same data with different foldername (dir_name) returns error",{
+  temp_dir <- tempdir()
+
+  # first download. should run correctly
+  out <- download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+                   path = temp_dir,
+                   dir_name = "should_work")
+
+  # downloading same data under different name
+  expect_error(
+    download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+                                      path = temp_dir,
+                                      dir_name = "should_fail")
+    )
+
+  # remove files
+  file.remove(list.files(out, recursive = TRUE, full.names = TRUE))
+  file.remove(out)
+})
+
+
+# # I couldn't think of what to test with the versions, but I wanted to save the links.
+# test_that("Downloading different versions of the data",{
+#   temp_dir <- tempdir()
+#
+#   # old version of data
+#   old_version <- download_d1_data("https://cn.dataone.org/cn/v2/resolve/cbfs.151.1",
+#                                path = file.path("/Users/nathan/Desktop/testing"),
+#                                dir_name = "old_kgordon")
+#
+#   # new version
+#   new_version <- download_d1_data("https://cn.dataone.org/cn/v2/resolve/cbfs.151.2",
+#                                path = file.path("/Users/nathan/Desktop/testing"),
+#                                dir_name = "newer_kgordon")
+#
+#
+#
+#   # remove files
+#   file.remove(list.files(old_version, recursive = TRUE, full.names = TRUE))
+#   file.remove(old_version)
+# })
+
+
+
 
