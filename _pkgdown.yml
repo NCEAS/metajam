@@ -16,6 +16,9 @@ articles:
 - title: Processing Data Packages
   contents:
   - package-download
+- title: Reading Non-tabular Data
+  contents:
+  - reading-raster
 
 navbar:
   left:
@@ -29,7 +32,7 @@ navbar:
       - text: Processing Datasets
       - text: Use Case 1 - Processing a single dataset
         href: articles/dataset-single.html
-      - text: Use Case 2 - Processing stream chemistry data for the LTER Luquillo site
+      - text: Use Case 2 - Batch processing LTER Luquillo stream chemistry data
         href: articles/dataset-batch-processing.html
       - text: Use Case 3 - Processing raster data
         href: articles/reading-raster.html
