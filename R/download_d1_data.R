@@ -192,7 +192,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   if(!is.null(dir_name)){
     new_dir <- file.path(path, dir_name)
   } else {
-    new_dir <- file.path(path, paste0(data_name, "__", data_extension))
+    new_dir <- old_dir_path
   }
 
   # Check to make sure we don't overwrite old versions of the data.
