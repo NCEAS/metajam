@@ -1,19 +1,19 @@
 Package: metajam
 Type: Package
 Title: Tools to download data and metadata from DataONE
-Version: 0.2.2.9000
-Date: 2018-06-12
+Version: 0.2.2
+Date: 2020-09-11
 Authors@R: c(
               person("Julien", "Brun", 
-                  email = "brun@nceas.ucsb.edu", 
-                  comment = c(ORCID = "0000-0002-7751-6238"),
-                  role = c("cre", "aut")),
+                email = "brun@nceas.ucsb.edu", 
+                comment = c(ORCID = "0000-0002-7751-6238"),
+                role = c("cre", "aut")),
               person("Irene", "Steves", 
-                  comment = "https://github.com/isteves", 
-                  role = "aut"),
+                comment = "https://github.com/isteves", 
+                role = "aut"),
               person("Mitchell", "Maier", 
-                  comment= c(ORCID = "0000-0001-6955-0535"), 
-                  role = "aut"),
+                comment= c(ORCID = "0000-0001-6955-0535"), 
+                role = "aut"),
               person("Nathan", "Hwangbo", 
                 email = "nathanhwangbo@gmail.com", 
                 role = "ctb"),
