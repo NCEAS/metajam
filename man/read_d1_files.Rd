@@ -9,7 +9,7 @@ read_d1_files(folder_path, fnc = "read_csv", ...)
 \arguments{
 \item{folder_path}{(character) Path to a directory where data and metadata are located.}
 
-\item{fnc}{(character) Function to be used to read the data (default is \code{\link[readr:read_csv]{readr::read_csv()}}).}
+\item{fnc}{(character) Function to be used to read the data (default is \code{\link[readr:read_delim]{readr::read_csv()}}).}
 
 \item{...}{Parameters to pass into the function specified in \code{fnc}.}
 }

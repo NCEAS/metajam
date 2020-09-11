@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
-#'    eml <- system.file("example-eml.xml", package = "arcticdatautils")
+#'    eml <- system.file("example-eml.xml", package = "metajam")
 #'    tabularize_eml(eml)
 #'    tabularize_eml(eml, full = TRUE)
 #' }

@@ -25,9 +25,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' soi_moist_path <- download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = tempdir())
+#' soi_moist_path <- download_d1_data(
+#'                      data_url = "urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+#'                      path = tempdir())
 #' download_d1_data(
-#'    "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+#'     data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
 #'     path = tempdir()
 #'     )
 #' }
