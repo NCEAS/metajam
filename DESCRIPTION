@@ -16,6 +16,7 @@ Authors@R: c(
                  role = "aut"),
               person("Nathan", "Hwangbo", 
                  email = "nathanhwangbo@gmail.com", 
+                 comment= c(ORCID = "0000-0002-3777-0821"),
                  role = "ctb"),
               person("Derek", "Strong", 
                  email = "dstrong@nceas.ucsb.edu", 
