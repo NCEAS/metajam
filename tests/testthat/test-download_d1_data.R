@@ -103,27 +103,3 @@ test_that("Downloading same data with different foldername (dir_name) returns er
 })
 
 
-# # I couldn't think of what to test with the versions, but I wanted to save the links.
-# test_that("Downloading different versions of the data",{
-#   temp_dir <- tempdir()
-#
-#   # old version of data
-#   old_version <- download_d1_data("https://cn.dataone.org/cn/v2/resolve/cbfs.151.1",
-#                                path = file.path("/Users/nathan/Desktop/testing"),
-#                                dir_name = "old_kgordon")
-#
-#   # new version
-#   new_version <- download_d1_data("https://cn.dataone.org/cn/v2/resolve/cbfs.151.2",
-#                                path = file.path("/Users/nathan/Desktop/testing"),
-#                                dir_name = "newer_kgordon")
-#
-#
-#
-#   # remove files
-#   file.remove(list.files(old_version, recursive = TRUE, full.names = TRUE))
-#   file.remove(old_version)
-# })
-
-
-
-
