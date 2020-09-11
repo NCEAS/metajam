@@ -20,6 +20,7 @@ Authors@R: c(
                  role = "ctb"),
               person("Derek", "Strong", 
                  email = "dstrong@nceas.ucsb.edu", 
+                 comment= c(ORCID = "0000-0002-0347-8574"),
                  role = "ctb"),
               person("Colin", "Smith", 
                  email = "colin.smith@wisc.edu", 
