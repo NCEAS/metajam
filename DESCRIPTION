@@ -2,32 +2,32 @@ Package: metajam
 Type: Package
 Title: Tools to download data and metadata from DataONE
 Version: 0.2.2
-Date: 2020-09-11
+Date: 2020-09-12
 Authors@R: c(
               person("Julien", "Brun", 
-                email = "brun@nceas.ucsb.edu", 
-                comment = c(ORCID = "0000-0002-7751-6238"),
-                role = c("cre", "aut")),
+                 email = "brun@nceas.ucsb.edu", 
+                 comment = c(ORCID = "0000-0002-7751-6238"),
+                 role = c("cre", "aut")),
               person("Irene", "Steves", 
-                comment = "https://github.com/isteves", 
-                role = "aut"),
+                 comment = "https://github.com/isteves", 
+                 role = "aut"),
               person("Mitchell", "Maier", 
-                comment= c(ORCID = "0000-0001-6955-0535"), 
-                role = "aut"),
+                 comment= c(ORCID = "0000-0001-6955-0535"), 
+                 role = "aut"),
               person("Nathan", "Hwangbo", 
-                email = "nathanhwangbo@gmail.com", 
-                role = "ctb"),
+                 email = "nathanhwangbo@gmail.com", 
+                 role = "ctb"),
               person("Derek", "Strong", 
-                email = "dstrong@nceas.ucsb.edu", 
-                role = "ctb"),
+                 email = "dstrong@nceas.ucsb.edu", 
+                 role = "ctb"),
               person("Colin", "Smith", 
-                email = "colin.smith@wisc.edu", 
-                comment = c(ORCID = "0000-0003-2261-9931"),
-                role = "ctb"),
+                 email = "colin.smith@wisc.edu", 
+                 comment = c(ORCID = "0000-0003-2261-9931"),
+                 role = "ctb"),
               person("Kristen", "Peach", 
-                email = "peach@nceas.ucsb.edu", 
-                comment = c(ORCID = "0000-0002-6388-0901"),
-                role = "ctb")
+                 email = "peach@nceas.ucsb.edu", 
+                 comment = c(ORCID = "0000-0002-6388-0901"),
+                 role = "ctb")
               )
 Maintainer: Julien Brun <brun@nceas.ucsb.edu>
 Description: Tools to download data and metadata from DataONE (https://www.dataone.org) and load this information in R.
@@ -45,7 +45,8 @@ Imports:
     stats,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    rlang
 Suggests:
     testthat,
     knitr,
@@ -54,4 +55,4 @@ Suggests:
 Encoding: UTF-8
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
