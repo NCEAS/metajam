@@ -20,14 +20,12 @@ read_d1_files(folder_path, fnc = "read_csv", ...)
 Reads data along with metadata into your R environment based on \code{\link[=download_d1_data]{download_d1_data()}} file structure.
 }
 \examples{
-\dontrun{
 data_folder <- system.file("extdata", "test_data", package = "metajam")
 soil_moist_data <- read_d1_files(data_folder)
 
 # You can specify the function you would like to use to read the file and pass parameters
 soil_moist_data_skipped <- read_d1_files(data_folder, "read.csv",
                                          skip = 8, stringsAsFactors = FALSE)
-}
 }
 \seealso{
 \code{\link[=download_d1_data]{download_d1_data()}} \code{\link[=download_d1_data_pkg]{download_d1_data_pkg()}}
