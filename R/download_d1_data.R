@@ -17,6 +17,7 @@
 #' @importFrom stringr str_extract
 #' @importFrom tidyr spread
 #' @importFrom utils URLdecode
+#' @importFrom rlang .data
 #'
 #' @export
 #'
@@ -24,10 +25,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = "./Data")
+#' soi_moist_path <- download_d1_data(
+#'                      data_url = "urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+#'                      path = tempdir())
 #' download_d1_data(
-#'    "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
-#'     path = "."
+#'     data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+#'     path = tempdir(),
+#'     dir_name = "test"
 #'     )
 #' }
 #'
@@ -177,9 +181,9 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
     old_log <- suppressMessages(readr::read_csv(log_path))
     if(data_id %in% old_log$Data_ID){
       old_dir_path_log <- old_log %>%
-        dplyr::filter(Data_ID == data_id) %>%
-        tail(1) %>%
-        dplyr::pull(Location)
+        dplyr::filter(.data$Data_ID == data_id) %>%
+        utils::tail(1) %>%
+        dplyr::pull(.data$Location)
     }
   }
 
