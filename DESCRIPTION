@@ -1,6 +1,6 @@
 Package: metajam
 Type: Package
-Title: Tools to download data and metadata from DataONE
+Title: Tools to Download Data and Metadata from DataONE
 Version: 0.2.2
 Date: 2020-09-12
 Authors@R: c(
@@ -33,7 +33,7 @@ Authors@R: c(
                  role = "ctb")
               )
 Maintainer: Julien Brun <brun@nceas.ucsb.edu>
-Description: Tools to download data and metadata from DataONE (https://www.dataone.org) and load this information in R.
+Description: Tools to download data and metadata from DataONE (<https://www.dataone.org>) and load this information in R.
 License: Apache License (== 2.0)
 URL: https://github.com/nceas/metajam
 BugReports: https://github.com/nceas/metajam/issues
