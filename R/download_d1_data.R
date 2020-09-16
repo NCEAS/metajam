@@ -169,7 +169,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   data_name <- gsub("\\.[^.]*$", "", data_name) #remove extension
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
 
-  # Check for backwards compatability.
+  # Check for backwards compatibility.
   old_dir_path <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
 
   log_path <- file.path(path, "metajam.log")
