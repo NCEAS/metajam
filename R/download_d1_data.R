@@ -133,7 +133,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
       attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
     }
 
-    meta_tabular <- tabularize_eml(eml) %>% tidyr::pivot_wider(name, value)
+    meta_tabular <- tabularize_eml(eml) %>% tidyr::pivot_wider(names_from = name, values_from = value)
 
     ## Summary metadata from EML (combine with general metadata later)
     entity_meta <- suppressWarnings(list(
