@@ -59,9 +59,10 @@ tabularize_eml <- function(eml, full = FALSE) {
       dplyr::mutate(value = stringr::str_trim(value)) %>%
       dplyr::distinct() %>%
       dplyr::group_by(name) %>%
-      dplyr::summarize(value = paste(value, collapse = "; ")) %>%
-      dplyr::mutate(value = gsub("\n", "", value)) #without this, fields get truncated in Excel
+      dplyr::summarize(value = paste(value, collapse = "; "), .groups = "drop") %>%
+      dplyr::mutate(value = gsub("\n", "", value))  #without this, fields get truncated in Excel
   }
 
   return(metadata)
 }
+
