@@ -15,7 +15,7 @@
 #' @importFrom emld as_emld
 #' @importFrom lubridate ymd_hms
 #' @importFrom stringr str_extract
-#' @importFrom tidyr spread
+#' @importFrom tidyr pivot_wider
 #' @importFrom utils URLdecode
 #' @importFrom rlang .data
 #'
@@ -133,7 +133,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
       attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
     }
 
-    meta_tabular <- tabularize_eml(eml) %>% tidyr::spread(name, value)
+    meta_tabular <- tabularize_eml(eml) %>% tidyr::pivot_wider(name, value)
 
     ## Summary metadata from EML (combine with general metadata later)
     entity_meta <- suppressWarnings(list(
