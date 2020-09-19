@@ -31,9 +31,12 @@ tabularize_eml <- function(eml, full = FALSE) {
     stop("The EML input could not be parsed.")
   }
 
-  metadata <- eml %>%
-    unlist() %>%
-    tibble::enframe()
+  # Transforming into a dataframe
+  metadatal <- eml %>%
+    unlist()
+  metadata <- data.frame(name = names(metadatal),
+                         value = trimws(metadatal))
+
 
   if (full == FALSE) {
     metadata <- metadata %>%
