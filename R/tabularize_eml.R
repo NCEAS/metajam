@@ -33,10 +33,8 @@ tabularize_eml <- function(eml, full = FALSE) {
 
   # Transforming into a dataframe
   metadatal <- eml %>%
-    unlist()
-  metadata <- data.frame(name = names(metadatal),
-                         value = trimws(metadatal))
-
+    unlist() %>%
+    tibble::enframe()
 
   if (full == FALSE) {
     metadata <- metadata %>%
