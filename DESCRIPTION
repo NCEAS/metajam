@@ -49,8 +49,7 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    rlang,
-    utf8
+    rlang
 Suggests:
     testthat,
     knitr,
