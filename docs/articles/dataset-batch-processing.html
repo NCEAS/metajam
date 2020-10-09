@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metajam</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -58,7 +58,7 @@
       <a href="../articles/dataset-single.html">Use Case 1 - Processing a single dataset</a>
     </li>
     <li>
-      <a href="../articles/dataset-batch-processing.html">Use Case 2 - Processing stream chemistry data for the LTER Luquillo site</a>
+      <a href="../articles/dataset-batch-processing.html">Use Case 2 - Batch processing LTER Luquillo stream chemistry data</a>
     </li>
     <li>
       <a href="../articles/reading-raster.html">Use Case 3 - Processing raster data</a>
@@ -308,7 +308,6 @@
 
 <span class="kw">RioIcacos_attrmeta</span><span class="op">$</span><span class="kw">unit</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span>(<span class="kw">RioIcacos_attrmeta</span><span class="op">$</span><span class="kw">unit</span>, pattern = <span class="st">"foot"</span>, replacement = <span class="st">"meter"</span>)
 
-
 <span class="co"># If we could NOT use udunits to do the conversion we could do it manually this way </span>
 
 <span class="co">#RioIcacos_data &lt;- RioIcacos_data %&gt;% mutate( `Gage_Ht` = `Gage_Ht`* 0.3048)</span>
@@ -356,8 +355,7 @@
 
 <span class="co"># Update the main object</span>
 <span class="kw">luq_datasets</span><span class="op">$</span><span class="kw">RioMameyesPuenteRoto</span><span class="op">$</span><span class="kw">data</span> <span class="op">&lt;-</span> <span class="kw">RioMameyesPuenteRoto_data</span> 
-
-                                                
+                                           
 </pre></div>
 </div>
 <div id="append-all-the-sampling-sites-into-one-master-dataset" class="section level2">
