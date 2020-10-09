@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metajam</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -87,13 +87,13 @@
 
       
 
-      </header><script src="reading-raster_files/header-attrs-2.2/header-attrs.js"></script><div class="row">
+      </header><script src="reading-raster_files/header-attrs-2.3/header-attrs.js"></script><script src="reading-raster_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use Case 3 - Processing a raster dataset</h1>
                         <h4 class="author">Julien Brun, Mitchell Maier, Derek Strong and Irene Steves, NCEAS</h4>
             
-            <h4 class="date">2020-06-08</h4>
+            <h4 class="date">2020-09-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/master/vignettes/reading-raster.Rmd"><code>vignettes/reading-raster.Rmd</code></a></small>
       <div class="hidden name"><code>reading-raster.Rmd</code></div>
@@ -111,26 +111,32 @@
 <div id="libraries-and-constants" class="section level2">
 <h2 class="hasAnchor">
 <a href="#libraries-and-constants" class="anchor"></a>Libraries and constants</h2>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># devtools::install_github("NCEAS/metajam")</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">metajam</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">raster</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">magrittr</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># Directory to save the data set</span>
-<span class="no">path_folder</span> <span class="kw">&lt;-</span> <span class="st">"Human_impacts"</span>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># devtools::install_github("NCEAS/metajam")</span>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/nceas/metajam">metajam</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rspatial.org/raster">raster</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">magrittr</span>)
+</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># Directory to save the data set</span>
+<span class="kw">path_folder</span> <span class="op">&lt;-</span> <span class="st">"Human_impacts"</span>
 
 <span class="co"># URL to download the dataset from DataONE</span>
-<span class="no">data_url</span> <span class="kw">&lt;-</span> <span class="st">"https://cn.dataone.org/cn/v2/resolve/urn:uuid:6f101827-2fc3-43da-8c8d-7b1f927c4c73"</span></pre></body></html></div>
+<span class="kw">data_url</span> <span class="op">&lt;-</span> <span class="st">"https://cn.dataone.org/cn/v2/resolve/urn:uuid:6f101827-2fc3-43da-8c8d-7b1f927c4c73"</span>
+</pre></div>
 </div>
 <div id="download-the-raster-dataset" class="section level2">
 <h2 class="hasAnchor">
 <a href="#download-the-raster-dataset" class="anchor"></a>Download the raster dataset</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># Create the local directory to download the datasets</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="no">path_folder</span>, <span class="kw">showWarnings</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="co"># Create the local directory to download the datasets</span>
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="kw">path_folder</span>, showWarnings = <span class="fl">FALSE</span>)
 
 <span class="co"># Download the dataset and associated metdata </span>
-<span class="no">data_folder</span> <span class="kw">&lt;-</span> <span class="kw pkg">metajam</span><span class="kw ns">::</span><span class="fu"><a href="../reference/download_d1_data.html">download_d1_data</a></span>(<span class="no">data_url</span>, <span class="no">path_folder</span>)
+<span class="kw">data_folder</span> <span class="op">&lt;-</span> <span class="kw">metajam</span>::<span class="fu"><a href="../reference/download_d1_data.html">download_d1_data</a></span>(<span class="kw">data_url</span>, <span class="kw">path_folder</span>)
 <span class="co"># data_folder</span>
-<span class="co"># "Human_impacts/doi_10.5063_F15M63Z8__shipping__tif"</span></pre></body></html></div>
+<span class="co"># "Human_impacts/doi_10.5063_F15M63Z8__shipping__tif"</span>
+</pre></div>
 <p>At this point, you should have the data and the metadata downloaded inside your main directory; <code>human_impacts</code> in this example. <code>metajam</code> organize the files as follow:</p>
 <ul>
 <li>Each dataset is stored a sub-directory named after the package DOI and the file name</li>
@@ -149,12 +155,14 @@
 <div id="read-the-raster-file-and-metadata-in-your-r-environment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#read-the-raster-file-and-metadata-in-your-r-environment" class="anchor"></a>Read the raster file and metadata in your R environment</h2>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># Read the raster file and its associated metadata in as a named list</span>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="co"># Read the raster file and its associated metadata in as a named list</span>
 <span class="co"># using the raster:raster function</span>
-<span class="no">shipping_routes</span> <span class="kw">&lt;-</span>  <span class="fu"><a href="../reference/read_d1_files.html">read_d1_files</a></span>(<span class="no">data_folder</span>, <span class="st">"raster"</span>)
+<span class="kw">shipping_routes</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/read_d1_files.html">read_d1_files</a></span>(<span class="kw">data_folder</span>, <span class="st">"raster"</span>)
 
 <span class="co"># Plot the raster data</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">shipping_routes</span>$<span class="no">data</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw">shipping_routes</span><span class="op">$</span><span class="kw">data</span>)
+</pre></div>
 <div class="figure" style="text-align: center">
 <img src="../inst/images/shipping-raster.png" alt="Shipping routes frequency" width="90%"><p class="caption">
 Shipping routes frequency
@@ -164,7 +172,9 @@ Shipping routes frequency
 <div id="investigate-the-metadata" class="section level1">
 <h1 class="hasAnchor">
 <a href="#investigate-the-metadata" class="anchor"></a>Investigate the metadata</h1>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">shipping_routes</span>$<span class="no">summary_metadata</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">shipping_routes</span><span class="op">$</span><span class="kw">summary_metadata</span>
+</pre></div>
 <p><img src="../inst/images/shipping-metadata.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
   </div>
@@ -184,7 +194,7 @@ Shipping routes frequency
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

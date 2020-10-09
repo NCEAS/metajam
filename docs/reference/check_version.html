@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metajam</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -139,8 +139,8 @@
     <div class="ref-description">
     <p>This function takes an identifier and checks to see if it has been obsoleted.</p>
     </div>
-
-    <pre class="usage"><span class='fu'>check_version</span>(<span class='no'>pid</span>, <span class='kw'>formatType</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <pre class="usage"><span class='fu'>check_version</span>(<span class='kw'>pid</span>, formatType = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,23 +160,24 @@
     <p>(data.frame) A data frame of object version PIDs and related information.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Most data URLs and identifiers work</span>
 <span class='fu'>check_version</span>(<span class='st'>"https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570"</span>)
 <span class='fu'>check_version</span>(<span class='st'>"doi:10.18739/A2ZF6M"</span>)
 
 <span class='co'># Specify a formatType (data, metadata, or resource)</span>
-<span class='fu'>check_version</span>(<span class='st'>"doi:10.18739/A2ZF6M"</span>, <span class='kw'>formatType</span> <span class='kw'>=</span> <span class='st'>"metadata"</span>)
+<span class='fu'>check_version</span>(<span class='st'>"doi:10.18739/A2ZF6M"</span>, formatType = <span class='st'>"metadata"</span>)
 
 <span class='co'># Returns a warning if the identifier has been obsoleted</span>
-<span class='fu'>check_version</span>(<span class='st'>"doi:10.18739/A2HF7Z"</span>, <span class='kw'>formatType</span> <span class='kw'>=</span> <span class='st'>"metadata"</span>)
+<span class='fu'>check_version</span>(<span class='st'>"doi:10.18739/A2HF7Z"</span>, formatType = <span class='st'>"metadata"</span>)
 
 <span class='co'># Returns an error if no matching identifiers are found</span>
 <span class='fu'>check_version</span>(<span class='st'>"a_test_pid"</span>)
 
 <span class='co'># Returns a warning if several identifiers are returned</span>
 <span class='fu'>check_version</span>(<span class='st'>"10.18739/A2057CR99"</span>)
-}</div></pre>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -192,7 +193,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

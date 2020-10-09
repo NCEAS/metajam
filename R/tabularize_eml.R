@@ -13,14 +13,13 @@
 #' @importFrom tibble enframe
 #' @importFrom stringr str_trim
 #'
-#' @noRd
+#' @export
 #'
 #' @examples
-#' \dontrun{
-#'    eml <- system.file("example-eml.xml", package = "arcticdatautils")
+#'    eml <- system.file("extdata", "test_data", "SoilMois2012_2017__full_metadata.xml",
+#'                   package = "metajam")
 #'    tabularize_eml(eml)
 #'    tabularize_eml(eml, full = TRUE)
-#' }
 
 tabularize_eml <- function(eml, full = FALSE) {
 
@@ -32,6 +31,7 @@ tabularize_eml <- function(eml, full = FALSE) {
     stop("The EML input could not be parsed.")
   }
 
+  # Transforming into a dataframe
   metadata <- eml %>%
     unlist() %>%
     tibble::enframe()
@@ -60,9 +60,10 @@ tabularize_eml <- function(eml, full = FALSE) {
       dplyr::mutate(value = stringr::str_trim(value)) %>%
       dplyr::distinct() %>%
       dplyr::group_by(name) %>%
-      dplyr::summarize(value = paste(value, collapse = "; ")) %>%
-      dplyr::mutate(value = gsub("\n", "", value)) #without this, fields get truncated in Excel
+      dplyr::summarize(value = paste(value, collapse = "; "), .groups = "drop") %>%
+      dplyr::mutate(value = gsub("\n", "", value))  #without this, fields get truncated in Excel
   }
 
   return(metadata)
 }
+

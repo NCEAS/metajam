@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read data and metadata based on <code>download_d1_data()</code> file structure — read_d1_files • metajam</title>
+<title>Read data and metadata based on download_d1_data() file structure — read_d1_files • metajam</title>
+
 
 
 <!-- jquery -->
@@ -39,7 +40,7 @@
 
 
 
-<meta property="og:title" content="Read data and metadata based on <code>download_d1_data()</code> file structure — read_d1_files" />
+<meta property="og:title" content="Read data and metadata based on download_d1_data() file structure — read_d1_files" />
 <meta property="og:description" content="Reads data along with metadata into your R environment based on download_d1_data() file structure." />
 
 
@@ -72,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metajam</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -140,7 +141,7 @@
     <p>Reads data along with metadata into your R environment based on <code><a href='download_d1_data.html'>download_d1_data()</a></code> file structure.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_d1_files</span>(<span class='no'>folder_path</span>, <span class='kw'>fnc</span> <span class='kw'>=</span> <span class='st'>"read_csv"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>read_d1_files</span>(<span class='kw'>folder_path</span>, fnc = <span class='st'>"read_csv"</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,14 +168,56 @@
     <div class='dont-index'><p><code><a href='download_d1_data.html'>download_d1_data()</a></code> <code><a href='download_d1_data_pkg.html'>download_d1_data_pkg()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>data_folder</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"test_data"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"metajam"</span>)
-<span class='no'>soil_moist_data</span> <span class='kw'>&lt;-</span> <span class='fu'>read_d1_files</span>(<span class='no'>data_folder</span>)
-
+    <pre class="examples"><div class='input'><span class='kw'>data_folder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"test_data"</span>, package = <span class='st'>"metajam"</span>)
+<span class='kw'>soil_moist_data</span> <span class='op'>&lt;-</span> <span class='fu'>read_d1_files</span>(<span class='kw'>data_folder</span>)
+</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  attributeName = <span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  attributeDefinition = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  formatString = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  measurementScale = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  unit = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  numberType = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  missingValueCode = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  missingValueCodeExplanation = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  domain = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  name = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  value = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  Date = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  `Unmanipulated Moisture (cm3 cm-3)` = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  `Unmanipulated Moisure (SE)` = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  `Unburned Moisture (cm3 cm-3)` = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  `Unburned Moisture (SE)` = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  `Low Severity Moisture (cm3 cm-3)` = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  `Low Severity Moisture (SE)` = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  `Moderate Severity Moisture (cm3 cm-3)` = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  `Moderate Severity Moisture (SE)` = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  `High Severity Moisture (cm3 cm-3)` = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  `High Severity Moisture (SE)` = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>)</span></div><div class='input'>
 <span class='co'># You can specify the function you would like to use to read the file and pass parameters</span>
-<span class='no'>soil_moist_data_skipped</span> <span class='kw'>&lt;-</span> <span class='fu'>read_d1_files</span>(<span class='no'>data_folder</span>, <span class='st'>"read.csv"</span>,
-                                         <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div></pre>
+<span class='kw'>soil_moist_data_skipped</span> <span class='op'>&lt;-</span> <span class='fu'>read_d1_files</span>(<span class='kw'>data_folder</span>, <span class='st'>"read.csv"</span>,
+                                         skip = <span class='fl'>8</span>, stringsAsFactors = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  attributeName = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  attributeDefinition = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  formatString = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  measurementScale = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  unit = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  numberType = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  missingValueCode = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  missingValueCodeExplanation = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  domain = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  name = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  value = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>)</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -190,7 +233,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metajam</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -87,13 +87,14 @@
 
       
 
-      </header><script src="package-download_files/header-attrs-2.2/header-attrs.js"></script><div class="row">
+
+      </header><script src="package-download_files/header-attrs-2.3/header-attrs.js"></script><script src="package-download_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use Case 3 - Downloading entire data packages using DOIs</h1>
                         <h4 class="author">Julien Brun, Mitchell Maier and Irene Steves, NCEAS</h4>
             
-            <h4 class="date">2020-06-08</h4>
+            <h4 class="date">2020-09-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/master/vignettes/package-download.Rmd"><code>vignettes/package-download.Rmd</code></a></small>
       <div class="hidden name"><code>package-download.Rmd</code></div>
@@ -111,33 +112,39 @@
 <div id="libraries-and-constants" class="section level2">
 <h2 class="hasAnchor">
 <a href="#libraries-and-constants" class="anchor"></a>Libraries and constants</h2>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># devtools::install_github("NCEAS/metajam")</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">metajam</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">readr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">purrr</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># Directory to save the data set</span>
-<span class="no">path_folder</span> <span class="kw">&lt;-</span> <span class="st">"./Soil_bulk"</span>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># devtools::install_github("NCEAS/metajam")</span>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/nceas/metajam">metajam</a></span>)  
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://readr.tidyverse.org">readr</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://purrr.tidyverse.org">purrr</a></span>)
+</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># Directory to save the data set</span>
+<span class="kw">path_folder</span> <span class="op">&lt;-</span> <span class="st">"./Soil_bulk"</span>
 
 <span class="co"># URL to read the search results stored as a csv on Google Drive</span>
-<span class="no">csv_search_results_url</span> <span class="kw">&lt;-</span> <span class="st">"https://drive.google.com/uc?export=download&amp;id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV"</span></pre></body></html></div>
+<span class="kw">csv_search_results_url</span> <span class="op">&lt;-</span> <span class="st">"https://drive.google.com/uc?export=download&amp;id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV"</span>
+</pre></div>
 </div>
 <div id="download-all-the-datasets-from-data-packages-using-dois" class="section level2">
 <h2 class="hasAnchor">
 <a href="#download-all-the-datasets-from-data-packages-using-dois" class="anchor"></a>Download all the datasets from data packages using DOIs</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># Create the local directory to store data sets</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="no">path_folder</span>, <span class="kw">showWarnings</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="co"># Create the local directory to store data sets</span>
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="kw">path_folder</span>, showWarnings = <span class="fl">FALSE</span>)
 
 <span class="co"># Read the data listing from Google Drive: https://drive.google.com/open?id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV</span>
-<span class="no">data_listing</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="no">csv_search_results_url</span>)
+<span class="kw">data_listing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="kw">csv_search_results_url</span>)
 
 
 <span class="co">### Download the data and metadata ----</span>
 
 <span class="co"># Create the list of unique dois</span>
-<span class="no">dois</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">data_listing</span>$<span class="no">identifier</span>)
+<span class="kw">dois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw">data_listing</span><span class="op">$</span><span class="kw">identifier</span>)
 
 <span class="co"># batch download the datasets</span>
-<span class="no">data_folders</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">dois</span>, ~<span class="fu"><a href="../reference/download_d1_data_pkg.html">download_d1_data_pkg</a></span>(<span class="no">.x</span>, <span class="no">path_folder</span>))</pre></body></html></div>
+<span class="kw">data_folders</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="kw">dois</span>, <span class="op">~</span><span class="fu"><a href="../reference/download_d1_data_pkg.html">download_d1_data_pkg</a></span>(<span class="kw">.x</span>, <span class="kw">path_folder</span>))
+</pre></div>
 </div>
   </div>
 
@@ -156,7 +163,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
