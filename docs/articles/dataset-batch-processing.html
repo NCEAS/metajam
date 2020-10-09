@@ -93,7 +93,7 @@
       <h1 data-toc-skip>Use Case 2 - Processing stream chemistry data for the LTER Luquillo site</h1>
                         <h4 class="author">Julien Brun, Mitchell Maier, Irene Steves and Kristen Peach, NCEAS</h4>
             
-            <h4 class="date">2020-09-14</h4>
+            <h4 class="date">2020-10-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/master/vignettes/dataset-batch-processing.Rmd"><code>vignettes/dataset-batch-processing.Rmd</code></a></small>
       <div class="hidden name"><code>dataset-batch-processing.Rmd</code></div>
@@ -308,6 +308,7 @@
 
 <span class="kw">RioIcacos_attrmeta</span><span class="op">$</span><span class="kw">unit</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span>(<span class="kw">RioIcacos_attrmeta</span><span class="op">$</span><span class="kw">unit</span>, pattern = <span class="st">"foot"</span>, replacement = <span class="st">"meter"</span>)
 
+
 <span class="co"># If we could NOT use udunits to do the conversion we could do it manually this way </span>
 
 <span class="co">#RioIcacos_data &lt;- RioIcacos_data %&gt;% mutate( `Gage_Ht` = `Gage_Ht`* 0.3048)</span>
@@ -355,7 +356,8 @@
 
 <span class="co"># Update the main object</span>
 <span class="kw">luq_datasets</span><span class="op">$</span><span class="kw">RioMameyesPuenteRoto</span><span class="op">$</span><span class="kw">data</span> <span class="op">&lt;-</span> <span class="kw">RioMameyesPuenteRoto_data</span> 
-                                           
+
+                                                
 </pre></div>
 </div>
 <div id="append-all-the-sampling-sites-into-one-master-dataset" class="section level2">
