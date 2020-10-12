@@ -1,6 +1,5 @@
 <img src="inst/images/metajam_hex.png" align="right" width="15%" />
 
-
 # metajam
 
 [![Travis-CI Build Status](https://travis-ci.org/NCEAS/metajam.svg?branch=master)](https://travis-ci.org/NCEAS/metajam)
