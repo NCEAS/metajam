@@ -22,5 +22,4 @@ This function takes a path to an EML (.xml) metadata file and returns a data fra
    eml <- system.file("extdata", "test_data", "SoilMois2012_2017__full_metadata.xml",
                   package = "metajam")
    tabularize_eml(eml)
-   tabularize_eml(eml, full = TRUE)
 }
