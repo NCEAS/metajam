@@ -38,7 +38,7 @@ download_d1_data("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e1
 
 The output is saved in a folder with the name `{metadata_id}__{file_name}`, which contains the data file and its associated metadata. The metadata follows these conventions:
 
-- `{file_name}__summary_metadata.csv` - summary metadata in a tabular format, which includes date downloaded, data file name, file/metadata URL's, etc.
+- `{file_name}__summary_metadata.csv` - summary metadata in a tabular format, which includes date downloaded, data file name, file/metadata URLs, etc.
 - `{file_name}__full_metadata.xml` - metadata xml file, if it could be downloaded
 - `{file_name}__attribute_metadata.csv` - attribute metadata in a tabular format, if included in the metadata xml
 - `{file_name}__attribute_factor_metadata.csv` - attribute factor metadata in a tabular format, if included in the metadata xml
