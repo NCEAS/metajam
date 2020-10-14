@@ -3,7 +3,7 @@
 # metajam
 
 [![Travis-CI Build Status](https://travis-ci.org/NCEAS/metajam.svg?branch=master)](https://travis-ci.org/NCEAS/metajam)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/metajam)](https://cran.r-project.org/metajam)
+
 
 Download and read data and metadata from repositories in the DataONE network.  
 
@@ -45,7 +45,7 @@ The output is saved in a folder with the name `{metadata_id}__{file_name}`, whic
 
 ## How to get the URL to your dataset of interest ?
 
-From DataONE or any currently supported data repository ([KNB](https://knb.ecoinformatics.org/), [Arctic Data Center](https://arcticdata.io/), [LTER PASTA](https://portal.lternet.edu/nis/home.jsp) or [EDI](https://portal.edirepository.org/nis/home.jsp)), you can right-click on the `Download` button of a specific dataset and choose `Copy Link Address` to copy the URL to your clipboard
+From DataONE or any currently supported data repository ([KNB](https://knb.ecoinformatics.org/), [Arctic Data Center](https://arcticdata.io/), or [EDI/LTER](https://portal.edirepository.org/nis/home.jsp)), you can right-click on the `Download` button of a specific dataset and choose `Copy Link Address` to copy the URL to your clipboard
 
 <br>
 <img src="inst/images/copy-link.png" width="100%"/>
