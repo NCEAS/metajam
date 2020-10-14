@@ -11,6 +11,9 @@ test_that("accepts correct inputs", {
 })
 
 test_that("test Arctic Data Center data URL (fully up to date data file)", {
+  # Takes too much time and add load on servers
+  skip_on_cran()
+
   temp_dir <- tempdir()
   out <- download_d1_data("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
                           temp_dir)
@@ -29,6 +32,9 @@ test_that("test Arctic Data Center data URL (fully up to date data file)", {
 })
 
 test_that("test Arctic Data Center data URL (fully up to date data file) with one data table", {
+  # Takes too much time and add load on servers
+  skip_on_cran()
+
   temp_dir <- tempdir()
   out <- download_d1_data("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
                           temp_dir)
@@ -47,6 +53,9 @@ test_that("test Arctic Data Center data URL (fully up to date data file) with on
 })
 
 test_that("test Arctic Data Center data URL (fully up to date data file) with multiple data tables", {
+  # Takes too much time and add load on servers
+  skip_on_cran()
+
   temp_dir <- tempdir()
   out <- download_d1_data("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a4f85031-0b91-4d92-ba0a-b02f216bba64",
                           temp_dir)
@@ -66,6 +75,9 @@ test_that("test Arctic Data Center data URL (fully up to date data file) with mu
 })
 
 test_that("Data without metadata downloads and returns summary metadata", {
+  # Takes too much time and add load on servers
+  skip_on_cran()
+
   temp_dir <- tempdir()
   expect_warning(out <- download_d1_data("urn:uuid:7bdab6cc-8dc1-4c49-a80b-ca771c18eaa9",
                           temp_dir))
@@ -79,6 +91,9 @@ test_that("Data without metadata downloads and returns summary metadata", {
 })
 
 test_that("Downloading same data with different foldername (dir_name) returns error",{
+  # Takes too much time and add load on servers
+  skip_on_cran()
+
   temp_dir <- tempdir()
 
   # first download. should run correctly

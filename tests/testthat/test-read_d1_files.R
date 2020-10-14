@@ -24,6 +24,9 @@ test_that("test read in csv files", {
 })
 
 test_that("read Arctic Data Center data package", {
+  # Takes too much time and add load on servers
+  skip_on_cran()
+
   # Call download_di_data_pkg() for data package
   paths <- suppressMessages(
     download_d1_data_pkg(
@@ -51,6 +54,9 @@ test_that("read Arctic Data Center data package", {
 
 
 test_that("read EDI data package", {
+  # Takes too much time and add load on servers
+  skip_on_cran()
+
   # Call download_di_data_pkg() for data package
   paths <- suppressMessages(
     download_d1_data_pkg(

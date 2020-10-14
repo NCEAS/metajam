@@ -9,6 +9,9 @@ test_that("accepts correct inputs", {
 })
 
 test_that("warnings or errors are issued", {
+  # Takes too much time and add load on servers
+  skip_on_cran()
+
   out <- check_version("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570")
   expect_equal(out$formatType, "DATA")
 
