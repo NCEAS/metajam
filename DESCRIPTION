@@ -2,7 +2,7 @@ Package: metajam
 Type: Package
 Title: Tools to Download Data and Metadata from DataONE
 Version: 0.2.3
-Date: 2020-09-12
+Date: 2020-10-14
 Authors@R: c(
               person("Julien", "Brun", 
                  email = "brun@nceas.ucsb.edu", 
