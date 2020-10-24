@@ -33,7 +33,7 @@ Authors@R: c(
                  role = "ctb")
               )
 Maintainer: Julien Brun <brun@nceas.ucsb.edu>
-Description: A set of tools to foster the development of reproducible analytical workflows by simplyfying the download of data and 
+Description: A set of tools to foster the development of reproducible analytical workflow by simplifying the download of data and 
     metadata from 'DataONE' (<https://www.dataone.org>) and easily importing this information into R.
 License: Apache License (== 2.0)
 URL: https://github.com/nceas/metajam
