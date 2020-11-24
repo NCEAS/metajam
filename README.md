@@ -3,6 +3,7 @@
 # metajam
 
 [![Travis-CI Build Status](https://travis-ci.org/NCEAS/metajam.svg?branch=master)](https://travis-ci.org/NCEAS/metajam)
+[![CRAN status](https://www.r-pkg.org/badges/version/metajam)](https://CRAN.R-project.org/package=metajam)
 
 
 Download and read data and metadata from repositories in the DataONE network.  
