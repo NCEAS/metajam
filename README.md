@@ -14,9 +14,15 @@ Irene Steves, Mitchell Maier and Julien Brun; NCEAS
 
 ## Installation
 
-The `metajam` package can be installed from GitHub using the `devtools` package:
+The `metajam` package can be installed from CRAN:
 
+```r
+install.packages("metajam")
 ```
+
+The development version of `metajam` package can also be installed from GitHub using the `devtools` package:
+
+```r
 #install.packages("devtools")
 devtools::install_github('NCEAS/metajam')
 ```
