@@ -2,7 +2,7 @@
 
 # metajam
 
-[![R build status](https://github.com/brunj7/metajam/workflows/R-CMD-check/badge.svg)](https://github.com/brunj7/metajam/actions)
+[![R build status](https://github.com/NCEAS/metajam/workflows/R-CMD-check/badge.svg)](https://github.com/NCEAS/metajam/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/metajam)](https://CRAN.R-project.org/package=metajam)
 
 
