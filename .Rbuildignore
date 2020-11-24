@@ -8,3 +8,4 @@
 ^LICENSE$
 ^inst/Pres$
 cran-comments.md
+^\.github$
