@@ -1,10 +1,11 @@
 <img src="inst/images/metajam_hex.png" align="right" width="15%" />
 
 # metajam
-
+<!-- badges: start -->
+[![Package Site](https://github.com/NCEAS/metajam/workflows/pkgdown/badge.svg)](https://github.com/NCEAS/metajam/actions)
 [![R build status](https://github.com/NCEAS/metajam/workflows/R-CMD-check/badge.svg)](https://github.com/NCEAS/metajam/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/metajam)](https://CRAN.R-project.org/package=metajam)
-
+<!-- badges: end -->
 
 Download and read data and metadata from repositories in the DataONE network.  
 
