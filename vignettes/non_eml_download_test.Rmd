@@ -1,0 +1,55 @@
+---
+title: "non_eml_download_test"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Libraries and constants
+
+```{r libraries, warning=FALSE}
+# devtools::install_github("NCEAS/metajam")
+library(metajam)  
+
+```
+
+#### Step 2: Find the link to the dataset
+Go to the web address for the dataset and find the download button for the data. 
+
+In our case the link is: https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e123f84-ce0d-4094-b898-c9e73680eafa
+
+#### Step 3: Choose where you want the files to be saved
+In our case, we'll just put it into the metajam_example folder.
+
+```{r}
+
+#eg desired_path_to_data <- "~/Desktop"
+desired_path_to_data <- "~/metajam_test"
+
+# create the folder if it does not exist yet
+dir.create(desired_path_to_data, showWarnings = FALSE)
+
+```
+
+#### Step 4: Download the data by pasting the link you just copied
+
+```{r}
+
+my_data_url <- "https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e123f84-ce0d-4094-b898-c9e73680eafa"
+
+# this will download the data into a folder and save the path to that folder
+downloaded_data <- download_d1_data(data_url = my_data_url, path = desired_path_to_data)
+
+
+```
+
+#### Step 5: Now read in the data (with all the metadata)
+
+```{r}
+
+my_data <- read_d1_files(downloaded_data)
+
+
+```
