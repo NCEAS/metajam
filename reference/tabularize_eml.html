@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -114,7 +114,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/nceas/metajam">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -164,25 +164,25 @@ If <code>full = TRUE</code> is specified, the full set of metadata fields are re
     <pre class="examples"><div class='input'>   <span class='va'>eml</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"test_data"</span>, <span class='st'>"SoilMois2012_2017__full_metadata.xml"</span>,
                   package <span class='op'>=</span> <span class='st'>"metajam"</span><span class='op'>)</span>
    <span class='fu'>tabularize_eml</span><span class='op'>(</span><span class='va'>eml</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 16 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 16 x 2</span><span>
 #&gt;    name                         value                                           
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                           
-#&gt; </span><span style='color: #555555;'> 1</span><span> abstract                     Fire severity is increasing across the boreal f…
-#&gt; </span><span style='color: #555555;'> 2</span><span> eml.version                  eml://ecoinformatics.org/eml-2.1.1 eml.xsd      
-#&gt; </span><span style='color: #555555;'> 3</span><span> geographicCoverage.eastBoun… 161.4067                                        
-#&gt; </span><span style='color: #555555;'> 4</span><span> geographicCoverage.geograph… Far northeastern Siberia near Cherskiy, Russia  
-#&gt; </span><span style='color: #555555;'> 5</span><span> geographicCoverage.northBou… 68.7433                                         
-#&gt; </span><span style='color: #555555;'> 6</span><span> geographicCoverage.southBou… 68.7433                                         
-#&gt; </span><span style='color: #555555;'> 7</span><span> geographicCoverage.westBoun… 161.4067                                        
-#&gt; </span><span style='color: #555555;'> 8</span><span> keyword                      None; fire; permafrost; Siberia; Larch; Larix   
-#&gt; </span><span style='color: #555555;'> 9</span><span> methods                      &lt;title&gt;Surface soil moisture&lt;/title&gt;&lt;para&gt;From …
-#&gt; </span><span style='color: #555555;'>10</span><span> objectName                   Alexander_Exp Burn Soil Mois 2012_2017.csv; Ale…
-#&gt; </span><span style='color: #555555;'>11</span><span> people                       Alexander; Heather; D.; Michael; Loranty; Miche…
-#&gt; </span><span style='color: #555555;'>12</span><span> taxonomicCoverage            Larix cajanderi                                 
-#&gt; </span><span style='color: #555555;'>13</span><span> temporalCoverage.beginDate   2012-07-01                                      
-#&gt; </span><span style='color: #555555;'>14</span><span> temporalCoverage.endDate     2017-08-01                                      
-#&gt; </span><span style='color: #555555;'>15</span><span> title                        Surface soil moisture across an experimental bu…
-#&gt; </span><span style='color: #555555;'>16</span><span> url                          download; https://cn.dataone.org/cn/v2/resolve/…</div></span></pre>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                           
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> abstract                     Fire severity is increasing across the boreal f…
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> eml.version                  eml://ecoinformatics.org/eml-2.1.1 eml.xsd      
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> geographicCoverage.eastBoun… 161.4067                                        
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> geographicCoverage.geograph… Far northeastern Siberia near Cherskiy, Russia  
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> geographicCoverage.northBou… 68.7433                                         
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> geographicCoverage.southBou… 68.7433                                         
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> geographicCoverage.westBoun… 161.4067                                        
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> keyword                      None; fire; permafrost; Siberia; Larch; Larix   
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> methods                      &lt;title&gt;Surface soil moisture&lt;/title&gt;&lt;para&gt;From …
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> objectName                   Alexander_Exp Burn Soil Mois 2012_2017.csv; Ale…
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span> people                       Alexander; Heather; D.; Michael; Loranty; Miche…
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span> taxonomicCoverage            Larix cajanderi                                 
+#&gt; </span><span style='color: #BCBCBC;'>13</span><span> temporalCoverage.beginDate   2012-07-01                                      
+#&gt; </span><span style='color: #BCBCBC;'>14</span><span> temporalCoverage.endDate     2017-08-01                                      
+#&gt; </span><span style='color: #BCBCBC;'>15</span><span> title                        Surface soil moisture across an experimental bu…
+#&gt; </span><span style='color: #BCBCBC;'>16</span><span> url                          download; https://cn.dataone.org/cn/v2/resolve/…</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
