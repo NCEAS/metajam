@@ -130,7 +130,7 @@ download_d1_data <- function(data_url, path) {
     entity_meta <- suppressWarnings(list(
       Metadata_ID = meta_id[[1]],
       Metadata_URL = metadata_nodes$data$url[1],
-      Metadata_EML_Version = stringr::str_extract(meta_tabular$eml.version, "\\d\\.\\d\\.\\d"),
+      Metadata_Version = stringr::str_extract(meta_tabular$eml.version, "\\d\\.\\d\\.\\d"), #removed the word EML from this feature name
       File_Description = entity_data$entityDescription,
       File_Label = entity_data$entityLabel,
       Dataset_URL = paste0("https://search.dataone.org/#view/", meta_id[[1]]),
