@@ -30,7 +30,7 @@
 #'     )
 #' }
 
-download_d1_data <- function(data_url, path) {
+SMALL_download_d1_data <- function(data_url, path) {
   # TODO: add meta_doi to explicitly specify doi
 
   stopifnot(is.character(data_url), length(data_url) == 1, nchar(data_url) > 0)
