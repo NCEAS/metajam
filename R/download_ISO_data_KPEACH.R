@@ -9,6 +9,8 @@
 
 download_ISO_data <- function(meta_raw, path) {
 
+  stopifnot(is.character(meta_raw), length(meta_raw) == 1, nchar(meta_raw) > 0)
+
   meta_iso_xml <- XML::xmlTreeParse(meta_raw)
 
   eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object

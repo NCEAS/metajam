@@ -7,6 +7,8 @@
 
 download_EML_data <- function(meta_obj, path) {
 
+  stopifnot(is.character(meta_obj), length(meta_obj) == 1, nchar(meta_obj) > 0)
+
     eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
                     error = function(e) {NULL})
 
