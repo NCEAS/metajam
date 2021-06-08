@@ -1,8 +1,17 @@
 #' Download data and metadata from a dataset that uses EML metadata.
 #'
 #' This is an internal function called by the download_d1_data.R function. Not to be exported
+#' @import dataone
+#' @import EML
+#' @import purrr
+#' @import readr
+#' @importFrom emld as_emld
+#' @importFrom lubridate ymd_hms
+#' @importFrom stringr str_extract
+#' @importFrom tidyr spread
+#' @importFrom utils URLdecode
 #'
-#' @param meta_bj (character) A metadata object produced by download_d1_data. This is a different format than the metadata object required for the analogous ISO function
+#' @param meta_obj (character) A metadata object produced by download_d1_data. This is a different format than the metadata object required for the analogous ISO function
 #' @param path (character) Path to a directory to download data to.
 
 download_EML_data <- function(meta_obj, path) {

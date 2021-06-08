@@ -1,13 +1,26 @@
 #' Download data and metadata from a dataset that uses ISO metadata.
 #'
 #' This is an internal function called by the download_d1_data.R function. Not to be exported
+#'#' @import dataone
+#' @import EML
+#' @import purrr
+#' @import readr
+#' @importFrom emld as_emld
+#' @importFrom lubridate ymd_hms
+#' @importFrom stringr str_extract
+#' @importFrom tidyr spread
+#' @importFrom utils URLdecode
 #'
 #' @param meta_raw (character) A raw metadata object produced by download_d1_data
+#' @param meta_obj (character) A metadata object produced by download_d1_data
+#' @param meta_id (character) A metadata identifier produced by download_d1_data
+#' @param data_id (character) A data identifier produced by download_d1_data
+#' @param metadata_node (character) The member nodes where this metadata is stored, produced by download_d1_data
 #' @param path (character) Path to a directory to download data to.
 #'
 
 
-download_ISO_data <- function(meta_raw, path) {
+download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_node, path) {
 
   stopifnot(is.character(meta_raw), length(meta_raw) == 1, nchar(meta_raw) > 0)
 
@@ -63,12 +76,12 @@ download_ISO_data <- function(meta_raw, path) {
 
   ## Summary metadata from EML (combine with general metadata later)
   entity_meta <- suppressWarnings(list(
-    Metadata_ID = meta_id[[1]],
-    Metadata_URL = metadata_nodes$data$url[1],
-    Metadata_ISO_Version = meta_tabular$xml.version,
+    Metadata_ID = meta_id,
+    Metadata_URL = metadata_node,
+    Metadata_Version = meta_tabular$xml.version,
     File_Description = NA,
     File_Label = NA,
-    Dataset_URL = paste0("https://search.dataone.org/#view/", meta_id[[1]]),
+    Dataset_URL = paste0("https://search.dataone.org/#view/", meta_id),
     Dataset_Title = meta_tabular$title,
     Dataset_StartDate = meta_tabular$temporalCoverage.beginDate,
     Dataset_EndDate = meta_tabular$temporalCoverage.endDate,
@@ -115,7 +128,7 @@ download_ISO_data <- function(meta_raw, path) {
   entity_meta_general <- list(File_Name = data_name,
                               Date_Downloaded = paste0(Sys.time()),
                               Data_ID = data_id,
-                              Data_URL = data_nodes$data$url[[1]]
+                              Data_URL = data_node
   )
 
   ## write metadata xml/tabular form if exists

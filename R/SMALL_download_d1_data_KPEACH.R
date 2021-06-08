@@ -53,6 +53,7 @@ SMALL_download_d1_data <- function(data_url, path) {
   ## Set Nodes ------------
   data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
   d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
+  all_mns <- c(data_nodes$data$nodeIdentifier)
   cn <- dataone::CNode()
 
   ## Download Metadata ------------
@@ -82,14 +83,19 @@ SMALL_download_d1_data <- function(data_url, path) {
     meta_id <- meta_id[1]
   }
 
+
   ## Get package level metadata -----------
   if (!is.null(meta_id)) {
     message("\nDownloading metadata ", meta_id, " ...")
-    meta_obj <- dataone::getObject(d1c@mn, meta_id)
+    meta_obj <- dataone::getObject(d1c@mn, meta_id) #this is the line that generates the certificate error
     message("Download metadata complete")
     metadata_nodes <- dataone::resolve(cn, meta_id)
+  }
 
+  #Preparing some objects for input into language specific functions below
     meta_raw <- rawToChar(meta_obj)
+    meta_id <- meta_id[[1]]
+    metadata_node <- metadata_nodes$data$url[1]
 
     #Here we assume that these are the only two types of possible metadata..that's probably not smart
     #"eml://ecoinformatics.org/eml"
@@ -97,12 +103,12 @@ SMALL_download_d1_data <- function(data_url, path) {
 
     if (grepl("eml://ecoinformatics.org/eml-", meta_raw) == FALSE) {
       warning("Metadata is in ISO format")
-      new_dir <- mini_download_ISO_data(meta_raw, path) # add iso function here
+      new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, metadata_node, data_id, path = path) # add iso function here
     } else if (grepl("eml://ecoinformatics.org/eml-", meta_raw) == TRUE) {
       warning("Metadata is in EML format")
-      new_dir <- mini_download_EML_data(meta_obj, path)
+      new_dir <- download_EML_data(meta_obj, path)
     }
-  }
+
   ## Output folder name
   return(new_dir)
 }
