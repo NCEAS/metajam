@@ -1,0 +1,49 @@
+---
+title: "trying_mn_loop"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+
+path <- "Data_test"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16"
+
+dir.create(path, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url, path)
+
+
+
+
+```
+
+```{r}
+
+list_all_mns <- list(all_mns)
+
+
+
+    for (i in length(list_all_mns)){
+         meta_objs <- dataone::getObject(list_all_mns[[i]], meta_id) 
+         meta_obj <- metaobjs[[1]]
+    } 
+
+
+  if (length(all_mns) > 1){
+    meta_obj <- dataone::getObject(all_mns[i], meta_id) 
+  } else{
+      if (length(all_mns) == 1){
+     meta_obj <- dataone::getObject(all_mns, meta_id) 
+    }}
+   
+
+```
+
