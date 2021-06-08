@@ -27,23 +27,48 @@ data_folder <- SMALL_download_d1_data(data_url, path)
 
 ```{r}
 
-list_all_mns <- list(all_mns)
+data_url <- "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16"
+#this stuff is in the function already
+
+  ## Try to get DataONE data_id from data_url ---------
+  data_url <- utils::URLdecode(data_url)
+  data_versions <- check_version(data_url, formatType = "data")
+
+  if (nrow(data_versions) == 1) {
+    data_id <- data_versions$identifier
+  } else if (nrow(data_versions) > 1) {
+    #get most recent version
+    data_versions$dateUploaded <- lubridate::ymd_hms(data_versions$dateUploaded)
+    data_id <- data_versions$identifier[data_versions$dateUploaded == max(data_versions$dateUploaded)]
+  } else {
+    stop("The DataONE ID could not be found for ", data_url)
+  }
+  
+  data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
+  d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
+  all_mns <- c(data_nodes$data$nodeIdentifier)
+  cn <- dataone::CNode()
+  
+    ## Download Metadata ------------
+  meta_id <- dataone::query(
+    cn,
+    list(q = sprintf('documents:"%s" AND formatType:"METADATA" AND -obsoletedBy:*', data_id),
+         fl = "identifier")) %>%
+    unlist()
+  
+  #This is the best version fo the loop so far. 
+  if (length(all_mns) == 1) {
+    mn <- dataone::getMNode(cn, all_mns)
+     meta_obj <- dataone::getObject(mn, meta_id) 
+  }  else {
+    for (i in length(all_mns)){
+      mn <- dataone::getMNode(cn, all_mns[i])
+      stopifnot(!is.null(mn))
+      meta_obj <- dataone::getObject(mn, meta_id) 
+    }
+  }
 
 
-
-    for (i in length(list_all_mns)){
-         meta_objs <- dataone::getObject(list_all_mns[[i]], meta_id) 
-         meta_obj <- metaobjs[[1]]
-    } 
-
-
-  if (length(all_mns) > 1){
-    meta_obj <- dataone::getObject(all_mns[i], meta_id) 
-  } else{
-      if (length(all_mns) == 1){
-     meta_obj <- dataone::getObject(all_mns, meta_id) 
-    }}
-   
 
 ```
 
