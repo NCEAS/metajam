@@ -10,15 +10,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 
 
-path <- "Data_test"
+path_folder <- "Data_test"
 
 # URL to download the dataset from DataONE
 data_url <- "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16"
 
-dir.create(path, showWarnings = FALSE)
+dir.create(path_folder, showWarnings = FALSE)
 
 # Download the dataset and associated metdata 
-data_folder <- SMALL_download_d1_data(data_url, path)
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
 
 
 

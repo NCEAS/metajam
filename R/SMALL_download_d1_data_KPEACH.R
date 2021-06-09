@@ -83,13 +83,19 @@ SMALL_download_d1_data <- function(data_url, path) {
     meta_id <- meta_id[1]
   }
 
-
-  ## Get package level metadata -----------
-  if (!is.null(meta_id)) {
+  if (length(all_mns) == 1) {
+    mn <- dataone::getMNode(cn, all_mns)
     message("\nDownloading metadata ", meta_id, " ...")
-    meta_obj <- dataone::getObject(d1c@mn, meta_id) #this is the line that generates the certificate error
+    meta_obj <- dataone::getObject(mn, meta_id)
     message("Download metadata complete")
-    metadata_nodes <- dataone::resolve(cn, meta_id)
+  }  else {
+    for (i in length(all_mns)){
+      mn <- dataone::getMNode(cn, all_mns[i])
+      stopifnot(!is.null(mn))
+      message("\nDownloading metadata ", meta_id, " ...")
+      meta_obj <- dataone::getObject(mn, meta_id)
+      message("Download metadata complete")
+    }
   }
 
   #Preparing some objects for input into language specific functions below

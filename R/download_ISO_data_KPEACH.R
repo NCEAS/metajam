@@ -128,7 +128,7 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
   entity_meta_general <- list(File_Name = data_name,
                               Date_Downloaded = paste0(Sys.time()),
                               Data_ID = data_id,
-                              Data_URL = data_node
+                              Data_URL = data_nodes$data$url[[1]]
   )
 
   ## write metadata xml/tabular form if exists
@@ -143,5 +143,6 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
                    file.path(new_dir, paste0(data_name, "__summary_metadata.csv")))
   }
 
-
+  ## Output folder name
+  return(new_dir)
 }
