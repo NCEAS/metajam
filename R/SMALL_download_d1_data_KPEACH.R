@@ -83,6 +83,8 @@ SMALL_download_d1_data <- function(data_url, path) {
     meta_id <- meta_id[1]
   }
 
+  metadata_nodes <- dataone::resolve(cn, meta_id)
+
   if (length(all_mns) == 1) {
     mn <- dataone::getMNode(cn, all_mns)
     message("\nDownloading metadata ", meta_id, " ...")
@@ -98,10 +100,11 @@ SMALL_download_d1_data <- function(data_url, path) {
     }
   }
 
+
   #Preparing some objects for input into language specific functions below
     meta_raw <- rawToChar(meta_obj)
     meta_id <- meta_id[[1]]
-    metadata_node <- metadata_nodes$data$url[1]
+
 
     #Here we assume that these are the only two types of possible metadata..that's probably not smart
     #"eml://ecoinformatics.org/eml"
@@ -109,7 +112,7 @@ SMALL_download_d1_data <- function(data_url, path) {
 
     if (grepl("eml://ecoinformatics.org/eml-", meta_raw) == FALSE) {
       warning("Metadata is in ISO format")
-      new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, metadata_node, data_id, path = path) # add iso function here
+      new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path = path)
     } else if (grepl("eml://ecoinformatics.org/eml-", meta_raw) == TRUE) {
       warning("Metadata is in EML format")
       new_dir <- download_EML_data(meta_obj, path)

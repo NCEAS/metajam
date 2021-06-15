@@ -15,12 +15,12 @@
 #' @param meta_obj (character) A metadata object produced by download_d1_data
 #' @param meta_id (character) A metadata identifier produced by download_d1_data
 #' @param data_id (character) A data identifier produced by download_d1_data
-#' @param metadata_node (character) The member nodes where this metadata is stored, produced by download_d1_data
+#' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
 #' @param path (character) Path to a directory to download data to.
 #'
 
 
-download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_node, path) {
+download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path) {
 
   stopifnot(is.character(meta_raw), length(meta_raw) == 1, nchar(meta_raw) > 0)
 
@@ -72,12 +72,12 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
 
 
   meta_tabular <- metadata  %>% tidyr::spread(name, value)
-
+  metadata_url <- metadata_nodes$data$baseURL[[1]]
 
   ## Summary metadata from EML (combine with general metadata later)
   entity_meta <- suppressWarnings(list(
     Metadata_ID = meta_id,
-    Metadata_URL = metadata_node,
+    Metadata_URL =  metadata_url,
     Metadata_Version = meta_tabular$xml.version,
     File_Description = NA,
     File_Label = NA,
@@ -98,7 +98,10 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
 
   # Write files & download data--------
   message("\nDownloading data ", data_id, " ...")
-  data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@cn, data_id))
+  cn <- dataone::CNode()
+  mn <- dataone::getMNode(cn, metadata_node)
+  pid <- data_id
+  data_sys <- suppressMessages(dataone::getSystemMetadata(mn, pid))
 
   data_name <- data_sys@fileName %|||% ifelse(exists("entity_data"), entity_data$physical$objectName %|||% entity_data$entityName, NA) %|||% data_id
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
@@ -117,6 +120,8 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
   dir.create(new_dir)
 
   ## download Data
+  data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
+  d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
   out <- dataone::downloadObject(d1c, data_id, path = new_dir)
   message("Download complete")
 
