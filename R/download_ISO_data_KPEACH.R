@@ -22,8 +22,6 @@
 
 download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path) {
 
-  stopifnot(is.character(meta_raw), length(meta_raw) == 1, nchar(meta_raw) > 0)
-
   meta_iso_xml <- XML::xmlTreeParse(meta_raw)
 
   eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
@@ -107,7 +105,7 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
   data_extension <- gsub("(.*\\.)([^.]*$)", "\\2", data_name)
   data_name <- gsub("\\.[^.]*$", "", data_name) #remove extension
-  meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
+  meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id)#remove special characters & replace with _
 
   new_dir <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
 
