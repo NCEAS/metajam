@@ -90,7 +90,7 @@ SMALL_download_d1_data <- function(data_url, path) {
     message("\nDownloading metadata ", meta_id, " ...")
     meta_obj <- dataone::getObject(mn, meta_id)
     message("Download metadata complete")
-  }  else {
+  }  else if (length(all_mns) > 1) {
     for (i in length(all_mns)){
       mn <- dataone::getMNode(cn, all_mns[i])
       stopifnot(!is.null(mn))
