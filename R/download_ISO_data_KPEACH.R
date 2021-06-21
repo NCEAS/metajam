@@ -16,11 +16,12 @@
 #' @param meta_id (character) A metadata identifier produced by download_d1_data
 #' @param data_id (character) A data identifier produced by download_d1_data
 #' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
+#' @param mn (character) The member node carried over from the download_d1_function
 #' @param path (character) Path to a directory to download data to.
 #'
 
 
-download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path) {
+download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nodes,mn, path) {
 
   meta_iso_xml <- XML::xmlTreeParse(meta_raw)
 
@@ -94,10 +95,11 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
     Dataset_People = meta_tabular$people
   ))
 
+
   # Write files & download data--------
   message("\nDownloading data ", data_id, " ...")
   cn <- dataone::CNode()
-  mn <- dataone::getMNode(cn, metadata_node)
+  mn <- dataone::getMNode(cn, metadata_nodes$data$nodeIdentifier[[1]])
   pid <- data_id
   data_sys <- suppressMessages(dataone::getSystemMetadata(mn, pid))
 
