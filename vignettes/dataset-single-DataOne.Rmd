@@ -43,11 +43,9 @@ We have not tested metajam's compatibility with the home sites of all DataOne me
 
 We include two examples, one downloading a dataset with metadata in eml (ecological metadata format) and the other downloading a dataset with metadata in ISO (International Organization for Standardization) format. 
 
-Example 1: eml
+## Example 1: eml
 
 For the first example, we are using Diatom Community Data from Coweeta LTER, 2005-2019: Kelsey J. Solomon, Rebecca J. Bixby, and Catherine M. Pringle. Environmental Data Initiative. https://pasta.lternet.edu/package/metadata/eml/edi/858/1.
-
-permafrost data from the Polaris Project 2017:  Sarah Ludwig, Robert M Holmes, Susan Natali, Paul Mann, John Schade, et al. 2018. Polaris Project 2017: Permafrost carbon and nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. [doi:10.18739/A2KK3F](https://doi.org/10.18739/A2KK3F). 
 
 
 ## Libraries and constants
@@ -60,7 +58,7 @@ library(metajam)
 
 ```{r constants}
 # Directory to save the data set
-path_folder <- "Data_polaris"
+path_folder <- "Data_coweeta"
 
 # URL to download the dataset from DataONE
 data_url <- "https://cn.dataone.org/cn/v2/resolve/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fdata%2Feml%2Fedi%2F858%2F1%2F15ad768241d2eeed9f0ba159c2ab8fd5"
@@ -77,13 +75,12 @@ dir.create(path_folder, showWarnings = FALSE)
 
 # Download the dataset and associated metdata 
 data_folder <- metajam::download_d1_data(data_url, path_folder)
-# data_folder
-# "Data_polaris/doi_10.18739_A2KK3F__Polaris_2017_Permafrost"
+
 
 
 ```
 
-At this point, you should have the data and the metadata downloaded inside your main directory; `Data_polaris` in this example. `metajam` organize the files as follow: 
+At this point, you should have the data and the metadata downloaded inside your main directory; `Data_coweeta` in this example. `metajam` organize the files as follow: 
 
 - Each dataset is stored a sub-directory named after the package DOI and the file name
 - Inside this sub-directory, you will find
@@ -103,13 +100,13 @@ knitr::include_graphics("../inst/images/metajam_v1_folder.png")
 
 ```{r read_data, eval=FALSE}
 # Read all the datasets and their associated metadata in as a named list
-polaris17_permafrost <- metajam::read_d1_files(data_folder)
+coweeta_diatom <- metajam::read_d1_files(data_folder)
 
 ```
 
 ## Structure of the named list object
 
-You have now loaded in your R environment one named list object that contains the data `polaris17_permafrost$data`, the general (summary) metadata `polaris17_permafrost$summary_metadata` - such as title, creators, dates, locations - and the attribute level metadata information `polaris17_permafrost$attribute_metadata`, allowing user to get more information, such as units and definitions of your attributes.
+You have now loaded in your R environment one named list object that contains the data `coweeta_diatom$data`, the general (summary) metadata `coweeta_diatom$summary_metadata` - such as title, creators, dates, locations - and the attribute level metadata information `coweeta_diatom$attribute_metadata`, allowing user to get more information, such as units and definitions of your attributes.
 
 
 ```{r, out.width="90%", echo=FALSE, fig.align="center", fig.cap="Structure of the named list object containing tabular metadata and data as loaded by metajam"}
