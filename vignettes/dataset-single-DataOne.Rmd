@@ -108,6 +108,69 @@ coweeta_diatom <- metajam::read_d1_files(data_folder)
 
 You have now loaded in your R environment one named list object that contains the data `coweeta_diatom$data`, the general (summary) metadata `coweeta_diatom$summary_metadata` - such as title, creators, dates, locations - and the attribute level metadata information `coweeta_diatom$attribute_metadata`, allowing user to get more information, such as units and definitions of your attributes.
 
+## Example 2: iso
+
+For the second example, we are using Marine bird survey observation and density data from Northern Gulf of Alaska LTER cruises, 2018. Kathy Kuletz, Daniel Cushing, and Elizabeth Labunski. Research Workspace. https://doi.org/10.24431/rw1k45w
+
+
+## Libraries and constants
+
+```{r libraries, warning=FALSE}
+# devtools::install_github("NCEAS/metajam")
+library(metajam)  
+
+```
+
+```{r constants}
+# Directory to save the data set
+path_folder <- "Data_alaska"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16"
+
+```
+
+
+## Download the dataset
+
+```{r download, eval=FALSE}
+
+# Create the local directory to download the datasets
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- metajam::download_d1_data(data_url, path_folder)
+
+
+
+```
+
+At this point, you should have the data and the metadata downloaded inside your main directory; `Data_alaska` in this example. `metajam` organize the files as follow: 
+
+- Each dataset is stored a sub-directory named after the package DOI and the file name
+- Inside this sub-directory, you will find
+    - the data: `my_data.csv`
+    - the raw EML with the naming convention _file name_ + `__full_metadata.xml`: `my_data__full_metadata.xml`
+    - the package level metadata summary with the naming convention _file name_ + `__summary_metadata.csv`: `my_data__summary_metadata.csv`
+
+  
+```{r, out.width="90%", echo=FALSE, fig.align="center", fig.cap="Local file structure of a dataset downloaded by metajam"}
+knitr::include_graphics("../inst/images/metajam_v1_folder.png")
+```  
+   
+
+## Read the data and metadata in your R environment
+
+```{r read_data, eval=FALSE}
+# Read all the datasets and their associated metadata in as a named list
+coweeta_diatom <- metajam::read_d1_files(data_folder)
+
+```
+
+## Structure of the named list object
+
+You have now loaded in your R environment one named list object that contains the data `coweeta_diatom$data`, the general (summary) metadata `coweeta_diatom$summary_metadata` - such as title, creators, dates, locations - and the attribute level metadata information `coweeta_diatom$attribute_metadata`, allowing user to get more information, such as units and definitions of your attributes.
+
 
 ```{r, out.width="90%", echo=FALSE, fig.align="center", fig.cap="Structure of the named list object containing tabular metadata and data as loaded by metajam"}
 knitr::include_graphics("../inst/images/metajam_v1_named_list.png")
