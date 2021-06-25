@@ -85,7 +85,10 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, mn, pa
 
   # Write files & download data--------
   message("\nDownloading data ", data_id, " ...")
-  data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@cn, data_id))
+  cn <- dataone::CNode()
+  mn <- dataone::getMNode(cn, metadata_nodes$data$nodeIdentifier[[1]])
+  pid <- data_id
+  data_sys <- suppressMessages(dataone::getSystemMetadata(mn, pid))
 
   data_name <- data_sys@fileName %|||% ifelse(exists("entity_data"), entity_data$physical$objectName %|||% entity_data$entityName, NA) %|||% data_id
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
@@ -104,6 +107,8 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, mn, pa
   dir.create(new_dir)
 
   ## download Data
+  data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
+  d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
   out <- dataone::downloadObject(d1c, data_id, path = new_dir)
   message("Download complete")
 
