@@ -12,11 +12,14 @@
 #' @importFrom utils URLdecode
 #'
 #' @param meta_obj (character) A metadata object produced by download_d1_data. This is a different format than the metadata object required for the analogous ISO function
+#' @param meta_id (character) A metadata identifier produced by download_d1_data
+#' @param data_id (character) A data identifier produced by download_d1_data
+#' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
+#' @param mn (character) The member node carried over from the download_d1_function
 #' @param path (character) Path to a directory to download data to.
 
-download_EML_data <- function(meta_obj, path) {
+download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, mn, path) {
 
-  stopifnot(is.character(meta_obj), length(meta_obj) == 1, nchar(meta_obj) > 0)
 
     eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
                     error = function(e) {NULL})
@@ -54,11 +57,12 @@ download_EML_data <- function(meta_obj, path) {
     attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
 
     meta_tabular <- tabularize_eml(eml) %>% tidyr::spread(name, value)
+    metadata_url <- metadata_nodes$data$baseURL[[1]]
 
     ## Summary metadata from EML (combine with general metadata later)
     entity_meta <- suppressWarnings(list(
-      Metadata_ID = meta_id[[1]],
-      Metadata_URL = metadata_nodes$data$url[1],
+      Metadata_ID = meta_id,
+      Metadata_URL =  metadata_url,
       Metadata_Version = stringr::str_extract(meta_tabular$eml.version, "\\d\\.\\d\\.\\d"), #removed the word EML from this feature name
       File_Description = entity_data$entityDescription,
       File_Label = entity_data$entityLabel,
@@ -77,7 +81,7 @@ download_EML_data <- function(meta_obj, path) {
       Dataset_People = meta_tabular$people
     ))
 
-  }
+
 
   # Write files & download data--------
   message("\nDownloading data ", data_id, " ...")
@@ -129,7 +133,7 @@ download_EML_data <- function(meta_obj, path) {
 
   # write attribute tables if data metadata exists
   if (exists("attributeList")) {
-    if (nrow(attributeList$attributes) > 0) {
+    if (length(attributeList$attributes) > 0) {
       atts <- attributeList$attributes %>% mutate(metadata_pid = meta_id)
       readr::write_csv(atts,
                        file.path(new_dir, paste0(data_name, "__attribute_metadata.csv")))
@@ -142,5 +146,7 @@ download_EML_data <- function(meta_obj, path) {
     }
   }
 
-
+  ## Output folder name
+  return(new_dir)
+  }
 

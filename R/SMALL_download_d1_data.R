@@ -110,12 +110,12 @@ SMALL_download_d1_data <- function(data_url, path) {
     #"eml://ecoinformatics.org/eml"
     #"http://www.isotc211.org/"
 
-    if (grepl("eml://ecoinformatics.org/eml-", meta_raw) == FALSE) {
+    if (grepl("ecoinformatics.org", meta_raw) == FALSE) {
       warning("Metadata is in ISO format")
       new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, mn, path = path)
-    } else if (grepl("eml://ecoinformatics.org/eml-", meta_raw) == TRUE) {
+    } else if (grepl("ecoinformatics.org", meta_raw) == TRUE) {
       warning("Metadata is in EML format")
-      new_dir <- download_EML_data(meta_obj, path)
+      new_dir <- download_EML_data(meta_obj, meta_id, data_id, metadata_nodes, mn, path = path)
     }
 
   ## Output folder name
