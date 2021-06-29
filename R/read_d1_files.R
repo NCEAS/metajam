@@ -19,14 +19,12 @@
 #' @seealso [download_d1_data()] [download_d1_data_pkg()]
 #'
 #' @examples
-#' \dontrun{
 #' data_folder <- system.file("extdata", "test_data", package = "metajam")
 #' soil_moist_data <- read_d1_files(data_folder)
 #'
 #' # You can specify the function you would like to use to read the file and pass parameters
 #' soil_moist_data_skipped <- read_d1_files(data_folder, "read.csv",
 #'                                          skip = 8, stringsAsFactors = FALSE)
-#' }
 
 read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
 
@@ -46,7 +44,7 @@ read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
     if (grepl("[^_]+_metadata(?=\\.csv)", basename(x), perl = TRUE)) {
       readr::read_csv(x)
     } else if (tools::file_path_sans_ext(basename(x)) == filename) {
-      eval(parse(text = paste0(fnc, '("', x, '", ...)')))
+      eval(parse(text = paste0(fnc, '("', normalizePath(x, winslash = '/'), '", ...)')))
     }
   })
 

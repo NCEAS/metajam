@@ -3,7 +3,6 @@
 \docType{package}
 \name{metajam}
 \alias{metajam}
-\alias{metajam-package}
 \title{\code{metajam} package}
 \description{
 Metadata jam - bringing data and metadata together

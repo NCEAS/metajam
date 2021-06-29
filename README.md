@@ -1,10 +1,11 @@
 <img src="inst/images/metajam_hex.png" align="right" width="15%" />
 
-
 # metajam
-
-[![Travis-CI Build Status](https://travis-ci.org/NCEAS/metajam.svg?branch=master)](https://travis-ci.org/NCEAS/metajam)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/metajam)](https://cran.r-project.org/metajam)
+<!-- badges: start -->
+[![Package Site](https://github.com/NCEAS/metajam/workflows/pkgdown/badge.svg)](https://github.com/NCEAS/metajam/actions)
+[![R build status](https://github.com/NCEAS/metajam/workflows/R-CMD-check/badge.svg)](https://github.com/NCEAS/metajam/actions)
+[![CRAN status](https://www.r-pkg.org/badges/version/metajam)](https://CRAN.R-project.org/package=metajam)
+<!-- badges: end -->
 
 Download and read data and metadata from repositories in the DataONE network.  
 
@@ -14,11 +15,17 @@ Irene Steves, Mitchell Maier and Julien Brun; NCEAS
 
 ## Installation
 
-The `metajam` package can be installed from GitHub using the `devtools` package:
+The `metajam` package can be installed from CRAN:
 
+```r
+install.packages("metajam")
 ```
+
+The development version of `metajam` package can also be installed from GitHub using the `devtools` package:
+
+```r
 #install.packages("devtools")
-devtools::install_github('NCEAS/metajam', build_vignettes = TRUE)
+devtools::install_github('NCEAS/metajam')
 ```
 
 ## Download data
@@ -39,14 +46,14 @@ download_d1_data("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e1
 
 The output is saved in a folder with the name `{metadata_id}__{file_name}`, which contains the data file and its associated metadata. The metadata follows these conventions:
 
-- `{file_name}__summary_metadata.csv` - summary metadata in a tabular format, which includes date downloaded, data file name, file/metadata URL's, etc.
+- `{file_name}__summary_metadata.csv` - summary metadata in a tabular format, which includes date downloaded, data file name, file/metadata URLs, etc.
 - `{file_name}__full_metadata.xml` - metadata xml file, if it could be downloaded
 - `{file_name}__attribute_metadata.csv` - attribute metadata in a tabular format, if included in the metadata xml
 - `{file_name}__attribute_factor_metadata.csv` - attribute factor metadata in a tabular format, if included in the metadata xml
 
 ## How to get the URL to your dataset of interest ?
 
-From DataONE or any currently supported data repository ([KNB](https://knb.ecoinformatics.org/), [Arctic Data Center](https://arcticdata.io/), [LTER PASTA](https://portal.lternet.edu/nis/home.jsp) or [EDI](https://portal.edirepository.org/nis/home.jsp)), you can right-click on the `Download` button of a specific dataset and choose `Copy Link Address` to copy the URL to your clipboard
+From DataONE or any currently supported data repository ([KNB](https://knb.ecoinformatics.org/), [Arctic Data Center](https://arcticdata.io/), or [EDI/LTER](https://portal.edirepository.org/nis/home.jsp)), you can right-click on the `Download` button of a specific dataset and choose `Copy Link Address` to copy the URL to your clipboard
 
 <br>
 <img src="inst/images/copy-link.png" width="100%"/>

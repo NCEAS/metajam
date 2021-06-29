@@ -4,6 +4,7 @@
 #'
 #' @param data_url (character) An identifier or URL for a DataONE object to download.
 #' @param path (character) Path to a directory to download data to.
+#' @param dir_name (character) (Optional) Desired name for the folder containing the downloaded data. Defaults to the data file name.
 #'
 #' @return (character) Path where data is downloaded to.
 #'
@@ -14,8 +15,9 @@
 #' @importFrom emld as_emld
 #' @importFrom lubridate ymd_hms
 #' @importFrom stringr str_extract
-#' @importFrom tidyr spread
+#' @importFrom tidyr pivot_wider
 #' @importFrom utils URLdecode
+#' @importFrom rlang .data
 #'
 #' @export
 #'
@@ -23,14 +25,18 @@
 #'
 #' @examples
 #' \dontrun{
-#' download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = "./Data")
+#' soi_moist_path <- download_d1_data(
+#'                      data_url = "urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+#'                      path = tempdir())
 #' download_d1_data(
-#'    "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
-#'     path = "."
+#'     data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+#'     path = tempdir(),
+#'     dir_name = "test"
 #'     )
 #' }
+#'
 
-download_d1_data <- function(data_url, path) {
+download_d1_data <- function(data_url, path, dir_name = NULL) {
   # TODO: add meta_doi to explicitly specify doi
 
   stopifnot(is.character(data_url), length(data_url) == 1, nchar(data_url) > 0)
@@ -73,12 +79,12 @@ download_d1_data <- function(data_url, path) {
 
   # depending on results, return warnings
   if (length(meta_id) == 0) {
-    warning("no metadata records found")
+    warning("no metadata records found", immediate. = T)
     meta_id <- NULL
   } else if (length(meta_id) > 1) {
     warning("multiple metadata records found:\n",
             paste(meta_id, collapse = "\n"),
-            "\nThe first record was used")
+            "\nThe first record was used", immediate. = T)
     meta_id <- meta_id[1]
   }
 
@@ -109,22 +115,25 @@ download_d1_data <- function(data_url, path) {
                              purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
 
     if (length(entity_data) == 0) {
-      warning("No data metadata could be found for ", data_url)
+      warning("No data metadata could be found for ", data_url, immediate. = T)
 
     } else {
 
       if (length(entity_data) > 1) {
       warning("Multiple data metadata records found:\n",
               data_url,
-              "\nThe first record was used")
+              "\nThe first record was used", immediate. = T)
       }
 
       entity_data <- entity_data[[1]]
     }
 
-    attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
+    # Test for the case a dataTable entity does not have attribute level metadata
+    if (!is.null(entity_data$attributeList)){
+      attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
+    }
 
-    meta_tabular <- tabularize_eml(eml) %>% tidyr::spread(name, value)
+    meta_tabular <- tabularize_eml(eml) %>% tidyr::pivot_wider(names_from = name, values_from = value)
 
     ## Summary metadata from EML (combine with general metadata later)
     entity_meta <- suppressWarnings(list(
@@ -160,15 +169,48 @@ download_d1_data <- function(data_url, path) {
   data_name <- gsub("\\.[^.]*$", "", data_name) #remove extension
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
 
-  new_dir <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
+  # Check for backwards compatibility.
+  old_dir_path <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
 
-  # Check if the dataset has already been downloaded at this location. If so, exit the function
-  if (dir.exists(new_dir)) {
-    warning("This dataset has already been downloaded. Please delete or move the folder to download the dataset again.")
-    return(new_dir)
+  log_path <- file.path(path, "metajam.log")
+  old_dir_path_log <- ""
+
+  # Check to see if log exists (ie some data has been download at this location).
+    # If it does, then get the version number downloaded, and save it into old_dataid
+  if(file.exists(log_path)){
+    old_log <- suppressMessages(readr::read_csv(log_path))
+    if(data_id %in% old_log$Data_ID){
+      old_dir_path_log <- old_log %>%
+        dplyr::filter(.data$Data_ID == data_id) %>%
+        utils::tail(1) %>%
+        dplyr::pull(.data$Location)
+    }
   }
 
-  dir.create(new_dir)
+  # If the latest version is already downloaded, then exit the function
+    # first condition checks old naming scheme, second condition checks log (so folder can have any name)
+  if(dir.exists(old_dir_path)){
+    stop(paste("This dataset has already been downloaded here:", old_dir_path, "Please delete or move the folder to download the dataset again.", sep = "\n"))
+  } else if(dir.exists(old_dir_path_log)) {
+    stop(paste("This dataset has already been downloaded here:", old_dir_path_log, "Please delete or move the folder to download the dataset again.", sep = "\n"))
+  }
+
+  # Name the new folder, checking for optional parameter dir_name
+  if(!is.null(dir_name)){
+    new_dir <- file.path(path, dir_name)
+  } else {
+    new_dir <- old_dir_path
+  }
+
+  # Check to make sure we don't overwrite old versions of the data.
+    # If the directory they're trying to create already exists, then exit the function.
+  if(dir.exists(new_dir)){
+    warning(paste("An old version of the data exists at the specified path:", new_dir, "Please change dir_name or delete/move the folder to download a new version of the data", sep = "\n"))
+    return(new_dir)
+  } else{
+    dir.create(new_dir)
+  }
+
 
   ## download Data
   out <- dataone::downloadObject(d1c, data_id, path = new_dir)
@@ -189,11 +231,11 @@ download_d1_data <- function(data_url, path) {
   if (exists("eml")) {
     EML::write_eml(eml, file.path(new_dir, paste0(data_name, "__full_metadata.xml")))
 
-    entity_meta_combined <- c(entity_meta_general, entity_meta) %>% unlist() %>% enframe()
+    entity_meta_combined <- c(entity_meta_general, entity_meta) %>% unlist() %>% tibble::enframe()
     readr::write_csv(entity_meta_combined,
                      file.path(new_dir, paste0(data_name, "__summary_metadata.csv")))
   } else {
-    entity_meta_general <- entity_meta_general %>% unlist() %>% enframe()
+    entity_meta_general <- entity_meta_general %>% unlist() %>% tibble::enframe()
     readr::write_csv(entity_meta_general,
                      file.path(new_dir, paste0(data_name, "__summary_metadata.csv")))
   }
@@ -201,18 +243,33 @@ download_d1_data <- function(data_url, path) {
   # write attribute tables if data metadata exists
   if (exists("attributeList")) {
     if (nrow(attributeList$attributes) > 0) {
-      atts <- attributeList$attributes %>% mutate(metadata_pid = meta_id)
+      atts <- attributeList$attributes %>% dplyr::mutate(metadata_pid = meta_id)
       readr::write_csv(atts,
                        file.path(new_dir, paste0(data_name, "__attribute_metadata.csv")))
     }
 
     if (!is.null(attributeList$factors)) {
-      facts <- attributeList$factors %>% mutate(metadata_pid = meta_id)
+      facts <- attributeList$factors %>% dplyr::mutate(metadata_pid = meta_id)
       readr::write_csv(facts,
                        file.path(new_dir, paste0(data_name, "__attribute_factor_metadata.csv")))
     }
   }
 
+
+  # Write to log file (log file's name and path is log_path)
+  data_to_log <- data.frame(Date_Run = paste0(Sys.time()),
+                            Data_ID = data_id,
+                            Dataset_URL = data_nodes$data$url,
+                            Location = new_dir)
+
+  # If the log file doesn't exist yet, then create it.
+  if(file.exists(log_path)){
+    readr::write_csv(data_to_log, path = log_path, append = TRUE)
+  } else {
+    readr::write_csv(data_to_log, path = log_path, append = FALSE, col_names = TRUE)
+  }
+
   ## Output folder name
   return(new_dir)
 }
+
