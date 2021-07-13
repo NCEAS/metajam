@@ -16,7 +16,6 @@
 #' @param meta_id (character) A metadata identifier produced by download_d1_data
 #' @param data_id (character) A data identifier produced by download_d1_data
 #' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
-#' @param mn (character) The member node carried over from the download_d1_function
 #' @param path (character) Path to a directory to download data to.
 #'
 

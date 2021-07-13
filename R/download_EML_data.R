@@ -15,10 +15,9 @@
 #' @param meta_id (character) A metadata identifier produced by download_d1_data
 #' @param data_id (character) A data identifier produced by download_d1_data
 #' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
-#' @param mn (character) The member node carried over from the download_d1_function
 #' @param path (character) Path to a directory to download data to.
 
-download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, mn, path) {
+download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) {
 
 
     eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
@@ -85,10 +84,11 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, mn, pa
 
   # Write files & download data--------
   message("\nDownloading data ", data_id, " ...")
-  cn <- dataone::CNode()
-  mn <- dataone::getMNode(cn, metadata_nodes$data$nodeIdentifier[[1]])
-  pid <- data_id
-  data_sys <- suppressMessages(dataone::getSystemMetadata(mn, pid))
+    cn <- dataone::CNode()
+    data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
+    d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
+    pid <- data_id
+    data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@mn, pid))
 
   data_name <- data_sys@fileName %|||% ifelse(exists("entity_data"), entity_data$physical$objectName %|||% entity_data$entityName, NA) %|||% data_id
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
