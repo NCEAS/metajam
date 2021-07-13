@@ -26,6 +26,10 @@ get_pkg_pids <- function(pkg_doi) {
     rm_pid <- pkg_pid$identifier
   } else if (pkg_pid$formatType == "METADATA") {
     rm_pid <- pkg_pid$resourceMap
+    # handling case the ressource map is not built correctly
+    if (is.null(rm_pid)) {
+      rm_pid <- pkg_pid$identifier
+    }
   } else {
     stop("The data package could not be found. Please check the DOI and try again.")
     #TODO: test on pids that start with dx.doi
@@ -41,6 +45,12 @@ get_pkg_pids <- function(pkg_doi) {
   query_params <- list(q = sprintf('resourceMap:"%s"', rm_pid),
                        fl = "identifier, formatType", rows = 10000)
   pids <- dataone::query(dataone::CNode(), query_params, as = "data.frame")
+
+  # Remove EDI data package evaluation reports since they are not "DATA".
+  # Including them as "DATA" results in errors.
+  pids <- pids[
+    !(stringr::str_detect(pids$identifier, 'pasta.lternet.edu') &
+      stringr::str_detect(pids$identifier, 'report')), ]
 
   # Create the list
   pid_list <- list(resource_map = rm_pid,

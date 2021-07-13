@@ -1,16 +1,40 @@
 Package: metajam
 Type: Package
-Title: Tools to download data and metadata from DataONE
-Version: 0.2.0.9000
-Date: 2018-06-12
+Title: Easily Download Data and Metadata from 'DataONE'
+Version: 0.2.3
+Date: 2020-10-14
 Authors@R: c(
-  person("Julien", "Brun", email = "brun@nceas.ucsb.edu", role = c("cre", "aut")),
-  person("Irene", "Steves", comment = "https://github.com/isteves", role = "aut"),
-  person("Mitchell", "Maier", email = "mitchell.maier@gmail.com", role = "aut"),
-  person("Derek", "Strong", email = "dstrong@nceas.ucsb.edu", role = "ctb")
-  )
+              person("Julien", "Brun", 
+                 email = "brun@nceas.ucsb.edu", 
+                 comment = c(ORCID = "0000-0002-7751-6238"),
+                 role = c("cre", "aut")),
+              person("Irene", "Steves", 
+                 comment = c(ORCID = "0000-0002-5511-9717",
+                    "https://github.com/isteves"), 
+                 role = "aut"),
+              person("Mitchell", "Maier", 
+                 comment= c(ORCID = "0000-0001-6955-0535"), 
+                 role = "aut"),
+              person("Nathan", "Hwangbo", 
+                 email = "nathanhwangbo@gmail.com", 
+                 comment= c(ORCID = "0000-0002-3777-0821"),
+                 role = "ctb"),
+              person("Derek", "Strong", 
+                 email = "dstrong@nceas.ucsb.edu", 
+                 comment= c(ORCID = "0000-0002-0347-8574"),
+                 role = "ctb"),
+              person("Colin", "Smith", 
+                 email = "colin.smith@wisc.edu", 
+                 comment = c(ORCID = "0000-0003-2261-9931"),
+                 role = "ctb"),
+              person("Kristen", "Peach", 
+                 email = "peach@nceas.ucsb.edu", 
+                 comment = c(ORCID = "0000-0002-6388-0901"),
+                 role = "ctb")
+              )
 Maintainer: Julien Brun <brun@nceas.ucsb.edu>
-Description: Tools to download data and metadata from DataONE (https://www.dataone.org) and load this information in R.
+Description: A set of tools to foster the development of reproducible analytical workflow by simplifying the download of data and 
+    metadata from 'DataONE' (<https://www.dataone.org>) and easily importing this information into R.
 License: Apache License (== 2.0)
 URL: https://github.com/nceas/metajam
 BugReports: https://github.com/nceas/metajam/issues
@@ -25,11 +49,8 @@ Imports:
     stats,
     stringr,
     tibble,
-    tidyr
-Remotes:
-    DataONEorg/rdataone,
-    ropensci/EML,
-    cboettig/emld
+    tidyr,
+    rlang
 Suggests:
     testthat,
     knitr,
@@ -38,4 +59,4 @@ Suggests:
 Encoding: UTF-8
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1

@@ -7,3 +7,5 @@
 ^\.travis\.yml$
 ^LICENSE$
 ^inst/Pres$
+cran-comments.md
+^\.github$
