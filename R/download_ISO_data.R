@@ -21,7 +21,7 @@
 #'
 
 
-download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nodes,mn, path) {
+download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path) {
 
   meta_iso_xml <- XML::xmlTreeParse(meta_raw)
 
@@ -36,10 +36,13 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
     unlist() %>%
     tibble::enframe()
 
-  ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.metadataStandardName.children.CharacterString.children.text.value")
+  #This is too strict of a filter. It worked for the example data set but not several others
+#  ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.metadataStandardName.children.CharacterString.children.text.value")
 
-  metadata <- metadata %>%
-    mutate(value = ifelse(name == "@type", ISO_type$value ,value ))
+ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.metadataStandardName.children.CharacterString.children.text.value")
+
+ metadata <- metadata %>%
+   mutate(value = ifelse(name == "@type", ISO_type$value ,value ))
 
 
   metadata <- metadata %>%
@@ -99,9 +102,10 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
   # Write files & download data--------
   message("\nDownloading data ", data_id, " ...")
   cn <- dataone::CNode()
-  mn <- dataone::getMNode(cn, metadata_nodes$data$nodeIdentifier[[1]])
+  data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
+  d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
   pid <- data_id
-  data_sys <- suppressMessages(dataone::getSystemMetadata(mn, pid))
+  data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@mn, pid))
 
   data_name <- data_sys@fileName %|||% ifelse(exists("entity_data"), entity_data$physical$objectName %|||% entity_data$entityName, NA) %|||% data_id
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _

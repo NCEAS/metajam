@@ -7,13 +7,19 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+
+Lisa Eisner and Michael Lomas. Phytoplankton identifications in the northern Bering and Chukchi seas, quantified with FlowCAM image analysis, Arctic Integrated Ecosystem Research Program, August-September 2017. Research Workspace. 10.24431/rw1k5ac, version: 10.24431_rw1k5ac_20210709T212354Z.
+
 ```{r}
 
+library(tidyverse)
 
-path_folder <- "Data_test"
+#URl to package https://search.dataone.org/view/10.24431%2Frw1k5ac
+path_folder <- "Data_test_phytoplankton"
 
 # URL to download the dataset from DataONE
-data_url <- "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16"
+data_url <- "https://cn.dataone.org/cn/v2/resolve/8181dc0f-25fe-45c2-9bcd-0af54276aa62"
 
 dir.create(path_folder, showWarnings = FALSE)
 
@@ -24,6 +30,46 @@ data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
 
 
 ```
+
+```{r}
+
+
+library(tidyverse)
+path_folder <- "Data_test_phytoplankton"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/8181dc0f-25fe-45c2-9bcd-0af54276aa62"
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+
+
+
+```
+
+
+
+```{r}
+
+library(tidyverse)
+path_folder <- "Data_test_eml"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fdata%2Feml%2Fedi%2F853%2F1%2F1e02df107f9a4d5045bff3e4440ee202"
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+all_mns
+```
+
+
+
 
 ```{r}
 
