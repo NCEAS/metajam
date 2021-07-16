@@ -8,6 +8,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+Trying the new functions on a variety of member nodes and using data urls from data packages with both eml and iso xml files.
+
+### ISO
+
+## Research Workplace mn
 
 Lisa Eisner and Michael Lomas. Phytoplankton identifications in the northern Bering and Chukchi seas, quantified with FlowCAM image analysis, Arctic Integrated Ecosystem Research Program, August-September 2017. Research Workspace. 10.24431/rw1k5ac, version: 10.24431_rw1k5ac_20210709T212354Z.
 
@@ -31,14 +36,17 @@ data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
 
 ```
 
+Jens Nielsen, Louise Copeman, Michael Lomas, and Lisa Eisner. Fatty acid seston samples collected from CTD samples in N. Bering and Chukchi Seas during Arctic Integrated Ecosystem Research Program, from research vessel Sikuliaq June 2017. Research Workspace. 10.24431/rw1k59z, version: 10.24431_rw1k59z_20210708T234958Z.
+
+
 ```{r}
 
 
 library(tidyverse)
-path_folder <- "Data_test_phytoplankton"
+path_folder <- "Data_test_sikuliaq"
 
 # URL to download the dataset from DataONE
-data_url <- "https://cn.dataone.org/cn/v2/resolve/8181dc0f-25fe-45c2-9bcd-0af54276aa62"
+data_url <- "https://cn.dataone.org/cn/v2/resolve/f1cb7dc2-a02f-45ec-aa13-e1a118d85404"
 
 dir.create(path_folder, showWarnings = FALSE)
 
@@ -50,73 +58,80 @@ data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
 
 ```
 
+### EML
 
+## Arctic Data Center (via DataOne)
+
+William Daniels, Yongsong Huang, James Russell, Anne Giblin, Jeffrey Welker, et al. 2021. Soil Water, plant xylem water, and leaf wax hydrogen isotope survey from Toolik Lake Area 2013-2014. Arctic Data Center. doi:10.18739/A2S17ST50.
 
 ```{r}
 
 library(tidyverse)
-path_folder <- "Data_test_eml"
+path_folder <- "Data_test_xylem"
 
 # URL to download the dataset from DataONE
-data_url <- "https://cn.dataone.org/cn/v2/resolve/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fdata%2Feml%2Fedi%2F853%2F1%2F1e02df107f9a4d5045bff3e4440ee202"
+data_url <- "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3A4b5b35cf-7a39-449f-90f1-93fb3e6fb242"
 
 dir.create(path_folder, showWarnings = FALSE)
 
 # Download the dataset and associated metdata 
 data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
 
-all_mns
+
 ```
+
+Caitlin Livsey, Reinhard Kozdon, Dorothea Bauch, Geert-Jan Brummer, Lukas Jonkers, et al. 2021. In situ Magnesium/Calcium (Mg/Ca) and oxygen isotope (d18O) measurements in Neogloboquadrina pachyderma shells collected in 1999 by a MultiNet tow from different depth intervals in the Fram Strait. Arctic Data Center. doi:10.18739/A2WS8HN0X.
+
+```{r}
+
+library(tidyverse)
+path_folder <- "Data_test_magnesium"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3A4b5b35cf-7a39-449f-90f1-93fb3e6fb242"
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+
+```
+
+## KNB (via DataOne)
+
+Darcy Doran-Myers. 2021. Data: Density estimates for Canada lynx vary among estimation methods. Knowledge Network for Biocomplexity. urn:uuid:e9dc43c2-210f-40dc-86fb-a6ece2f5fd03.
+
+This one does not work and it fails within the download_EML_data.R function at lines 38-40
 
 
 
 
 ```{r}
 
-data_url <- "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16"
-#this stuff is in the function already
+library(tidyverse)
+path_folder <- "Data_test_lynx"
 
-  ## Try to get DataONE data_id from data_url ---------
-  data_url <- utils::URLdecode(data_url)
-  data_versions <- check_version(data_url, formatType = "data")
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3Aec00a8bc-f493-4485-a2f8-08cc9017f38e"
 
-  if (nrow(data_versions) == 1) {
-    data_id <- data_versions$identifier
-  } else if (nrow(data_versions) > 1) {
-    #get most recent version
-    data_versions$dateUploaded <- lubridate::ymd_hms(data_versions$dateUploaded)
-    data_id <- data_versions$identifier[data_versions$dateUploaded == max(data_versions$dateUploaded)]
-  } else {
-    stop("The DataONE ID could not be found for ", data_url)
-  }
-  
-  data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
-  d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
-  all_mns <- c(data_nodes$data$nodeIdentifier)
-  cn <- dataone::CNode()
-  
-    ## Download Metadata ------------
-  meta_id <- dataone::query(
-    cn,
-    list(q = sprintf('documents:"%s" AND formatType:"METADATA" AND -obsoletedBy:*', data_id),
-         fl = "identifier")) %>%
-    unlist()
-  
-  #This is the best version fo the loop so far. 
-  if (length(all_mns) == 1) {
-    mn <- dataone::getMNode(cn, all_mns)
-     meta_obj <- dataone::getObject(mn, meta_id) 
-  }  else {
-    for (i in length(all_mns)){
-      mn <- dataone::getMNode(cn, all_mns[i])
-      stopifnot(!is.null(mn))
-      meta_obj <- dataone::getObject(mn, meta_id) 
-    }
-  }
+#Fails here: 
 
+#    entity_data <- entity_objs %>%
+ #     purrr::keep(~any(grepl(data_id,
+ #                            purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
+
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
 
 
 ```
+
+
+Making Summary table for Issue Update 
 
 ```{r}
 

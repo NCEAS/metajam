@@ -28,16 +28,24 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) 
     entities <- c("dataTable", "spatialRaster", "spatialVector", "storedProcedure", "view", "otherEntity")
     entities <- entities[entities %in% names(eml$dataset)]
 
-    entity_objs <- purrr::map(entities, ~EML::eml_get(eml, .x)) %>%
-      # restructure so that all entities are at the same level
+    entity_objs <- purrr::map(entities, ~EML::eml_get(eml, .x)) %>%       # restructure so that all entities are at the same level
       purrr::map_if(~!is.null(.x$entityName), list) %>%
       unlist(recursive = FALSE)
 
     #sometimes url is stored in ...online$url instead of ...online$url$url
     #sometimes url needs to be decoded
+
+
+   # entity_data <- entity_objs %>%
+   #   purrr::keep(~any(grepl(data_id,
+         #                    purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
+
+
+    temp_data_id <- gsub("\\:", "\\-", data_id)
+
     entity_data <- entity_objs %>%
-      purrr::keep(~any(grepl(data_id,
-                             purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
+      purrr::keep(~any(grepl(temp_data_id, .x$id)))
+
 
     if (length(entity_data) == 0) {
       warning("No data metadata could be found for ", data_url)
@@ -53,9 +61,14 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) 
       entity_data <- entity_data[[1]]
     }
 
-    attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
+    # Test for the case a dataTable entity does not have attribute level metadata
+    if (!is.null(entity_data$attributeList)){
+      attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
+    }
 
-    meta_tabular <- tabularize_eml(eml) %>% tidyr::spread(name, value)
+
+    attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
+    meta_tabular <- tabularize_eml(eml) %>% tidyr::pivot_wider(names_from = name, values_from = value)
     metadata_url <- metadata_nodes$data$baseURL[[1]]
 
     ## Summary metadata from EML (combine with general metadata later)
