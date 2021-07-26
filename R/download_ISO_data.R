@@ -35,8 +35,6 @@ download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nod
     unlist() %>%
     tibble::enframe()
 
-  #This is too strict of a filter. It worked for the example data set but not several others
-#  ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.metadataStandardName.children.CharacterString.children.text.value")
 
 ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.metadataStandardName.children.CharacterString.children.text.value")
 
