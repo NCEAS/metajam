@@ -131,6 +131,41 @@ data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
 ```
 
 
+Trying to figure out if it fails for all KNB packages or just that one
+
+Jenna Loesberg and Wallace Meyer III. Granivory in California sage scrub: implications for common plant invaders and ecosystem conservation. Knowledge Network for Biocomplexity. doi:10.5063/R78CMB.
+
+```{r}
+
+library(tidyverse)
+path_folder <- "Data_test_granivory"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3Accc8ca4a-eacf-41e9-a295-a1d64f76e3e5"
+
+
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+data_folder <- download_d1_data(data_url = data_url,path =  path_folder)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
 Making Summary table for Issue Update 
 
 ```{r}

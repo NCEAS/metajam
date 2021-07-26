@@ -84,27 +84,8 @@ SMALL_download_d1_data <- function(data_url, path) {
   }
 
   metadata_nodes <- dataone::resolve(cn, meta_id)
-
- # mn <- dataone::getMNode(cn, "urn:node:RW")
-
   meta_obj <- dataone::getObject(d1c@mn, meta_id)
 
-# if (length(all_mns) == 1) {
- #  mn <- dataone::getMNode(cn, all_mns)
-#   message("\nDownloading metadata ", meta_id, " ...")
-#   meta_obj <- dataone::getObject(mn, meta_id)
-#   message("Download metadata complete")
-# }  else if (length(all_mns) > 1) {
- #  for (i in length(all_mns)){
- #     mn <- try(dataone::getMNode(cn, all_mns[[i]]))
- #     stopifnot(!is.null(mn))
- #     message("\nDownloading metadata ", meta_id, " ...")
- #     meta_obj <- dataone::getObject(mn, meta_id)
- #     message("Download metadata complete")
- #   }
- # }
-
-  #Need to add a message here about selecting the right mn
 
   #Preparing some objects for input into language specific functions below
     meta_raw <- rawToChar(meta_obj)
@@ -117,10 +98,10 @@ SMALL_download_d1_data <- function(data_url, path) {
 
     if (grepl("ecoinformatics.org", meta_raw) == FALSE) {
       warning("Metadata is in ISO format")
-      new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, mn, path = path)
+      new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path = path)
     } else if (grepl("ecoinformatics.org", meta_raw) == TRUE) {
       warning("Metadata is in EML format")
-      new_dir <- download_EML_data(meta_obj, meta_id, data_id, metadata_nodes, mn, path = path)
+      new_dir <- download_EML_data(meta_obj, meta_id, data_id, metadata_nodes, path = path)
     }
 
   ## Output folder name
