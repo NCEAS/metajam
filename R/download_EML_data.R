@@ -32,15 +32,8 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) 
       purrr::map_if(~!is.null(.x$entityName), list) %>%
       unlist(recursive = FALSE)
 
-    #sometimes url is stored in ...online$url instead of ...online$url$url
-    #sometimes url needs to be decoded
 
-
-   # entity_data <- entity_objs %>%
-   #   purrr::keep(~any(grepl(data_id,
-         #                    purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
-
-
+#Using the data_id to retrieve only the dataset of interest from all of the data objects in the package
     temp_data_id <- gsub("\\:", "\\-", data_id)
 
     entity_data <- entity_objs %>%
@@ -48,7 +41,7 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) 
 
 
     if (length(entity_data) == 0) {
-      warning("No data metadata could be found for ", data_url)
+      warning("No data metadata could be found for ", data_url, "\n Double check that you have entered a valid url for the data")
 
     } else {
 
