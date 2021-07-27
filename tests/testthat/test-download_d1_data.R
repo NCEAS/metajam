@@ -1,4 +1,4 @@
-context("SMALL_download_d1_data")
+context("download_d1_data")
 
 test_that("accepts correct inputs", {
   expect_error(download_d1_data(7))
