@@ -33,8 +33,8 @@ devtools::install_github('NCEAS/metajam')
 The process of using `metajam` is as follows:
 
 1. Get the URL for the dataset to download
-2. Download the data (`metajam::download_d1_data`)
-3. Read the data into R (`metajam::read_d1_files`)
+2. Download the data and metadata (`metajam::download_d1_data`)
+3. Read the data and metadata into R (`metajam::read_d1_files`)
 
 These steps are described in greater detail--with included examples--below.
 
