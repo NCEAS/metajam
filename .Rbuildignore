@@ -9,3 +9,4 @@
 ^inst/Pres$
 cran-comments.md
 ^\.github$
+^pkgdown$

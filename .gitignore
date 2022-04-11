@@ -7,3 +7,4 @@ doc
 .httr-oauth
 inst/doc
 .DS_Store
+docs
