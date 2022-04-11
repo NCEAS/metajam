@@ -25,7 +25,7 @@ get_pkg_pids <- function(pkg_doi) {
   if (pkg_pid$formatType == "RESOURCE") {
     rm_pid <- pkg_pid$identifier
   } else if (pkg_pid$formatType == "METADATA") {
-    rm_pid <- pkg_pid$resourceMap
+    rm_pid <- pkg_pid$resourceMap[[1]]
     # handling case the ressource map is not built correctly
     if (is.null(rm_pid)) {
       rm_pid <- pkg_pid$identifier
