@@ -19,7 +19,11 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-pandoc@v1
       - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          use-public-rspm: true
       - name: Install udunits
         run: brew install udunits
       - name: Install dependencies
