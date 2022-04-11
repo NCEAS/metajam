@@ -264,9 +264,9 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
 
   # If the log file doesn't exist yet, then create it.
   if(file.exists(log_path)){
-    readr::write_csv(data_to_log, path = log_path, append = TRUE)
+    readr::write_csv(data_to_log, file = log_path, append = TRUE)
   } else {
-    readr::write_csv(data_to_log, path = log_path, append = FALSE, col_names = TRUE)
+    readr::write_csv(data_to_log, file = log_path, append = FALSE, col_names = TRUE)
   }
 
   ## Output folder name
