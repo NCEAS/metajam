@@ -4,14 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="A set of tools to foster the development of reproducible analytical workflow by simplifying the download of data and 
+    metadata from DataONE (&lt;https://www.dataone.org&gt;) and easily importing this information into R.">
 <title>Easily Download Data and Metadata from DataONE • metajam</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Easily Download Data and Metadata from DataONE">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Easily Download Data and Metadata from DataONE">
 <meta property="og:description" content="A set of tools to foster the development of reproducible analytical workflow by simplifying the download of data and 
     metadata from DataONE (&lt;https://www.dataone.org&gt;) and easily importing this information into R.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -19,109 +20,101 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">metajam</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">metajam</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li class="dropdown-header">Processing Datasets</li>
-    <li>
-      <a href="articles/dataset-single.html">Use Case 1 - Processing a single dataset</a>
-    </li>
-    <li>
-      <a href="articles/dataset-batch-processing.html">Use Case 2 - Batch processing LTER Luquillo stream chemistry data</a>
-    </li>
-    <li>
-      <a href="articles/reading-raster.html">Use Case 3 - Processing raster data</a>
-    </li>
-    <li class="dropdown-header">Processing Data Packages</li>
-    <li>
-      <a href="articles/package-download.html">Use Case 4 - Downloading entire data packages using DOIs</a>
-    </li>
-  </ul>
-</li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/nceas/metajam">
-    <span class="fas fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-</div>
-<!--/.nav-collapse -->
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/dataset-batch-processing.html">Use Case 2 - Processing stream chemistry data for the LTER Luquillo site</a>
+    <a class="dropdown-item" href="articles/dataset-single.html">Use Case 1 - Processing a single dataset</a>
+    <a class="dropdown-item" href="articles/package-download.html">Use Case 3 - Downloading entire data packages using DOIs</a>
+    <a class="dropdown-item" href="articles/reading-raster.html">Use Case 3 - Processing a raster dataset</a>
   </div>
-<!--/.container -->
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/nceas/metajam/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
-<!--/.navbar -->
 
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-
-<p><img src="inst/images/metajam_hex.png" align="right" width="15%"></p>
-<div id="metajam" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#metajam" class="anchor"></a>metajam</h1></div>
+    
+  </div>
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><p><img src="reference/figures/metajam_hex.png" align="right" width="15%"></p>
+<div class="section level1">
+<div class="page-header"><h1 id="metajam">metajam<a class="anchor" aria-label="anchor" href="#metajam"></a>
+</h1></div>
 <!-- badges: start -->
-<p><a href="https://github.com/NCEAS/metajam/actions"><img src="https://github.com/NCEAS/metajam/workflows/pkgdown/badge.svg" alt="Package Site"></a> <a href="https://github.com/NCEAS/metajam/actions"><img src="https://github.com/NCEAS/metajam/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://CRAN.R-project.org/package=metajam"><img src="https://www.r-pkg.org/badges/version/metajam" alt="CRAN status"></a> <!-- badges: end --></p>
 <p>Download and read data and metadata from repositories in the DataONE network.</p>
-<div id="authors" class="section level2">
-<h2 class="hasAnchor">
-<a href="#authors" class="anchor"></a>Authors</h2>
+<div class="section level2">
+<h2 id="authors">Authors<a class="anchor" aria-label="anchor" href="#authors"></a>
+</h2>
 <p>Irene Steves, Mitchell Maier and Julien Brun; NCEAS</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>The <code>metajam</code> package can be installed from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"metajam"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"metajam"</span><span class="op">)</span></span></code></pre></div>
 <p>The development version of <code>metajam</code> package can also be installed from GitHub using the <code>devtools</code> package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'NCEAS/metajam'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'NCEAS/metajam'</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="download-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#download-data" class="anchor"></a>Download data</h2>
+<div class="section level2">
+<h2 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
+</h2>
+<p>The process of using <code>metajam</code> is as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Get the URL for the dataset to download</li>
+<li>Download the data and metadata (<code><a href="reference/download_d1_data.html">metajam::download_d1_data</a></code>)</li>
+<li>Read the data and metadata into R (<code><a href="reference/read_d1_files.html">metajam::read_d1_files</a></code>)</li>
+</ol>
+<p>These steps are described in greater detail–with included examples–below.</p>
+</div>
+<div class="section level2">
+<h2 id="how-to-get-the-url-to-your-dataset-of-interest-">How to get the URL to your dataset of interest ?<a class="anchor" aria-label="anchor" href="#how-to-get-the-url-to-your-dataset-of-interest-"></a>
+</h2>
+<p>From DataONE or any currently supported data repository (<a href="https://knb.ecoinformatics.org/" class="external-link">KNB</a>, <a href="https://arcticdata.io/" class="external-link">Arctic Data Center</a>, or <a href="https://portal.edirepository.org/nis/home.jsp" class="external-link">EDI/LTER</a>), you can right-click on the <code>Download</code> button of a specific dataset and choose <code>Copy Link Address</code> to copy the URL to your clipboard</p>
+<p><br><img src="reference/figures/copy-link.png" width="100%"><br></p>
+</div>
+<div class="section level2">
+<h2 id="download-data">Download data<a class="anchor" aria-label="anchor" href="#download-data"></a>
+</h2>
 <p>To download a data object, specify the data object URL and local download path in the <code>download_d1_data</code> function:</p>
-<pre><code><a href="https://github.com/nceas/metajam">library(metajam)
-
-download_d1_data("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e123f84-ce0d-4094-b898-c9e73680eafa", path = ".")</a></code></pre>
-<p><br><img src="inst/images/download-output.png" width="60%"><br><br><img src="inst/images/file-output.png" width="50%"><br></p>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nceas/metajam" class="external-link">metajam</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/download_d1_data.html">download_d1_data</a></span><span class="op">(</span><span class="st">"https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e123f84-ce0d-4094-b898-c9e73680eafa"</span>, path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre>
+<p><br><img src="reference/figures/download-output.png" width="60%"><br><br><img src="reference/figures/file-output.png" width="50%"><br></p>
 <p>The output is saved in a folder with the name <code>{metadata_id}__{file_name}</code>, which contains the data file and its associated metadata. The metadata follows these conventions:</p>
 <ul>
 <li>
@@ -134,91 +127,105 @@ download_d1_data("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e1
 <code>{file_name}__attribute_factor_metadata.csv</code> - attribute factor metadata in a tabular format, if included in the metadata xml</li>
 </ul>
 </div>
-<div id="how-to-get-the-url-to-your-dataset-of-interest-" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-get-the-url-to-your-dataset-of-interest-" class="anchor"></a>How to get the URL to your dataset of interest ?</h2>
-<p>From DataONE or any currently supported data repository (<a href="https://knb.ecoinformatics.org/">KNB</a>, <a href="https://arcticdata.io/">Arctic Data Center</a>, or <a href="https://portal.edirepository.org/nis/home.jsp">EDI/LTER</a>), you can right-click on the <code>Download</code> button of a specific dataset and choose <code>Copy Link Address</code> to copy the URL to your clipboard</p>
-<p><br><img src="inst/images/copy-link.png" width="100%"><br></p>
-</div>
-<div id="read-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#read-data" class="anchor"></a>Read data</h2>
+<div class="section level2">
+<h2 id="read-data">Read data<a class="anchor" aria-label="anchor" href="#read-data"></a>
+</h2>
 <p>The <code>read_d1_files</code> function allows you to read the downloaded data and metadata directly into your R environment. Simply run the function with the folder path to the downloaded objects, and all data and metadata files will be returned as data frames stored in a list. Use <code>{object_name}$data</code> to access the data, and <code>{object_name}${metadata_type}_metadata</code> to access its associated metadata.</p>
-<pre><code>schools &lt;- read_d1_files("./doi_10.18739_A2DP3X__Alaska_Schools_Rentention2009_15")</code></pre>
-<p><br><img src="inst/images/read-output.png" width="60%"><br></p>
+<pre><code><span><span class="va">schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_d1_files.html">read_d1_files</a></span><span class="op">(</span><span class="st">"./doi_10.18739_A2DP3X__Alaska_Schools_Rentention2009_15"</span><span class="op">)</span></span></code></pre>
+<p><br><img src="reference/figures/read-output.png" width="60%"><br></p>
 </div>
-<div id="quick-overview-of-metajam" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quick-overview-of-metajam" class="anchor"></a>Quick Overview of <code>metajam</code>
+<div class="section level2">
+<h2 id="additional-resources-for-metajam">Additional resources for <code>metajam</code>
+<a class="anchor" aria-label="anchor" href="#additional-resources-for-metajam"></a>
 </h2>
 <ul>
-<li>Recent presentation on <code>metajam</code> and its functionalities: <a href="https://brunj7.github.io/metajam-presentations/metajam-nceas-roundtable18.html">Click here</a>
+<li>Recent presentation on <code>metajam</code> and its functionalities: <a href="https://brunj7.github.io/metajam-presentations/metajam-nceas-roundtable18.html" class="external-link">Click here</a>
+</li>
+<li>
+<code>metajam</code> demo: <a href="https://brunj7.github.io/metajam-presentations/metajam-demo.html" class="external-link">Click here</a>
 </li>
 <li>Package website: <a href="https://nceas.github.io/metajam/" class="uri">https://nceas.github.io/metajam/</a>
 </li>
 </ul>
 </div>
-<div id="acknowledgements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#acknowledgements" class="anchor"></a>Acknowledgements</h2>
+<div class="section level2">
+<h2 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
+</h2>
 <p>Work on this package was supported by:</p>
 <ul>
 <li>NSF-PLR grant #1546024 to M. B. Jones, S. Baker-Yeboah, J. Dozier, M. Schildhauer, and A. Budden</li>
 <li>Long Term Ecological Research (LTER) National Communications Office (LNCO), NSF grant #1545288 to F. Davis, M. Schildhauer, S. Rebich Hespanha, J. Caselle and C. Blanchette</li>
 </ul>
 <p>Thanks also go to NCEAS computing team members Mark Schildhauer, Peter Slaughter, Dominic Muellen, Steven Chong, Jesse Goldstein and Matt Jones for their inputs on this package.</p>
-<p><img src="https://www.nceas.ucsb.edu/files/logos/NCEAS/NCEAS-full%20logo-4C.jpg" alt="NCEAS logo"></p>
+<div class="figure">
+<img src="https://www.nceas.ucsb.edu/files/logos/NCEAS/NCEAS-full%20logo-4C.jpg" alt=""><p class="caption">NCEAS logo</p>
+</div>
 </div>
 </div>
 
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
-<h2>Links</h2>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=metajam">https://​cloud.r-project.org/​package=metajam</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/nceas/metajam/">https://​github.com/​nceas/​metajam/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/nceas/metajam/issues">https://​github.com/​nceas/​metajam/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=metajam" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/nceas/metajam/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/nceas/metajam/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>Apache License (== 2.0)</li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Julien Brun <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0000-0002-7751-6238" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Irene Steves <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5511-9717" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> <br><small>(https://github.com/isteves)</small>
-</li>
-<li>Mitchell Maier <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-6955-0535" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html#citation">Citing metajam</a></li>
 </ul>
 </div>
 
-  </div>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Julien Brun <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0000-0002-7751-6238" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Irene Steves <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5511-9717" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Mitchell Maier <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-6955-0535" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/NCEAS/metajam/actions" class="external-link"><img src="https://github.com/NCEAS/metajam/workflows/pkgdown/badge.svg" alt="Package Site"></a></li>
+<li><a href="https://github.com/NCEAS/metajam/actions" class="external-link"><img src="https://github.com/NCEAS/metajam/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=metajam" class="external-link"><img src="https://www.r-pkg.org/badges/version/metajam" alt="CRAN status"></a></li>
+</ul>
+</div>
+
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
-  <p>Developed by Julien Brun, Irene Steves, Mitchell Maier.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by Julien Brun, Irene Steves, Mitchell Maier.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
