@@ -1,4 +1,4 @@
-<img src="inst/images/metajam_hex.png" align="right" width="15%" />
+<img src="man/figures/metajam_hex.png" align="right" width="15%" />
 
 # metajam
 <!-- badges: start -->
@@ -43,7 +43,7 @@ These steps are described in greater detail--with included examples--below.
 From DataONE or any currently supported data repository ([KNB](https://knb.ecoinformatics.org/), [Arctic Data Center](https://arcticdata.io/), or [EDI/LTER](https://portal.edirepository.org/nis/home.jsp)), you can right-click on the `Download` button of a specific dataset and choose `Copy Link Address` to copy the URL to your clipboard
 
 <br>
-<img src="inst/images/copy-link.png" width="100%"/>
+<img src="man/figures/copy-link.png" width="100%"/>
 <br>
 
 ## Download data
@@ -56,10 +56,10 @@ library(metajam)
 download_d1_data("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e123f84-ce0d-4094-b898-c9e73680eafa", path = ".")
 ```
 <br>
-<img src="inst/images/download-output.png" width="60%"/>
+<img src="man/figures/download-output.png" width="60%"/>
 <br>
 <br>
-<img src="inst/images/file-output.png" width="50%"/>
+<img src="man/figures/file-output.png" width="50%"/>
 <br>
 
 The output is saved in a folder with the name `{metadata_id}__{file_name}`, which contains the data file and its associated metadata. The metadata follows these conventions:
@@ -78,7 +78,7 @@ schools <- read_d1_files("./doi_10.18739_A2DP3X__Alaska_Schools_Rentention2009_1
 ```
 
 <br>
-<img src="inst/images/read-output.png" width="60%"/>
+<img src="man/figures/read-output.png" width="60%"/>
 <br>
 
 ## Additional resources for `metajam`
