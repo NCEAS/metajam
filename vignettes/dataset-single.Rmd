@@ -65,7 +65,7 @@ At this point, you should have the data and the metadata downloaded inside your 
 
   
 ```{r, out.width="90%", echo=FALSE, fig.align="center", fig.cap="Local file structure of a dataset downloaded by metajam"}
-knitr::include_graphics("../inst/images/metajam_v1_folder.png")
+knitr::include_graphics("../man/figures/metajam_v1_folder.png")
 ```  
    
 
@@ -83,7 +83,7 @@ You have now loaded in your R environment one named list object that contains th
 
 
 ```{r, out.width="90%", echo=FALSE, fig.align="center", fig.cap="Structure of the named list object containing tabular metadata and data as loaded by metajam"}
-knitr::include_graphics("../inst/images/metajam_v1_named_list.png")
+knitr::include_graphics("../man/figures/metajam_v1_named_list.png")
 ```  
 
 

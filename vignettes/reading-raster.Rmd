@@ -74,7 +74,7 @@ shipping_routes <-  read_d1_files(data_folder, "raster")
 plot(shipping_routes$data)
 ```
 ```{r plot, out.width="90%", echo=FALSE, fig.align="center", fig.cap="Shipping routes frequency"}
-knitr::include_graphics("../inst/images/shipping-raster.png")
+knitr::include_graphics("../man/figures/shipping-raster.png")
 ```  
 
 # Investigate the metadata
@@ -83,6 +83,6 @@ knitr::include_graphics("../inst/images/shipping-raster.png")
 shipping_routes$summary_metadata
 ```
 ```{r metadata-table, out.width="100%", echo=FALSE, fig.align="center"}
-knitr::include_graphics("../inst/images/shipping-metadata.png")
+knitr::include_graphics("../man/figures/shipping-metadata.png")
 ```  
 
