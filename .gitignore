@@ -1,10 +1,9 @@
-Meta
+Meta/
 doc/
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 .httr-oauth
-inst/doc
 .DS_Store
 docs/
