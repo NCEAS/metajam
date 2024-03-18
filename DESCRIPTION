@@ -5,7 +5,7 @@ Version: 0.2.3
 Date: 2020-10-14
 Authors@R: c(
               person("Julien", "Brun", 
-                 email = "brun@nceas.ucsb.edu", 
+                 email = "jb160@ucsb.edu", 
                  comment = c(ORCID = "0000-0002-7751-6238"),
                  role = c("cre", "aut")),
               person("Irene", "Steves", 
