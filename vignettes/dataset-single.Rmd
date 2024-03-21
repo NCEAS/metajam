@@ -4,7 +4,7 @@ author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"Use Case - Downloading one dataset using metajam"}
+  %\VignetteIndexEntry{"Use Case - Downloading one dataset from the Arctic Data Center using metajam"}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
