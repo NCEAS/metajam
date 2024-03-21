@@ -56,7 +56,8 @@ Imports:
     stats,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    XML
 Suggests:
     knitr,
     rmarkdown,
