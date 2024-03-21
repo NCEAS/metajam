@@ -70,7 +70,9 @@ ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.meta
     dplyr::mutate(value = gsub("\n", "", value))  #without this, fields get truncated in Excel
 
 
-  meta_tabular <- metadata  %>% tidyr::spread(name, value)
+  meta_tabular <- tidyr::pivot_wider(data = metadata,
+                                     names_from = name,
+                                     values_from = value)
   metadata_url <- metadata_nodes$data$baseURL[[1]]
 
   ## Summary metadata from EML (combine with general metadata later)
