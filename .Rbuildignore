@@ -1,7 +1,7 @@
 ^Meta$
 ^doc$
 ^docs$
-^dev/$
+^dev$
 ^_pkgdown\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
