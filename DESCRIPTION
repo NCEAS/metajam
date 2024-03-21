@@ -52,7 +52,6 @@ Imports:
     lubridate,
     purrr,
     readr,
-    rlang,
     stats,
     stringr,
     tibble,
