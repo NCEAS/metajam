@@ -1,9 +1,9 @@
-#' Check PID version
+#' @title Check PID version
 #'
-#' This function takes an identifier and checks to see if it has been obsoleted.
+#' @description This function takes an identifier and checks to see if it has been obsoleted.
 #'
 #' @param pid (character) The persistent identifier of a data, metadata, or resource map object on a DataONE member node.
-#' @param formatType (character) Optional. The format type to return (one of data, metadata, or resource).
+#' @param formatType (character) Optional. The format type to return (one of 'data', 'metadata', or 'resource').
 #'
 #' @return (data.frame) A data frame of object version PIDs and related information.
 #'
