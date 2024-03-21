@@ -1,6 +1,14 @@
-pandoc: 2.9.1.1
-pkgdown: 1.6.0
+pandoc: 3.1.1
+pkgdown: 2.0.7
 pkgdown_sha: ~
-articles: []
-last_built: 2020-10-09T23:12Z
+articles:
+  dataset-batch-processing: dataset-batch-processing.html
+  dataset-single-DataOne: dataset-single-DataOne.html
+  dataset-single: dataset-single.html
+  package-download: package-download.html
+  reading-raster: reading-raster.html
+last_built: 2024-03-21T18:55Z
+urls:
+  reference: https://nceas.github.io/metajam/reference
+  article: https://nceas.github.io/metajam/articles
 

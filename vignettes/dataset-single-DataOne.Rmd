@@ -14,9 +14,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-# Ignore difference in YAML title versus `\VignetteIndexEntry{}`
-options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 ## Summary

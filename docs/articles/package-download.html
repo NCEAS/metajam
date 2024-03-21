@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metajam</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3</span>
       </span>
     </div>
 
@@ -47,7 +49,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -55,7 +57,10 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Processing Datasets</li>
     <li>
-      <a href="../articles/dataset-single.html">Use Case 1 - Processing a single dataset</a>
+      <a href="../articles/dataset-single.html">Use Case 1 - Processing a single dataset (Artic Data Center)</a>
+    </li>
+    <li>
+      <a href="../articles/dataset-single-DataOne.html">Use Case 1B - Processing a single dataset (DataOne)</a>
     </li>
     <li>
       <a href="../articles/dataset-batch-processing.html">Use Case 2 - Batch processing LTER Luquillo stream chemistry data</a>
@@ -72,7 +77,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/nceas/metajam">
+  <a href="https://github.com/nceas/metajam" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -87,63 +92,65 @@
 
       
 
-      </header><script src="package-download_files/header-attrs-2.3/header-attrs.js"></script><script src="package-download_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Use Case 3 - Downloading entire data packages using DOIs</h1>
-                        <h4 class="author">Julien Brun, Mitchell Maier and Irene Steves, NCEAS</h4>
+      <h1 data-toc-skip>Use Case 3 - Downloading entire data packages
+using DOIs</h1>
+                        <h4 data-toc-skip class="author">Julien Brun,
+Mitchell Maier and Irene Steves, NCEAS</h4>
             
-            <h4 class="date">2020-10-09</h4>
+            <h4 data-toc-skip class="date">2024-03-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/master/vignettes/package-download.Rmd"><code>vignettes/package-download.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/nceas/metajam/blob/HEAD/vignettes/package-download.Rmd" class="external-link"><code>vignettes/package-download.Rmd</code></a></small>
       <div class="hidden name"><code>package-download.Rmd</code></div>
 
     </div>
 
     
     
-<div id="summary" class="section level2">
-<h2 class="hasAnchor">
-<a href="#summary" class="anchor"></a>Summary</h2>
-<p>This vignette aims to showcase a use case when the user wants to download all the datasets of a data package using <code>metajam</code> - <code>download_d1_data_pkg</code>.</p>
-<p>In this example we use a csv file storing packages returned after searching for <code>soil bulk density</code> on <a href="https://arcticdata.io/">Arctic Data Center</a> and <a href="https://knb.ecoinformatics.org/">KNB</a> data repositories.</p>
+<div class="section level2">
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<p>This vignette aims to showcase a use case when the user wants to
+download all the datasets of a data package using <code>metajam</code> -
+<code>download_d1_data_pkg</code>.</p>
+<p>In this example we use a csv file storing packages returned after
+searching for <code>soil bulk density</code> on <a href="https://arcticdata.io/" class="external-link">Arctic Data Center</a> and <a href="https://knb.ecoinformatics.org/" class="external-link">KNB</a> data repositories.</p>
 </div>
-<div id="libraries-and-constants" class="section level2">
-<h2 class="hasAnchor">
-<a href="#libraries-and-constants" class="anchor"></a>Libraries and constants</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># devtools::install_github("NCEAS/metajam")</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/nceas/metajam">metajam</a></span>)  
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://readr.tidyverse.org">readr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://purrr.tidyverse.org">purrr</a></span>)
-</pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co"># Directory to save the data set</span>
-<span class="kw">path_folder</span> <span class="op">&lt;-</span> <span class="st">"./Soil_bulk"</span>
-
-<span class="co"># URL to read the search results stored as a csv on Google Drive</span>
-<span class="kw">csv_search_results_url</span> <span class="op">&lt;-</span> <span class="st">"https://drive.google.com/uc?export=download&amp;id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV"</span>
-</pre></div>
+<div class="section level2">
+<h2 id="libraries-and-constants">Libraries and constants<a class="anchor" aria-label="anchor" href="#libraries-and-constants"></a>
+</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># devtools::install_github("NCEAS/metajam")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nceas/metajam" class="external-link">metajam</a></span><span class="op">)</span>  </span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Directory to save the data set</span></span>
+<span><span class="va">path_folder</span> <span class="op">&lt;-</span> <span class="st">"./Soil_bulk"</span></span>
+<span></span>
+<span><span class="co"># URL to read the search results stored as a csv on Google Drive</span></span>
+<span><span class="va">csv_search_results_url</span> <span class="op">&lt;-</span> <span class="st">"https://drive.google.com/uc?export=download&amp;id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV"</span></span></code></pre></div>
 </div>
-<div id="download-all-the-datasets-from-data-packages-using-dois" class="section level2">
-<h2 class="hasAnchor">
-<a href="#download-all-the-datasets-from-data-packages-using-dois" class="anchor"></a>Download all the datasets from data packages using DOIs</h2>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co"># Create the local directory to store data sets</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="kw">path_folder</span>, showWarnings = <span class="fl">FALSE</span>)
-
-<span class="co"># Read the data listing from Google Drive: https://drive.google.com/open?id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV</span>
-<span class="kw">data_listing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="kw">csv_search_results_url</span>)
-
-
-<span class="co">### Download the data and metadata ----</span>
-
-<span class="co"># Create the list of unique dois</span>
-<span class="kw">dois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw">data_listing</span><span class="op">$</span><span class="kw">identifier</span>)
-
-<span class="co"># batch download the datasets</span>
-<span class="kw">data_folders</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="kw">dois</span>, <span class="op">~</span><span class="fu"><a href="../reference/download_d1_data_pkg.html">download_d1_data_pkg</a></span>(<span class="kw">.x</span>, <span class="kw">path_folder</span>))
-</pre></div>
+<div class="section level2">
+<h2 id="download-all-the-datasets-from-data-packages-using-dois">Download all the datasets from data packages using DOIs<a class="anchor" aria-label="anchor" href="#download-all-the-datasets-from-data-packages-using-dois"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Create the local directory to store data sets</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">path_folder</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Read the data listing from Google Drive: https://drive.google.com/open?id=1WTLP2BcXCXmUyv4kmntyhuPfrBNdPIqV</span></span>
+<span><span class="va">data_listing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="va">csv_search_results_url</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co">### Download the data and metadata ----</span></span>
+<span></span>
+<span><span class="co"># Create the list of unique dois</span></span>
+<span><span class="va">dois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">data_listing</span><span class="op">$</span><span class="va">identifier</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># batch download the datasets</span></span>
+<span><span class="va">data_folders</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">dois</span>, <span class="op">~</span><span class="fu"><a href="../reference/download_d1_data_pkg.html">download_d1_data_pkg</a></span><span class="op">(</span><span class="va">.x</span>, <span class="va">path_folder</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
   </div>
 
@@ -158,11 +165,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Julien Brun, Irene Steves, Mitchell Maier.</p>
+  <p></p>
+<p>Developed by Julien Brun, Nicholas Lyon, Irene Steves, Mitchell Maier.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -170,6 +179,8 @@
 
   
 
+
+  
 
   </body>
 </html>
