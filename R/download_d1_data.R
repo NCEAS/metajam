@@ -4,7 +4,6 @@
 #'
 #' @param data_url (character) An identifier or URL for a DataONE object to download.
 #' @param path (character) Path to a directory to download data to.
-#' @param dir_name (character) (Optional) Desired name for the folder containing the downloaded data. Defaults to the data file name.
 #'
 #' @return (character) Path where data is downloaded to.
 #'
@@ -17,7 +16,6 @@
 #' @importFrom stringr str_extract
 #' @importFrom tidyr pivot_wider
 #' @importFrom utils URLdecode
-#' @importFrom rlang .data
 #'
 #' @export
 #'
@@ -25,18 +23,14 @@
 #'
 #' @examples
 #' \dontrun{
-#' soi_moist_path <- download_d1_data(
-#'                      data_url = "urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
-#'                      path = tempdir())
+#' download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = "./Data")
 #' download_d1_data(
-#'     data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
-#'     path = tempdir(),
-#'     dir_name = "test"
+#'    "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+#'     path = "."
 #'     )
 #' }
-#'
 
-download_d1_data <- function(data_url, path, dir_name = NULL) {
+download_d1_data <- function(data_url, path) {
   # TODO: add meta_doi to explicitly specify doi
 
   stopifnot(is.character(data_url), length(data_url) == 1, nchar(data_url) > 0)
@@ -59,6 +53,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   ## Set Nodes ------------
   data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
   d1c <- dataone::D1Client("PROD", data_nodes$data$nodeIdentifier[[1]])
+  all_mns <- c(data_nodes$data$nodeIdentifier)
   cn <- dataone::CNode()
 
   ## Download Metadata ------------
@@ -79,85 +74,64 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
 
   # depending on results, return warnings
   if (length(meta_id) == 0) {
-    warning("no metadata records found", immediate. = T)
+    warning("no metadata records found")
     meta_id <- NULL
   } else if (length(meta_id) > 1) {
     warning("multiple metadata records found:\n",
             paste(meta_id, collapse = "\n"),
-            "\nThe first record was used", immediate. = T)
+            "\nThe first record was used")
     meta_id <- meta_id[1]
   }
 
-  ## Get package level metadata -----------
-  if (!is.null(meta_id)) {
-    message("\nDownloading metadata ", meta_id, " ...")
-    meta_obj <- dataone::getObject(d1c@mn, meta_id)
-    message("Download metadata complete")
-    metadata_nodes <- dataone::resolve(cn, meta_id)
+  metadata_nodes <- dataone::resolve(cn, meta_id)
+  meta_obj <- dataone::getObject(d1c@mn, meta_id)
 
-    eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
-                    error = function(e) {NULL})
 
-    # Get attributes ----------
-    ## get entity that contains the metadata for the data object
-    entities <- c("dataTable", "spatialRaster", "spatialVector", "storedProcedure", "view", "otherEntity")
-    entities <- entities[entities %in% names(eml$dataset)]
+  #Preparing some objects for input into language specific functions below
+  meta_raw <- rawToChar(meta_obj)
+  meta_id <- meta_id[[1]]
 
-    entity_objs <- purrr::map(entities, ~EML::eml_get(eml, .x)) %>%
-      # restructure so that all entities are at the same level
-      purrr::map_if(~!is.null(.x$entityName), list) %>%
-      unlist(recursive = FALSE)
 
-    #sometimes url is stored in ...online$url instead of ...online$url$url
-    #sometimes url needs to be decoded
-    entity_data <- entity_objs %>%
-      purrr::keep(~any(grepl(data_id,
-                             purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
+  #Here we assume that these are the only two types of possible metadata..that's probably not smart
+  #"eml://ecoinformatics.org/eml"
+  #"http://www.isotc211.org/"
 
-    if (length(entity_data) == 0) {
-      warning("No data metadata could be found for ", data_url, immediate. = T)
-
-    } else {
-
-      if (length(entity_data) > 1) {
-      warning("Multiple data metadata records found:\n",
-              data_url,
-              "\nThe first record was used", immediate. = T)
-      }
-
-      entity_data <- entity_data[[1]]
-    }
-
-    # Test for the case a dataTable entity does not have attribute level metadata
-    if (!is.null(entity_data$attributeList)){
-      attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
-    }
-
-    meta_tabular <- tabularize_eml(eml) %>% tidyr::pivot_wider(names_from = name, values_from = value)
-
-    ## Summary metadata from EML (combine with general metadata later)
-    entity_meta <- suppressWarnings(list(
-      Metadata_ID = meta_id[[1]],
-      Metadata_URL = metadata_nodes$data$url[1],
-      Metadata_EML_Version = stringr::str_extract(meta_tabular$eml.version, "\\d\\.\\d\\.\\d"),
-      File_Description = entity_data$entityDescription,
-      File_Label = entity_data$entityLabel,
-      Dataset_URL = paste0("https://search.dataone.org/#view/", meta_id[[1]]),
-      Dataset_Title = meta_tabular$title,
-      Dataset_StartDate = meta_tabular$temporalCoverage.beginDate,
-      Dataset_EndDate = meta_tabular$temporalCoverage.endDate,
-      Dataset_Location = meta_tabular$geographicCoverage.geographicDescription,
-      Dataset_WestBoundingCoordinate = meta_tabular$geographicCoverage.westBoundingCoordinate,
-      Dataset_EastBoundingCoordinate = meta_tabular$geographicCoverage.eastBoundingCoordinate,
-      Dataset_NorthBoundingCoordinate = meta_tabular$geographicCoverage.northBoundingCoordinate,
-      Dataset_SouthBoundingCoordinate = meta_tabular$geographicCoverage.southBoundingCoordinate,
-      Dataset_Taxonomy = meta_tabular$taxonomicCoverage,
-      Dataset_Abstract = meta_tabular$abstract,
-      Dataset_Methods = meta_tabular$methods,
-      Dataset_People = meta_tabular$people
-    ))
-
+  if (grepl("ecoinformatics.org", meta_raw) == FALSE) {
+    warning("\nMetadata is in ISO format")
+    new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path = path)
+  } else if (grepl("ecoinformatics.org", meta_raw) == TRUE) {
+    warning("\nMetadata is in EML format")
+    new_dir <- download_EML_data(meta_obj, meta_id, data_id, metadata_nodes, path = path)
   }
+
+  # Test for the case a dataTable entity does not have attribute level metadata
+  if (!is.null(entity_data$attributeList)){
+    attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
+  }
+
+  meta_tabular <- tabularize_eml(eml) %>% tidyr::pivot_wider(names_from = name, values_from = value)
+
+  ## Summary metadata from EML (combine with general metadata later)
+  entity_meta <- suppressWarnings(list(
+    Metadata_ID = meta_id[[1]],
+    Metadata_URL = metadata_nodes$data$url[1],
+    Metadata_EML_Version = stringr::str_extract(meta_tabular$eml.version, "\\d\\.\\d\\.\\d"),
+    File_Description = entity_data$entityDescription,
+    File_Label = entity_data$entityLabel,
+    Dataset_URL = paste0("https://search.dataone.org/#view/", meta_id[[1]]),
+    Dataset_Title = meta_tabular$title,
+    Dataset_StartDate = meta_tabular$temporalCoverage.beginDate,
+    Dataset_EndDate = meta_tabular$temporalCoverage.endDate,
+    Dataset_Location = meta_tabular$geographicCoverage.geographicDescription,
+    Dataset_WestBoundingCoordinate = meta_tabular$geographicCoverage.westBoundingCoordinate,
+    Dataset_EastBoundingCoordinate = meta_tabular$geographicCoverage.eastBoundingCoordinate,
+    Dataset_NorthBoundingCoordinate = meta_tabular$geographicCoverage.northBoundingCoordinate,
+    Dataset_SouthBoundingCoordinate = meta_tabular$geographicCoverage.southBoundingCoordinate,
+    Dataset_Taxonomy = meta_tabular$taxonomicCoverage,
+    Dataset_Abstract = meta_tabular$abstract,
+    Dataset_Methods = meta_tabular$methods,
+    Dataset_People = meta_tabular$people
+  ))
 
   # Write files & download data--------
   message("\nDownloading data ", data_id, " ...")
@@ -176,7 +150,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   old_dir_path_log <- ""
 
   # Check to see if log exists (ie some data has been download at this location).
-    # If it does, then get the version number downloaded, and save it into old_dataid
+  # If it does, then get the version number downloaded, and save it into old_dataid
   if(file.exists(log_path)){
     old_log <- suppressMessages(readr::read_csv(log_path))
     if(data_id %in% old_log$Data_ID){
@@ -188,7 +162,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   }
 
   # If the latest version is already downloaded, then exit the function
-    # first condition checks old naming scheme, second condition checks log (so folder can have any name)
+  # first condition checks old naming scheme, second condition checks log (so folder can have any name)
   if(dir.exists(old_dir_path)){
     stop(paste("This dataset has already been downloaded here:", old_dir_path, "Please delete or move the folder to download the dataset again.", sep = "\n"))
   } else if(dir.exists(old_dir_path_log)) {
@@ -203,7 +177,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   }
 
   # Check to make sure we don't overwrite old versions of the data.
-    # If the directory they're trying to create already exists, then exit the function.
+  # If the directory they're trying to create already exists, then exit the function.
   if(dir.exists(new_dir)){
     warning(paste("An old version of the data exists at the specified path:", new_dir, "Please change dir_name or delete/move the folder to download a new version of the data", sep = "\n"))
     return(new_dir)
@@ -225,7 +199,7 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
                               Date_Downloaded = paste0(Sys.time()),
                               Data_ID = data_id,
                               Data_URL = data_nodes$data$url[[1]]
-                              )
+  )
 
   ## write metadata xml/tabular form if exists
   if (exists("eml")) {
@@ -272,4 +246,3 @@ download_d1_data <- function(data_url, path, dir_name = NULL) {
   ## Output folder name
   return(new_dir)
 }
-
