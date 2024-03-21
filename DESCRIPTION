@@ -52,15 +52,15 @@ Imports:
     lubridate,
     purrr,
     readr,
+    rlang,
     stats,
     stringr,
     tibble,
-    tidyr,
-    rlang
+    tidyr
 Suggests:
-    testthat,
     knitr,
     rmarkdown,
+    testthat,
     udunits2
 Encoding: UTF-8
 VignetteBuilder: knitr
