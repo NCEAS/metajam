@@ -33,6 +33,10 @@
 download_d1_data <- function(data_url, path) {
   # TODO: add meta_doi to explicitly specify doi
 
+  # Silence visible bindings note
+  entity_data <- eml <- dir_name <- NULL
+
+
   stopifnot(is.character(data_url), length(data_url) == 1, nchar(data_url) > 0)
   stopifnot(is.character(path), length(path) == 1, nchar(path) > 0, dir.exists(path))
 

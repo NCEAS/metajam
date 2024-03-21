@@ -19,6 +19,8 @@
 
 download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) {
 
+  # Silence visible bindings note
+  data_url <- NULL
 
     eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
                     error = function(e) {NULL})
