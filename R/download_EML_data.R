@@ -16,6 +16,9 @@
 #' @param data_id (character) A data identifier produced by download_d1_data
 #' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
 #' @param path (character) Path to a directory to download data to.
+#'
+#' @keywords internal
+#'
 
 download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) {
 
