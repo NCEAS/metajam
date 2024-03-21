@@ -19,8 +19,8 @@ reference:
 articles:
 - title: Processing Datasets
   contents:
-  - dataset-single
-  - dataset-single-DataOne
+  - dataset-single-arctic
+  - dataset-single-dataone
   - dataset-batch-processing
   - reading-raster
 - title: Processing Data Packages
@@ -40,16 +40,16 @@ navbar:
       href: articles/index.html
       menu:
       - text: Processing Datasets
-      - text: Use Case 1 - Processing a single dataset (Artic Data Center)
+      - text: Use Case 1 - Processing a Single Dataset (Artic Data Center)
         href: articles/dataset-single.html
-      - text: Use Case 1B - Processing a single dataset (DataOne)
+      - text: Use Case 2 - Processing a Single Dataset (DataOne)
         href: articles/dataset-single-DataOne.html
-      - text: Use Case 2 - Batch processing LTER Luquillo stream chemistry data
+      - text: Use Case 3 - Processing Several Datasets
         href: articles/dataset-batch-processing.html
-      - text: Use Case 3 - Processing raster data
+      - text: Use Case 4 - Processing a Raster Dataset
         href: articles/reading-raster.html
       - text: Processing Data Packages
-      - text: Use Case 4 - Downloading entire data packages using DOIs
+      - text: Use Case 5 - Downloading Entire Data Packages Using DOIs
         href: articles/package-download.html
   right:
     - icon: fa-github fa-lg

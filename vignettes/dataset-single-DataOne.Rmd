@@ -1,22 +1,16 @@
 ---
-title: "Use Case 5 - Processing a single dataset from DataOne"
+title: "Use Case 2 - Processing a Single Dataset from DataOne"
 author: "Julien Brun and Kristen Peach, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"Use Case - Downloading one dataset from DataOne using metajam"}
+  %\VignetteIndexEntry{Use Case 2 - Processing a Single Dataset from DataOne}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-
-# Suppress check for different YAML title versus vignette title
-options(rmarkdown.html_vignette.check_title = FALSE)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 ## Summary
