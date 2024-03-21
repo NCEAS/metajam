@@ -1,0 +1,247 @@
+---
+title: "trying_mn_loop"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Trying the new functions on a variety of member nodes and using data urls from data packages with both eml and iso xml files.
+
+### ISO
+
+## Research Workplace mn
+
+Lisa Eisner and Michael Lomas. Phytoplankton identifications in the northern Bering and Chukchi seas, quantified with FlowCAM image analysis, Arctic Integrated Ecosystem Research Program, August-September 2017. Research Workspace. 10.24431/rw1k5ac, version: 10.24431_rw1k5ac_20210709T212354Z.
+
+```{r}
+
+library(tidyverse)
+
+#URl to package https://search.dataone.org/view/10.24431%2Frw1k5ac
+path_folder <- "Data_test_phytoplankton"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/8181dc0f-25fe-45c2-9bcd-0af54276aa62"
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+
+
+
+```
+
+Jens Nielsen, Louise Copeman, Michael Lomas, and Lisa Eisner. Fatty acid seston samples collected from CTD samples in N. Bering and Chukchi Seas during Arctic Integrated Ecosystem Research Program, from research vessel Sikuliaq June 2017. Research Workspace. 10.24431/rw1k59z, version: 10.24431_rw1k59z_20210708T234958Z.
+
+
+```{r}
+
+
+library(tidyverse)
+path_folder <- "Data_test_sikuliaq"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/f1cb7dc2-a02f-45ec-aa13-e1a118d85404"
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+
+
+
+```
+
+### EML
+
+## Arctic Data Center (via DataOne)
+
+William Daniels, Yongsong Huang, James Russell, Anne Giblin, Jeffrey Welker, et al. 2021. Soil Water, plant xylem water, and leaf wax hydrogen isotope survey from Toolik Lake Area 2013-2014. Arctic Data Center. doi:10.18739/A2S17ST50.
+
+```{r}
+
+library(tidyverse)
+path_folder <- "Data_test_xylem"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3A4b5b35cf-7a39-449f-90f1-93fb3e6fb242"
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+
+```
+
+Caitlin Livsey, Reinhard Kozdon, Dorothea Bauch, Geert-Jan Brummer, Lukas Jonkers, et al. 2021. In situ Magnesium/Calcium (Mg/Ca) and oxygen isotope (d18O) measurements in Neogloboquadrina pachyderma shells collected in 1999 by a MultiNet tow from different depth intervals in the Fram Strait. Arctic Data Center. doi:10.18739/A2WS8HN0X.
+
+```{r}
+
+library(tidyverse)
+path_folder <- "Data_test_magnesium"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3A4b5b35cf-7a39-449f-90f1-93fb3e6fb242"
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+
+```
+
+## KNB (via DataOne)
+
+Darcy Doran-Myers. 2021. Data: Density estimates for Canada lynx vary among estimation methods. Knowledge Network for Biocomplexity. urn:uuid:e9dc43c2-210f-40dc-86fb-a6ece2f5fd03.
+
+This one does not work and it fails within the download_EML_data.R function at lines 38-40
+
+
+
+
+```{r}
+
+library(tidyverse)
+path_folder <- "Data_test_lynx"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3Aec00a8bc-f493-4485-a2f8-08cc9017f38e"
+
+#Fails here: 
+
+#    entity_data <- entity_objs %>%
+ #     purrr::keep(~any(grepl(data_id,
+ #                            purrr::map_chr(.x$physical$distribution$online$url, utils::URLdecode))))
+
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+
+```
+
+
+Trying to figure out if it fails for all KNB packages or just that one
+
+Jenna Loesberg and Wallace Meyer III. Granivory in California sage scrub: implications for common plant invaders and ecosystem conservation. Knowledge Network for Biocomplexity. doi:10.5063/R78CMB.
+
+```{r}
+
+library(tidyverse)
+path_folder <- "Data_test_granivory"
+
+# URL to download the dataset from DataONE
+data_url <- "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3Accc8ca4a-eacf-41e9-a295-a1d64f76e3e5"
+
+
+
+dir.create(path_folder, showWarnings = FALSE)
+
+# Download the dataset and associated metdata 
+data_folder <- SMALL_download_d1_data(data_url = data_url,path =  path_folder)
+
+data_folder <- download_d1_data(data_url = data_url,path =  path_folder)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+Making Summary table for Issue Update 
+
+```{r}
+
+
+metadata_tbl_KNB <- tibble(repo_name = "urn:node:KNB", metadata_type = c("eml://ecoinformatics.org/eml-2.1.1", "eml://ecoinformatics.org/eml-2.0.0", "eml://ecoinformatics.org/eml-2.0.1", "eml://ecoinformatics.org/eml-2.1.0", "https://eml.ecoinformatics.org/eml-2.2.0"), count = c(4409, 1981, 1337, 970, 608), already_supported_by_metajam = "Y")
+
+metadata_tbl_EDI <- tibble(repo_name = "urn:node:EDI", metadata_type = c("eml://ecoinformatics.org/eml-2.1.1", "https://eml.ecoinformatics.org/eml-2.2.0", "eml://ecoinformatics.org/eml-2.1.0"), count = c(545, 381, 19), already_supported_by_metajam = "Y")
+
+
+metadata_tbl_ARCTIC <- tibble(repo_name = "urn:node:ARCTIC", metadata_type = c("eml://ecoinformatics.org/eml-2.1.1", "http://www.isotc211.org/2005/gmd", "https://eml.ecoinformatics.org/eml-2.2.0", "https://purl.dataone.org/portals-1.0.0", "http://ns.dataone.org/metadata/schema/onedcx/v1.0", "eml://ecoinformatics.org/eml-2.0.0", "eml://ecoinformatics.org/eml-2.1.0"), count = c(12937, 4054, 700, 106, 52, 4, 4), already_supported_by_metajam = c("Y", "N", "Y", "IDK", "IDK", "Y", "Y"))
+
+metadata_tbl_LTER <- tibble(repo_name = "urn:node:LTER", metadata_type = c("eml://ecoinformatics.org/eml-2.1.0", "eml://ecoinformatics.org/eml-2.1.1", "eml://ecoinformatics.org/eml-2.0.1", "eml://ecoinformatics.org/eml-2.0.0", "https://eml.ecoinformatics.org/eml-2.2.0"), count = c(48795, 23573, 6450, 916, 691), already_supported_by_metajam = "Y")
+
+metadata_tbl_NCEI <- tibble(repo_name = "urn:node:NCEI", metadata_type = "http://www.isotc211.org/2005/gmd-noaa", count = 50967, already_supported_by_metajam = "N")
+
+metadata_tbl_ARM <- tibble(repo_name = "urn:node:ARM", metadata_type = "http://www.isotc211.org/2005/gmd", count = 12983, already_supported_by_metajam = "N")
+
+metadata_tbl_IEDA_MGDL <- tibble(repo_name = "urn:node:IEDA_MGDL", metadata_type = "http://www.isotc211.org/2005/gmd", count = 9733, already_supported_by_metajam = "N")
+
+metadata_tbl_GRIIDC <- tibble(repo_name = "urn:node:GRIIDC", metadata_type = "http://www.isotc211.org/2005/gmd-noaa", count = 8581, already_supported_by_metajam = "N")
+
+metadata_tbl_NRDC <- tibble(repo_name = "urn:node:NRDC", metadata_type = "http://www.isotc211.org/2005/gmd", count = 2226, already_supported_by_metajam = "N")
+
+metadata_tbl_R2R <- tibble(repo_name = "urn:node:R2R", metadata_type = "http://www.isotc211.org/2005/gmd-noaa", count = 1787, already_supported_by_metajam = "N")
+
+metadata_tbl_IEDA_EARTHCHEM <- tibble(repo_name = "urn:node:IEDA_EARTHCHEM", metadata_type = "http://www.isotc211.org/2005/gmd", count = 888, already_supported_by_metajam = "N")
+
+metadata_tbl_IEDA_USAP <- tibble(repo_name = "urn:node:IEDA_USAP", metadata_type = "http://www.isotc211.org/2005/gmd", count = 695, already_supported_by_metajam = "N")
+
+metadata_tbl_RW <- tibble(repo_name = "urn:node:RW", metadata_type = "http://www.isotc211.org/2005/gmd", count = 353, already_supported_by_metajam = "N")
+
+metadata_tbl_NKW <- tibble(repo_name = "urn:node:NKN", metadata_type = "http://www.isotc211.org/2005/gmd-noaa", count = 9, already_supported_by_metajam = "N")
+
+tbl1 <- merge(metadata_tbl_RW, metadata_tbl_NKW, all =  TRUE)
+
+tbl2 <- merge(metadata_tbl_IEDA_EARTHCHEM, metadata_tbl_IEDA_USAP, all = TRUE)
+
+tbl3 <- merge(metadata_tbl_NRDC, metadata_tbl_R2R, all = TRUE)
+
+tbl4 <- merge( metadata_tbl_IEDA_MGDL, metadata_tbl_GRIIDC, all = TRUE)
+
+tbl5 <- merge(metadata_tbl_NCEI, metadata_tbl_ARM, all = TRUE)
+
+tbl6 <- merge(metadata_tbl_ARCTIC, metadata_tbl_LTER, all = TRUE)
+
+tbl7 <- merge(metadata_tbl_KNB, metadata_tbl_EDI, all = TRUE)
+
+tbl_1 <- merge(tbl1, tbl2, all = TRUE)
+
+tbl_2 <- merge(tbl3, tbl4, all = TRUE)
+
+tbl_3 <- merge(tbl5, tbl6, all = TRUE)
+
+tbl_4 <- merge(tbl7, tbl_1, all = TRUE)
+
+tbl_5 <- merge(tbl_4, tbl_2, all = TRUE)
+
+total_tbl <- merge(tbl_5, tbl_3, all = TRUE)
+
+
+
+```
+
+```{r}
+
+
+already_suported_by_metajam <- total_tbl %>% filter(already_supported_by_metajam == "Y")
+
+already_suported_by_metajam$count <- as.numeric(already_suported_by_metajam$count)
+
+sum(already_suported_by_metajam$count)
+
+new_mns <- unique(not_already_suported_by_metajam$repo_name)
+
+new_mns
+
+```
+
