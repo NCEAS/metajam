@@ -4,9 +4,11 @@
 \alias{download_EML_data}
 \title{Download data and metadata from a dataset that uses EML metadata.}
 \usage{
-download_EML_data(meta_obj, meta_id, data_id, metadata_nodes, path)
+download_EML_data(data_url, meta_obj, meta_id, data_id, metadata_nodes, path)
 }
 \arguments{
+\item{data_url}{(character) An identifier or URL for a DataONE object to download.}
+
 \item{meta_obj}{(character) A metadata object produced by download_d1_data. This is a different format than the metadata object required for the analogous ISO function}
 
 \item{meta_id}{(character) A metadata identifier produced by download_d1_data}
