@@ -105,7 +105,7 @@ download_d1_data <- function(data_url, path) {
     new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path = path)
   } else if (grepl("ecoinformatics.org", meta_raw) == TRUE) {
     message("\nMetadata is in EML format")
-    new_dir <- download_EML_data(meta_obj, meta_id, data_id, metadata_nodes, path = path)
+    new_dir <- download_EML_data(data_url, meta_obj, meta_id, data_id, metadata_nodes, path = path)
   }
 
   # Test for the case a dataTable entity does not have attribute level metadata
