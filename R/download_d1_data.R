@@ -33,6 +33,10 @@
 download_d1_data <- function(data_url, path) {
   # TODO: add meta_doi to explicitly specify doi
 
+  # Silence visible bindings note
+  entity_data <- eml <- dir_name <- NULL
+
+
   stopifnot(is.character(data_url), length(data_url) == 1, nchar(data_url) > 0)
   stopifnot(is.character(path), length(path) == 1, nchar(path) > 0, dir.exists(path))
 
@@ -97,11 +101,11 @@ download_d1_data <- function(data_url, path) {
   #"http://www.isotc211.org/"
 
   if (grepl("ecoinformatics.org", meta_raw) == FALSE) {
-    warning("\nMetadata is in ISO format")
+    message("\nMetadata is in ISO format")
     new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path = path)
   } else if (grepl("ecoinformatics.org", meta_raw) == TRUE) {
-    warning("\nMetadata is in EML format")
-    new_dir <- download_EML_data(meta_obj, meta_id, data_id, metadata_nodes, path = path)
+    message("\nMetadata is in EML format")
+    new_dir <- download_EML_data(data_url, meta_obj, meta_id, data_id, metadata_nodes, path = path)
   }
 
   # Test for the case a dataTable entity does not have attribute level metadata

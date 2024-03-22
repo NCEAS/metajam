@@ -1,19 +1,16 @@
 ---
-title: "Use Case 3 - Downloading entire data packages using DOIs"
+title: "Use Case 5 - Downloading Entire Data Packages Using DOIs"
 author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"Use Case - Downloading entire data packages using metajam"}
+  %\VignetteIndexEntry{Use Case 5 - Downloading Entire Data Packages Using DOIs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 ## Summary

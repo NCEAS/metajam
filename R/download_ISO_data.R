@@ -18,9 +18,14 @@
 #' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
 #' @param path (character) Path to a directory to download data to.
 #'
+#' @keywords internal
+#'
 
 
 download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path) {
+
+  # Silence visible bindings note
+  entity_data <- NULL
 
   meta_iso_xml <- XML::xmlTreeParse(meta_raw)
 
@@ -70,7 +75,9 @@ ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.meta
     dplyr::mutate(value = gsub("\n", "", value))  #without this, fields get truncated in Excel
 
 
-  meta_tabular <- metadata  %>% tidyr::spread(name, value)
+  meta_tabular <- tidyr::pivot_wider(data = metadata,
+                                     names_from = name,
+                                     values_from = value)
   metadata_url <- metadata_nodes$data$baseURL[[1]]
 
   ## Summary metadata from EML (combine with general metadata later)

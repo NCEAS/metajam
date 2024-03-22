@@ -11,14 +11,17 @@
 #' @importFrom tidyr spread
 #' @importFrom utils URLdecode
 #'
+#' @param data_url (character) An identifier or URL for a DataONE object to download.
 #' @param meta_obj (character) A metadata object produced by download_d1_data. This is a different format than the metadata object required for the analogous ISO function
 #' @param meta_id (character) A metadata identifier produced by download_d1_data
 #' @param data_id (character) A data identifier produced by download_d1_data
 #' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
 #' @param path (character) Path to a directory to download data to.
+#'
+#' @keywords internal
+#'
 
-download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) {
-
+download_EML_data <- function(data_url, meta_obj, meta_id, data_id, metadata_nodes, path) {
 
     eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
                     error = function(e) {NULL})

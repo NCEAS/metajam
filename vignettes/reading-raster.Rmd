@@ -1,19 +1,16 @@
 ---
-title: "Use Case 3 - Processing a raster dataset"
+title: "Use Case 4 - Processing a Raster Dataset"
 author: "Julien Brun, Mitchell Maier, Derek Strong and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"Use Case - Downloading a raster dataset using metajam"}
+  %\VignetteIndexEntry{Use Case 4 - Processing a Raster Dataset}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 ## Summary

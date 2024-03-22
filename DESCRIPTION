@@ -8,6 +8,11 @@ Authors@R: c(
                  email = "jb160@ucsb.edu", 
                  comment = c(ORCID = "0000-0002-7751-6238"),
                  role = c("cre", "aut")),
+              person("Nicholas", "Lyon",
+                 email = "lyon@nceas.ucsb.edu",
+                 comment = c(ORCID = "0000-0003-3905-1078",
+                     "https://njlyon0.github.io/"),
+                 role = "aut"),
               person("Irene", "Steves", 
                  comment = c(ORCID = "0000-0002-5511-9717",
                     "https://github.com/isteves"), 
@@ -51,13 +56,13 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    rlang
+    XML
 Suggests:
-    testthat,
     knitr,
     rmarkdown,
+    testthat,
     udunits2
 Encoding: UTF-8
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
