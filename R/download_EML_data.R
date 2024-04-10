@@ -42,10 +42,20 @@ download_EML_data <- function(data_url, meta_obj, meta_id, data_id, metadata_nod
 
     # Use the data_id to identify only the dataset interest
     ## (Out of potentially many data objects in the package)
-    entity_data <- entity_objs %>%
-      purrr::keep(.p = ~ any(grepl(pattern = data_id, x = .x$physical$distribution$online$url$url),
-                             grepl(pattern = data_id, x = .x$physical$distribution$online$url),
-                             grepl(pattern = data_id, x = .x$id)))
+    if(grepl(pattern = "pasta.lternet.edu", x = data_id) == TRUE){
+
+      # EDI version
+      entity_data <- entity_objs %>%
+        purrr::keep(.p = ~ any(grepl(pattern = data_id, x = .x$physical$distribution$online$url),
+                               grepl(pattern = data_id, x = .x$id)))
+
+      # Non-EDI formulation
+    } else {
+      entity_data <- entity_objs %>%
+        purrr::keep(.p = ~ any(grepl(pattern = data_id, x = .x$physical$distribution$online$url$url),
+                               grepl(pattern = data_id, x = .x$physical$distribution$online$url),
+                               grepl(pattern = data_id, x = .x$id)))
+    }
 
     if (length(entity_data) == 0) {
       warning("No data metadata could be found for ", data_url, "\n Double check that you have entered a valid url for the data")
