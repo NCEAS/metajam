@@ -37,7 +37,7 @@ Authors@R: c(
                  comment = c(ORCID = "0000-0002-6388-0901"),
                  role = "ctb")
               )
-Maintainer: Julien Brun <brun@nceas.ucsb.edu>
+Maintainer: Julien Brun <jb160@ucsb.edu>
 Description: A set of tools to foster the development of reproducible analytical workflow by simplifying the download of data and 
     metadata from 'DataONE' (<https://www.dataone.org>) and easily importing this information into R.
 License: Apache License (== 2.0)
