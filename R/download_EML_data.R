@@ -23,7 +23,8 @@
 
 download_EML_data <- function(data_url, meta_obj, meta_id, data_id, metadata_nodes, path) {
 
-    eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
+  # If eml make EML object
+    eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},
                     error = function(e) {NULL})
 
     # Get attributes ----------
@@ -64,9 +65,11 @@ download_EML_data <- function(data_url, meta_obj, meta_id, data_id, metadata_nod
       attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
     }
 
+    # Tabularize the EML metadata
+    meta_tabular <- tabularize_eml(eml) %>%
+      tidyr::pivot_wider(names_from = name, values_from = value)
 
-    attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
-    meta_tabular <- tabularize_eml(eml) %>% tidyr::pivot_wider(names_from = name, values_from = value)
+    # Identify the metadata url
     metadata_url <- metadata_nodes$data$baseURL[[1]]
 
     ## Summary metadata from EML (combine with general metadata later)
@@ -105,19 +108,28 @@ download_EML_data <- function(data_url, meta_obj, meta_id, data_id, metadata_nod
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
   data_extension <- gsub("(.*\\.)([^.]*$)", "\\2", data_name)
   data_name <- gsub("\\.[^.]*$", "", data_name) #remove extension
+  data_name <- gsub(" ", "", data_name) # remove spaces
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
 
   # Assemble a new folder name
-  new_dir <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
+  new_dir <- file.path(path, paste(meta_name, data_name, data_extension,
+                                    sep = "__"))
 
-  # # Check if the dataset has already been downloaded at this location. If so, exit the function
-  # if (dir.exists(new_dir)) {
-  #   warning("This dataset has already been downloaded. Please delete or move the folder to download the dataset again.")
-  #   return(new_dir)
-  # }
+  # Create a counter
+  k <- 1
+
+  # If this folder already exists, make a new folder
+  while(dir.exists(new_dir)){
+
+    # Make a *new* new folder
+    new_dir <- file.path(path, paste(meta_name, data_name, data_extension,
+                                     paste0("copy_", k), sep = "__"))
+
+    # Increment counter
+    k <- k + 1 }
 
   # Make the folder (if it doesn't exist already)
-  dir.create(new_dir, showWarnings = F)
+  dir.create(new_dir, showWarnings = FALSE)
 
   ## download Data
   data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)
