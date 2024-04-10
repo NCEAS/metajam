@@ -12,8 +12,8 @@ test_that("accepts correct inputs", {
 
 test_that("test Arctic Data Center data URL (fully up to date data file)", {
   temp_dir <- tempdir()
-  out <- download_d1_data("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
-                          temp_dir)
+  out <- download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+                          path = temp_dir)
   files <- list.files(out)
 
   expect_equal(length(files), 4)
