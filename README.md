@@ -3,7 +3,7 @@
 # metajam
 <!-- badges: start -->
 [![Package Site](https://github.com/NCEAS/metajam/workflows/pkgdown/badge.svg)](https://github.com/NCEAS/metajam/actions)
-[![R build status](https://github.com/NCEAS/metajam/workflows/R-CMD-check/badge.svg)](https://github.com/NCEAS/metajam/actions)
+[![R-CMD-check](https://github.com/NCEAS/metajam/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NCEAS/metajam/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/metajam)](https://CRAN.R-project.org/package=metajam)
 <!-- badges: end -->
 
