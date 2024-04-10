@@ -35,7 +35,7 @@ test_that("test Arctic Data Center data URL (fully up to date data file) with on
                           temp_dir)
   files <- list.files(out)
 
-  expect_equal(length(files), 4)
+  expect_equal(length(files), 5)
   expect_true(any(stringr::str_detect(files, "attribute_metadata.csv")))
   expect_true(any(stringr::str_detect(files, "full_metadata.xml")))
   expect_true(any(stringr::str_detect(files, "summary_metadata.csv")))
@@ -50,11 +50,11 @@ test_that("test Arctic Data Center data URL (fully up to date data file) with on
 
 test_that("test Arctic Data Center data URL (fully up to date data file) with multiple data tables", {
   temp_dir <- tempdir()
-  out <- download_d1_data("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a4f85031-0b91-4d92-ba0a-b02f216bba64",
-                          temp_dir)
+  out <- download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a4f85031-0b91-4d92-ba0a-b02f216bba64",
+                          path = temp_dir)
   files <- list.files(out)
 
-  expect_equal(length(files), 5)
+  expect_equal(length(files), 6)
   expect_true(any(stringr::str_detect(files, "attribute_metadata.csv")))
   expect_true(any(stringr::str_detect(files, "attribute_factor_metadata.csv")))
   expect_true(any(stringr::str_detect(files, "full_metadata.xml")))
@@ -70,8 +70,8 @@ test_that("test Arctic Data Center data URL (fully up to date data file) with mu
 
 test_that("Data without metadata downloads and returns summary metadata", {
   temp_dir <- tempdir()
-  out <- download_d1_data("urn:uuid:7bdab6cc-8dc1-4c49-a80b-ca771c18eaa9",
-                          temp_dir)
+  out <- download_d1_data(data_url = "urn:uuid:7bdab6cc-8dc1-4c49-a80b-ca771c18eaa9",
+                          path = temp_dir)
   files <- list.files(out)
 
   expect_equal(length(files), 2)
