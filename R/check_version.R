@@ -66,10 +66,7 @@ check_version <- function(pid, formatType = NULL) {
     stop("No matching identifiers were found.")
   } else if (nrow(results) == 1) {
     if (is.null(results$obsoletedBy) || is.na(results$obsoletedBy)) {
-      message("\n",
-              results$identifier,
-              "\nis the latest version for identifier\n",
-              pid)
+      message(results$identifier, " is the latest version for the provided persistent identifier")
     } else {
       warning("The identifier has been obsoleted by ", results$obsoletedBy)
     }
