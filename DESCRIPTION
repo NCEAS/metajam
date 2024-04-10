@@ -2,7 +2,6 @@ Package: metajam
 Type: Package
 Title: Easily Download Data and Metadata from 'DataONE'
 Version: 0.2.3
-Date: 2020-10-14
 Authors@R: c(
               person("Julien", "Brun", 
                  email = "jb160@ucsb.edu", 
@@ -41,8 +40,11 @@ Maintainer: Julien Brun <jb160@ucsb.edu>
 Description: A set of tools to foster the development of reproducible analytical workflow by simplifying the download of data and 
     metadata from 'DataONE' (<https://www.dataone.org>) and easily importing this information into R.
 License: Apache License (== 2.0)
-URL: https://github.com/nceas/metajam,
-    https://nceas.github.io/metajam/
+Encoding: UTF-8
+LazyData: true
+Language: en-US
+RoxygenNote: 7.2.3
+URL: https://nceas.github.io/metajam/
 BugReports: https://github.com/nceas/metajam/issues
 Imports:
     dataone,
@@ -62,7 +64,4 @@ Suggests:
     rmarkdown,
     testthat,
     udunits2
-Encoding: UTF-8
 VignetteBuilder: knitr
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
