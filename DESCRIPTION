@@ -62,6 +62,5 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
-    testthat,
-    udunits2
+    testthat
 VignetteBuilder: knitr
