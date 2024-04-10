@@ -61,24 +61,6 @@ read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
     # Add to list
     data_list[[sub_name]] <- sub_df }
 
-
-  # # Read in each file
-  # data_meta <- purrr::map(files_no_meta, function(x) {
-  #   if (grepl("[^_]+_metadata(?=\\.csv)", basename(x), perl = TRUE)) {
-  #     readr::read_csv(x)
-  #   } else if (tools::file_path_sans_ext(basename(x)) == filename) {
-  #     eval(parse(text = paste0(fnc, '("', normalizePath(x, winslash = '/'), '", ...)')))
-  #   }
-  # })
-  #
-  # data_meta_names <- purrr::map(files, function(x) {
-  #   if (grepl("[^_]+_metadata(?=\\.csv)", basename(x), perl = TRUE)) {
-  #     stringr::str_extract(basename(x), "[^_]+_metadata(?=\\.csv)")
-  #   } else if (tools::file_path_sans_ext(basename(x)) == filename) {
-  #     "data"
-  #   }
-  # })
-
   # Drop empty/NULL elements of list
   data_actual <- purrr::compact(.x = data_list)
 
