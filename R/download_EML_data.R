@@ -31,16 +31,18 @@ download_EML_data <- function(data_url, meta_obj, meta_id, data_id, metadata_nod
     entities <- c("dataTable", "spatialRaster", "spatialVector", "storedProcedure", "view", "otherEntity")
     entities <- entities[entities %in% names(eml$dataset)]
 
-    entity_objs <- purrr::map(entities, ~EML::eml_get(eml, .x)) %>%       # restructure so that all entities are at the same level
+    # restructure so that all entities are at the same level
+    entity_objs <- purrr::map(entities, ~EML::eml_get(eml, .x)) %>%
       purrr::map_if(~!is.null(.x$entityName), list) %>%
       unlist(recursive = FALSE)
 
+    # Wrangle the data_id to handle special characters
+    # temp_data_id <- gsub(pattern = "\\:", replacement = "\\-", x = data_id)
 
-#Using the data_id to retrieve only the dataset of interest from all of the data objects in the package
-    temp_data_id <- gsub("\\:", "\\-", data_id)
-
+    # Use the data_id to identify only the dataset interest
+    ## (Out of potentially many data objects in the package)
     entity_data <- entity_objs %>%
-      purrr::keep(~any(grepl(temp_data_id, .x$id)))
+      purrr::keep(~any(grepl(data_id, .x$physical$distribution$online$url$url)))
 
 
     if (length(entity_data) == 0) {
