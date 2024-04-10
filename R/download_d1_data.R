@@ -36,7 +36,7 @@ download_d1_data <- function(data_url, path) {
   # Silence visible bindings note
   entity_data <- eml <- dir_name <- NULL
 
-
+  # Expected input error checks
   stopifnot(is.character(data_url), length(data_url) == 1, nchar(data_url) > 0)
   stopifnot(is.character(path), length(path) == 1, nchar(path) > 0, dir.exists(path))
 
@@ -78,7 +78,7 @@ download_d1_data <- function(data_url, path) {
 
   # depending on results, return warnings
   if (length(meta_id) == 0) {
-    warning("no metadata records found")
+    stop("no metadata records found")
     meta_id <- NULL
   } else if (length(meta_id) > 1) {
     warning("multiple metadata records found:\n",
