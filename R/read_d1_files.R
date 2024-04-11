@@ -19,7 +19,7 @@
 #' @seealso [download_d1_data()] [download_d1_data_pkg()]
 #'
 #' @examples
-#' data_folder <- system.file("extdata", "test_data", package = "metajam")
+#' data_folder <- system.file(file.path("extdata", "test_data"), package = "metajam")
 #' soil_moist_data <- read_d1_files(data_folder)
 #'
 #' # You can specify the function you would like to use to read the file and pass parameters

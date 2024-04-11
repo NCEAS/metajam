@@ -41,7 +41,7 @@ test_that("read Arctic Data Center data package", {
   expect_true(any(grepl(pattern = "summary_metadata", x = names(output))))
 
   # Clean up
-  unlink(paths, recursive = TRUE)
+  unlink(temp_dir, recursive = TRUE)
 })
 
 
@@ -49,11 +49,14 @@ test_that("read EDI data package", {
   # Takes too much time and add load on servers
   skip_on_cran()
 
+  # Grab temp directory as an object
+  temp_dir <- tempdir()
+
   # Call download_di_data_pkg() for data package
   paths <- suppressMessages(
     download_d1_data_pkg(
       meta_obj = 'doi:10.6073/pasta/9f2f89e48f9e943f7125d1a335d96eb0',
-      path = tempdir() )
+      path = temp_dir )
   )
   # Read data and metadata
   output <- suppressMessages( read_d1_files(folder_path = paths[[1]]) )
@@ -66,5 +69,5 @@ test_that("read EDI data package", {
   expect_true(any(grepl(pattern = "summary_metadata", x = names(output))))
 
   # Clean up
-  unlink(paths, recursive = TRUE)
+  unlink(temp_dir, recursive = TRUE)
 })
