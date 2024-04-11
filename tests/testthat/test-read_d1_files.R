@@ -11,7 +11,7 @@ test_that("accepts correct inputs", {
 })
 
 test_that("test read in csv files", {
-  pkg <- read_d1_files(system.file("extdata/test_data", package = "metajam"))
+  pkg <- read_d1_files(system.file(file.path("extdata", "test_data"), package = "metajam"))
   names <- names(pkg)
 
   expect_true(any(grepl(pattern = "attribute_metadata", x = names)))
