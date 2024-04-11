@@ -118,6 +118,11 @@ ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.meta
   data_name <- gsub(" ", "", data_name) # remove spaces
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
 
+  # Also remove periods from various objects
+  meta_name <- gsub(pattern = "\\.", replacement = "_", x = meta_name)
+  data_name <- gsub(pattern = "\\.", replacement = "_", x = data_name)
+  data_extension <- gsub(pattern = "\\.", replacement = "_", x = data_extension)
+
   # Assemble a new folder name
   new_dir <- file.path(path, paste(meta_name, data_name, data_extension,
                                    sep = "__"))
