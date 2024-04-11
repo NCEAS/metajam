@@ -25,6 +25,5 @@ test_that("test data URL with eml metadata from the Arctic Data Center member no
   # expect_true(stringr::str_detect(folder_name, "^doi")) #starts with doi
 
   # remove files
-  file.remove(list.files(out, recursive = TRUE, full.names = TRUE))
-  file.remove(out)
+  unlink(temp_dir, recursive = TRUE)
 })
