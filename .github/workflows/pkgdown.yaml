@@ -32,6 +32,10 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: dependencies on Linux
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y make libicu-dev libxml2-dev libssl-dev pandoc librdf0-dev libnode-dev libcurl4-gnutls-dev
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::pkgdown, local::.
