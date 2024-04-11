@@ -7,11 +7,6 @@ Authors@R: c(
                  email = "jb160@ucsb.edu", 
                  comment = c(ORCID = "0000-0002-7751-6238"),
                  role = c("cre", "aut")),
-              person("Nicholas", "Lyon",
-                 email = "lyon@nceas.ucsb.edu",
-                 comment = c(ORCID = "0000-0003-3905-1078",
-                     "https://njlyon0.github.io/"),
-                 role = "aut"),
               person("Irene", "Steves", 
                  comment = c(ORCID = "0000-0002-5511-9717",
                     "https://github.com/isteves"), 
@@ -19,6 +14,11 @@ Authors@R: c(
               person("Mitchell", "Maier", 
                  comment= c(ORCID = "0000-0001-6955-0535"), 
                  role = "aut"),
+              person("Nicholas", "Lyon",
+                 email = "lyon@nceas.ucsb.edu",
+                 comment = c(ORCID = "0000-0003-3905-1078",
+                     "https://njlyon0.github.io/"),
+                 role = "ctb"),
               person("Nathan", "Hwangbo", 
                  email = "nathanhwangbo@gmail.com", 
                  comment= c(ORCID = "0000-0002-3777-0821"),
@@ -47,6 +47,8 @@ SystemRequirements: Mac OSX: redland (>= 1.0.14) ; Linux: librdf0 (>= 1.0.14),
     librdf0-dev (>= 1.0.14)
 URL: https://nceas.github.io/metajam/
 BugReports: https://github.com/nceas/metajam/issues
+Depends:
+    R (>= 3.5)
 Imports:
     dataone,
     dplyr,
