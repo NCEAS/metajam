@@ -56,7 +56,7 @@ read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
     sub_name <- basename(single_file)
 
     # Use user-provided function
-    sub_df <- eval(parse(text = paste0(fnc, '("', single_file, '")')))
+    sub_df <- eval(parse(text = paste0(fnc, "('", single_file, "')")))
 
     # Add to list
     data_list[[sub_name]] <- sub_df }
@@ -66,6 +66,3 @@ read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
 
   # Return list of data files
   return(data_actual) }
-
-
-
