@@ -43,6 +43,8 @@ License: Apache License (== 2.0)
 Encoding: UTF-8
 Language: en-US
 RoxygenNote: 7.2.3
+SystemRequirements: Mac OSX: redland (>= 1.0.14) ; Linux: librdf0 (>= 1.0.14),
+    librdf0-dev (>= 1.0.14)
 URL: https://nceas.github.io/metajam/
 BugReports: https://github.com/nceas/metajam/issues
 Imports:
