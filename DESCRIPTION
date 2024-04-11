@@ -48,7 +48,7 @@ SystemRequirements: Mac OSX: redland (>= 1.0.14) ; Linux: librdf0 (>= 1.0.14),
 URL: https://nceas.github.io/metajam/
 BugReports: https://github.com/nceas/metajam/issues
 Depends:
-    R (>= 3.5)
+    R (>= 3.1.1)
 Imports:
     dataone,
     dplyr,
