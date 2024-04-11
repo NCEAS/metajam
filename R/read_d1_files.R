@@ -44,7 +44,7 @@ read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
   }
 
   # Do not attempt to read in XML files
-  files_no_meta <- files[tools::file_ext(files) != "xml"]
+  files_no_meta <- files[tools::file_ext(files) %in% c("xml", "log") == FALSE]
 
   # Make an empty list
   data_list <- list()
@@ -56,7 +56,7 @@ read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
     sub_name <- basename(single_file)
 
     # Use user-provided function
-    sub_df <- eval(parse(text = paste0(fnc, "('", single_file, "')")))
+    sub_df <- eval(parse(text = paste0(fnc, '("', normalizePath(single_file, winslash = '/'), '", ...)')))
 
     # Add to list
     data_list[[sub_name]] <- sub_df }
