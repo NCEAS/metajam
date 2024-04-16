@@ -4,14 +4,12 @@
 \alias{download_d1_data}
 \title{Download data and metadata from DataONE}
 \usage{
-download_d1_data(data_url, path, dir_name = NULL)
+download_d1_data(data_url, path)
 }
 \arguments{
 \item{data_url}{(character) An identifier or URL for a DataONE object to download.}
 
 \item{path}{(character) Path to a directory to download data to.}
-
-\item{dir_name}{(character) (Optional) Desired name for the folder containing the downloaded data. Defaults to the data file name.}
 }
 \value{
 (character) Path where data is downloaded to.
@@ -21,17 +19,13 @@ Downloads a data object from DataONE along with metadata.
 }
 \examples{
 \dontrun{
-soi_moist_path <- download_d1_data(
-                     data_url = "urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
-                     path = tempdir())
+download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = file.path("."))
 download_d1_data(
-    data_url = "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
-    path = tempdir(),
-    dir_name = "test"
+   "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
+    path = file.path(".")
     )
 }
-
 }
 \seealso{
-\code{\link[=read_d1_files]{read_d1_files()}} \code{\link[=download_d1_data_pkg]{download_d1_data_pkg()}}
+[read_d1_files()] [download_d1_data_pkg()]
 }

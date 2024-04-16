@@ -18,9 +18,14 @@
 #' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
 #' @param path (character) Path to a directory to download data to.
 #'
+#' @keywords internal
+#'
 
 
 download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path) {
+
+  # Silence visible bindings note
+  entity_data <- NULL
 
   meta_iso_xml <- XML::xmlTreeParse(meta_raw)
 
@@ -70,7 +75,9 @@ ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.meta
     dplyr::mutate(value = gsub("\n", "", value))  #without this, fields get truncated in Excel
 
 
-  meta_tabular <- metadata  %>% tidyr::spread(name, value)
+  meta_tabular <- tidyr::pivot_wider(data = metadata,
+                                     names_from = name,
+                                     values_from = value)
   metadata_url <- metadata_nodes$data$baseURL[[1]]
 
   ## Summary metadata from EML (combine with general metadata later)
@@ -108,17 +115,33 @@ ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.meta
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
   data_extension <- gsub("(.*\\.)([^.]*$)", "\\2", data_name)
   data_name <- gsub("\\.[^.]*$", "", data_name) #remove extension
-  meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id)#remove special characters & replace with _
+  data_name <- gsub(" ", "", data_name) # remove spaces
+  meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
 
-  new_dir <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
+  # Also remove periods from various objects
+  meta_name <- gsub(pattern = "\\.", replacement = "_", x = meta_name)
+  data_name <- gsub(pattern = "\\.", replacement = "_", x = data_name)
+  data_extension <- gsub(pattern = "\\.", replacement = "_", x = data_extension)
 
-  # Check if the dataset has already been downloaded at this location. If so, exit the function
-  if (dir.exists(new_dir)) {
-    warning("This dataset has already been downloaded. Please delete or move the folder to download the dataset again.")
-    return(new_dir)
-  }
+  # Assemble a new folder name
+  new_dir <- file.path(path, paste(meta_name, data_name, data_extension,
+                                   sep = "__"))
 
-  dir.create(new_dir)
+  # Create a counter
+  k <- 1
+
+  # If this folder already exists, make a new folder
+  while(dir.exists(new_dir)){
+
+    # Make a *new* new folder
+    new_dir <- file.path(path, paste(meta_name, data_name, data_extension,
+                                     paste0("copy_", k), sep = "__"))
+
+    # Increment counter
+    k <- k + 1 }
+
+  # Make the folder (if it doesn't exist already)
+  dir.create(new_dir, showWarnings = FALSE)
 
   ## download Data
   data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)

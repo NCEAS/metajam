@@ -1,9 +1,17 @@
-Meta/
-doc/
+# Background R stuff
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 .httr-oauth
-.DS_Store
+
+# R project
+*.Rproj
+
+# Certain folders
+Meta/
+doc/
 docs/
+
+# Ignore Mac file
+.DS_Store

@@ -3,10 +3,10 @@
 \docType{package}
 \name{metajam}
 \alias{metajam}
-\title{\code{metajam} package}
+\title{`metajam` package}
 \description{
 Metadata jam - bringing data and metadata together
 }
 \details{
-See \href{https://github.com/nceas/metajam}{GitHub}
+See [GitHub](https://github.com/nceas/metajam)
 }

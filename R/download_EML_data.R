@@ -11,16 +11,20 @@
 #' @importFrom tidyr spread
 #' @importFrom utils URLdecode
 #'
+#' @param data_url (character) An identifier or URL for a DataONE object to download.
 #' @param meta_obj (character) A metadata object produced by download_d1_data. This is a different format than the metadata object required for the analogous ISO function
 #' @param meta_id (character) A metadata identifier produced by download_d1_data
 #' @param data_id (character) A data identifier produced by download_d1_data
 #' @param metadata_nodes (character) The member nodes where this metadata is stored, produced by download_d1_data
 #' @param path (character) Path to a directory to download data to.
+#'
+#' @keywords internal
+#'
 
-download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) {
+download_EML_data <- function(data_url, meta_obj, meta_id, data_id, metadata_nodes, path) {
 
-
-    eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},  # If eml make EML object
+  # If eml make EML object
+    eml <- tryCatch({emld::as_emld(meta_obj, from = "xml")},
                     error = function(e) {NULL})
 
     # Get attributes ----------
@@ -28,17 +32,30 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) 
     entities <- c("dataTable", "spatialRaster", "spatialVector", "storedProcedure", "view", "otherEntity")
     entities <- entities[entities %in% names(eml$dataset)]
 
-    entity_objs <- purrr::map(entities, ~EML::eml_get(eml, .x)) %>%       # restructure so that all entities are at the same level
+    # restructure so that all entities are at the same level
+    entity_objs <- purrr::map(entities, ~EML::eml_get(eml, .x)) %>%
       purrr::map_if(~!is.null(.x$entityName), list) %>%
       unlist(recursive = FALSE)
 
+    # Wrangle the data_id to handle special characters
+    # temp_data_id <- gsub(pattern = "\\:", replacement = "\\-", x = data_id)
 
-#Using the data_id to retrieve only the dataset of interest from all of the data objects in the package
-    temp_data_id <- gsub("\\:", "\\-", data_id)
+    # Use the data_id to identify only the dataset interest
+    ## (Out of potentially many data objects in the package)
+    if(grepl(pattern = "pasta.lternet.edu", x = data_id) == TRUE){
 
-    entity_data <- entity_objs %>%
-      purrr::keep(~any(grepl(temp_data_id, .x$id)))
+      # EDI version
+      entity_data <- entity_objs %>%
+        purrr::keep(.p = ~ any(grepl(pattern = data_id, x = .x$physical$distribution$online$url),
+                               grepl(pattern = data_id, x = .x$id)))
 
+      # Non-EDI formulation
+    } else {
+      entity_data <- entity_objs %>%
+        purrr::keep(.p = ~ any(grepl(pattern = data_id, x = .x$physical$distribution$online$url$url),
+                               grepl(pattern = data_id, x = .x$physical$distribution$online$url),
+                               grepl(pattern = data_id, x = .x$id)))
+    }
 
     if (length(entity_data) == 0) {
       warning("No data metadata could be found for ", data_url, "\n Double check that you have entered a valid url for the data")
@@ -59,9 +76,11 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) 
       attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
     }
 
+    # Tabularize the EML metadata
+    meta_tabular <- tabularize_eml(eml) %>%
+      tidyr::pivot_wider(names_from = name, values_from = value)
 
-    attributeList <- suppressWarnings(EML::get_attributes(entity_data$attributeList, eml))
-    meta_tabular <- tabularize_eml(eml) %>% tidyr::pivot_wider(names_from = name, values_from = value)
+    # Identify the metadata url
     metadata_url <- metadata_nodes$data$baseURL[[1]]
 
     ## Summary metadata from EML (combine with general metadata later)
@@ -100,17 +119,33 @@ download_EML_data <- function(meta_obj, meta_id, data_id, metadata_nodes, path) 
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
   data_extension <- gsub("(.*\\.)([^.]*$)", "\\2", data_name)
   data_name <- gsub("\\.[^.]*$", "", data_name) #remove extension
+  data_name <- gsub(" ", "", data_name) # remove spaces
   meta_name <- gsub("[^a-zA-Z0-9. -]+", "_", meta_id) #remove special characters & replace with _
 
-  new_dir <- file.path(path, paste0(meta_name, "__", data_name, "__", data_extension))
+  # Also remove periods from various objects
+  meta_name <- gsub(pattern = "\\.", replacement = "_", x = meta_name)
+  data_name <- gsub(pattern = "\\.", replacement = "_", x = data_name)
+  data_extension <- gsub(pattern = "\\.", replacement = "_", x = data_extension)
 
-  # Check if the dataset has already been downloaded at this location. If so, exit the function
-  if (dir.exists(new_dir)) {
-    warning("This dataset has already been downloaded. Please delete or move the folder to download the dataset again.")
-    return(new_dir)
-  }
+  # Assemble a new folder name
+  new_dir <- file.path(path, paste(meta_name, data_name, data_extension,
+                                    sep = "__"))
 
-  dir.create(new_dir)
+  # Create a counter
+  k <- 1
+
+  # If this folder already exists, make a new folder
+  while(dir.exists(new_dir)){
+
+    # Make a *new* new folder
+    new_dir <- file.path(path, paste(meta_name, data_name, data_extension,
+                                     paste0("copy_", k), sep = "__"))
+
+    # Increment counter
+    k <- k + 1 }
+
+  # Make the folder (if it doesn't exist already)
+  dir.create(new_dir, showWarnings = FALSE)
 
   ## download Data
   data_nodes <- dataone::resolve(dataone::CNode("PROD"), data_id)

@@ -1,19 +1,16 @@
 ---
-title: "Use Case 5 - Processing a single dataset from DataOne"
+title: "Use Case 2 - Processing a Single Dataset from DataOne"
 author: "Julien Brun and Kristen Peach, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"Use Case - Downloading one dataset using metajam"}
+  %\VignetteIndexEntry{Use Case 2 - Processing a Single Dataset from DataOne}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 ## Summary
@@ -92,7 +89,7 @@ At this point, you should have the data and the metadata downloaded inside your 
 
   
 ```{r, out.width="90%", echo=FALSE, fig.align="center", fig.cap="Local file structure of a dataset downloaded by metajam"}
-knitr::include_graphics("../inst/images/metajam_v1_folder.png")
+knitr::include_graphics("../man/figures/metajam_v1_folder.png")
 ```  
    
 
@@ -115,13 +112,13 @@ For the second example, we are using Marine bird survey observation and density 
 
 ## Libraries and constants
 
-```{r libraries, warning=FALSE}
+```{r libraries-2, warning=FALSE}
 # devtools::install_github("NCEAS/metajam")
 library(metajam)  
 
 ```
 
-```{r constants}
+```{r constants-2}
 # Directory to save the data set
 path_folder <- "Data_alaska"
 
@@ -133,7 +130,7 @@ data_url <- "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e
 
 ## Download the dataset
 
-```{r download, eval=FALSE}
+```{r download-2, eval=FALSE}
 
 # Create the local directory to download the datasets
 dir.create(path_folder, showWarnings = FALSE)
@@ -155,13 +152,13 @@ At this point, you should have the data and the metadata downloaded inside your 
 
   
 ```{r, out.width="90%", echo=FALSE, fig.align="center", fig.cap="Local file structure of a dataset downloaded by metajam"}
-knitr::include_graphics("../inst/images/metajam_v1_folder.png")
+knitr::include_graphics("../man/figures/metajam_v1_folder.png")
 ```  
    
 
 ## Read the data and metadata in your R environment
 
-```{r read_data, eval=FALSE}
+```{r read_data-2, eval=FALSE}
 # Read all the datasets and their associated metadata in as a named list
 coweeta_diatom <- metajam::read_d1_files(data_folder)
 
@@ -173,5 +170,5 @@ You have now loaded in your R environment one named list object that contains th
 
 
 ```{r, out.width="90%", echo=FALSE, fig.align="center", fig.cap="Structure of the named list object containing tabular metadata and data as loaded by metajam"}
-knitr::include_graphics("../inst/images/metajam_v1_named_list.png")
+knitr::include_graphics("../man/figures/metajam_v1_named_list.png")
 ```  

@@ -1,19 +1,16 @@
 ---
-title: "Use Case 1 - Processing a single dataset"
+title: "Use Case 1 - Processing a Single Dataset from Arctic Data Center"
 author: "Julien Brun, Mitchell Maier and Irene Steves, NCEAS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"Use Case - Downloading one dataset using metajam"}
+  %\VignetteIndexEntry{Use Case 1 - Processing a Single Dataset from Arctic Data Center}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 ## Summary
