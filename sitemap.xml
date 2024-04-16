@@ -7,19 +7,22 @@
     <loc>https://nceas.github.io/metajam/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://nceas.github.io/metajam/articles/dataset-batch-processing.html</loc>
-  </url>
-  <url>
-    <loc>https://nceas.github.io/metajam/articles/dataset-single.html</loc>
-  </url>
-  <url>
     <loc>https://nceas.github.io/metajam/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://nceas.github.io/metajam/articles/package-download.html</loc>
+    <loc>https://nceas.github.io/metajam/articles/use01_dataset-single-arctic.html</loc>
   </url>
   <url>
-    <loc>https://nceas.github.io/metajam/articles/reading-raster.html</loc>
+    <loc>https://nceas.github.io/metajam/articles/use02_dataset-single-dataone.html</loc>
+  </url>
+  <url>
+    <loc>https://nceas.github.io/metajam/articles/use03_dataset-batch-processing.html</loc>
+  </url>
+  <url>
+    <loc>https://nceas.github.io/metajam/articles/use04_reading-raster.html</loc>
+  </url>
+  <url>
+    <loc>https://nceas.github.io/metajam/articles/use05_package-download.html</loc>
   </url>
   <url>
     <loc>https://nceas.github.io/metajam/authors.html</loc>
@@ -29,6 +32,12 @@
   </url>
   <url>
     <loc>https://nceas.github.io/metajam/reference/check_version.html</loc>
+  </url>
+  <url>
+    <loc>https://nceas.github.io/metajam/reference/download_EML_data.html</loc>
+  </url>
+  <url>
+    <loc>https://nceas.github.io/metajam/reference/download_ISO_data.html</loc>
   </url>
   <url>
     <loc>https://nceas.github.io/metajam/reference/download_d1_data.html</loc>

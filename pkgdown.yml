@@ -1,12 +1,13 @@
-pandoc: 2.7.3
-pkgdown: 2.0.6
+pandoc: 3.1.11
+pkgdown: 2.0.8
 pkgdown_sha: ~
 articles:
-  dataset-batch-processing: dataset-batch-processing.html
-  dataset-single: dataset-single.html
-  package-download: package-download.html
-  reading-raster: reading-raster.html
-last_built: 2022-07-27T20:25Z
+  use01_dataset-single-arctic: use01_dataset-single-arctic.html
+  use02_dataset-single-dataone: use02_dataset-single-dataone.html
+  use03_dataset-batch-processing: use03_dataset-batch-processing.html
+  use04_reading-raster: use04_reading-raster.html
+  use05_package-download: use05_package-download.html
+last_built: 2024-04-16T16:26Z
 urls:
   reference: https://nceas.github.io/metajam/reference
   article: https://nceas.github.io/metajam/articles
