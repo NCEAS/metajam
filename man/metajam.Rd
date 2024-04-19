@@ -3,10 +3,38 @@
 \docType{package}
 \name{metajam}
 \alias{metajam}
+\alias{metajam-package}
 \title{`metajam` package}
 \description{
 Metadata jam - bringing data and metadata together
 }
 \details{
 See [GitHub](https://github.com/nceas/metajam)
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://nceas.github.io/metajam/}
+  \item Report bugs at \url{https://github.com/nceas/metajam/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Julien Brun \email{jb160@ucsb.edu} (\href{https://orcid.org/0000-0002-7751-6238}{ORCID})
+
+Authors:
+\itemize{
+  \item Irene Steves (\href{https://orcid.org/0000-0002-5511-9717}{ORCID}) (https://github.com/isteves)
+  \item Mitchell Maier (\href{https://orcid.org/0000-0001-6955-0535}{ORCID})
+  \item Kristen Peach \email{peach@nceas.ucsb.edu} (\href{https://orcid.org/0000-0002-6388-0901}{ORCID})
+  \item Nicholas Lyon \email{lyon@nceas.ucsb.edu} (\href{https://orcid.org/0000-0003-3905-1078}{ORCID}) (https://njlyon0.github.io/)
+}
+
+Other contributors:
+\itemize{
+  \item Nathan Hwangbo \email{nathanhwangbo@gmail.com} (\href{https://orcid.org/0000-0002-3777-0821}{ORCID}) [contributor]
+  \item Derek Strong \email{dstrong@nceas.ucsb.edu} (\href{https://orcid.org/0000-0002-0347-8574}{ORCID}) [contributor]
+  \item Colin Smith \email{colin.smith@wisc.edu} (\href{https://orcid.org/0000-0003-2261-9931}{ORCID}) [contributor]
+}
+
 }

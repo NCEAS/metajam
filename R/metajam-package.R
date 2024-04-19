@@ -8,6 +8,7 @@
 #' @name metajam
 #' @import EML
 #' @importFrom stringr str_detect str_extract
+"_PACKAGE"
 
 NULL
 
