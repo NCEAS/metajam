@@ -2,6 +2,7 @@ Package: metajam
 Type: Package
 Title: Easily Download Data and Metadata from 'DataONE'
 Version: 0.2.3
+Date: `r Sys.Date()`
 Authors@R: c(
               person("Julien", "Brun", 
                  email = "jb160@ucsb.edu", 
@@ -14,11 +15,15 @@ Authors@R: c(
               person("Mitchell", "Maier", 
                  comment= c(ORCID = "0000-0001-6955-0535"), 
                  role = "aut"),
+              person("Kristen", "Peach", 
+                 email = "peach@nceas.ucsb.edu", 
+                 comment = c(ORCID = "0000-0002-6388-0901"),
+                 role = "aut"),
               person("Nicholas", "Lyon",
                  email = "lyon@nceas.ucsb.edu",
                  comment = c(ORCID = "0000-0003-3905-1078",
                      "https://njlyon0.github.io/"),
-                 role = "ctb"),
+                 role = "aut"),
               person("Nathan", "Hwangbo", 
                  email = "nathanhwangbo@gmail.com", 
                  comment= c(ORCID = "0000-0002-3777-0821"),
@@ -30,10 +35,6 @@ Authors@R: c(
               person("Colin", "Smith", 
                  email = "colin.smith@wisc.edu", 
                  comment = c(ORCID = "0000-0003-2261-9931"),
-                 role = "ctb"),
-              person("Kristen", "Peach", 
-                 email = "peach@nceas.ucsb.edu", 
-                 comment = c(ORCID = "0000-0002-6388-0901"),
                  role = "ctb")
               )
 Maintainer: Julien Brun <jb160@ucsb.edu>
