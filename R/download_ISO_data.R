@@ -23,9 +23,8 @@
 
 
 download_ISO_data <- function(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path) {
-
-  # Silence visible bindings note
-  entity_data <- NULL
+  # Silence 'visible bindings' note
+  name <- value <- entity_data <- NULL
 
   meta_iso_xml <- XML::xmlTreeParse(meta_raw)
 
