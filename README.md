@@ -1,6 +1,6 @@
 <img src="man/figures/metajam_hex.png" align="right" width="15%" />
 
-# metajam
+## metajam
 <!-- badges: start -->
 [![Package Site](https://github.com/NCEAS/metajam/workflows/pkgdown/badge.svg)](https://github.com/NCEAS/metajam/actions)
 [![R-CMD-check](https://github.com/NCEAS/metajam/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NCEAS/metajam/actions/workflows/R-CMD-check.yaml)
@@ -11,7 +11,7 @@ Download and read data and metadata from repositories in the DataONE network.
 
 ## Authors
 
-Irene Steves, Mitchell Maier and Julien Brun; NCEAS
+Julien Brun, Irene Steves, Mitchell Maier, Kristen Peach and Nick Lyon.
 
 ## Installation
 
