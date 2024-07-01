@@ -11,7 +11,9 @@ Download and read data and metadata from repositories in the DataONE network.
 
 ## Authors
 
-Julien Brun, Irene Steves, Mitchell Maier, Kristen Peach and Nick Lyon.
+Julien Brun, Irene Steves, Mitchell Maier, Kristen Peach and Nick Lyon as main contributors; with special thanks to Colin Smith, Derek Strong and Nathan Hwangbo for their contributions to this package.
+
+
 
 ## Installation
 
