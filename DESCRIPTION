@@ -35,7 +35,9 @@ Authors@R: c(
               person("Colin", "Smith", 
                  email = "colin.smith@wisc.edu", 
                  comment = c(ORCID = "0000-0003-2261-9931"),
-                 role = "ctb")
+                 role = "ctb"),
+              person("Regents of the University of California", 
+              role = "cph")
               )
 Maintainer: Julien Brun <julien.brun@alumni.duke.edu>
 Description: A set of tools to foster the development of reproducible analytical workflow by simplifying the download of data and 
