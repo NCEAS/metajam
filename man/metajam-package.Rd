@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Julien Brun \email{jb160@ucsb.edu} (\href{https://orcid.org/0000-0002-7751-6238}{ORCID})
+\strong{Maintainer}: Julien Brun \email{julien.brun@alumni.duke.edu} (\href{https://orcid.org/0000-0002-7751-6238}{ORCID})
 
 Authors:
 \itemize{
