@@ -15,9 +15,9 @@ knitr::opts_chunk$set(collapse = TRUE,comment = "#>")
 
 ## Summary
 
-This vignette aims to showcase a use case using the 2 main functions of `metajam` - `download_d1_data` and `read_d1_files` using a data processing workflow developed by the NCO synthesis working group [Stream Elemental Cycling](https://lternet.edu/working-groups/global-patterns-stream-energy-nutrient-cycling/). 
+This vignette aims to showcase a use case using the 2 main functions of `metajam` - `download_d1_data` and `read_d1_files` using a data processing workflow developed by the NCO synthesis working group [Stream Elemental Cycling](https://lternet.edu/working-groups/global-patterns-in-stream-energy-and-nutrient-cycling/). 
 
-The datasets used are from the [LTER site - Luquillo](http://luq.lter.network) and can be found in the PASTA data repository <http://dx.doi.org/doi:10.6073/pasta/f9df56348f510da0113b1e6012fa2967>. This data package is a collection of 8 datasets of stream water samples from 8 different locations of the Luquillo Mountains. 
+The datasets used are from the [LTER site - Luquillo](https://luquillo.lter.network/) and can be found in the PASTA data repository <http://dx.doi.org/doi:10.6073/pasta/f9df56348f510da0113b1e6012fa2967>. This data package is a collection of 8 datasets of stream water samples from 8 different locations of the Luquillo Mountains. 
 
 Our **goal** is to read the data for the 8 different sampling sites and aggregate them into one harmonized dataset. We will use the metadata to check if the data structures and units are the same across the 8 different sampling sites before performing the aggregation.
 
