@@ -43,13 +43,13 @@ Description: A set of tools to foster the development of reproducible analytical
 License: Apache License (== 2.0)
 Encoding: UTF-8
 Language: en-US
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 SystemRequirements: Mac OSX: redland (>= 1.0.14) ; Linux: librdf0 (>= 1.0.14),
     librdf0-dev (>= 1.0.14)
 URL: https://nceas.github.io/metajam/
 BugReports: https://github.com/nceas/metajam/issues
 Depends:
-    R (>= 3.1.1)
+    R (>= 3.6.0)
 Imports:
     dataone,
     dplyr,
