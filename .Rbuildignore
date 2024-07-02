@@ -11,3 +11,4 @@
 cran-comments.md
 ^\.github$
 ^pkgdown$
+^cran-comments\.md$
