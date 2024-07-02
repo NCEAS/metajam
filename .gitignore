@@ -12,6 +12,7 @@
 Meta/
 doc/
 docs/
+CRAN-SUBMISSION/
 
 # Ignore Mac file
 .DS_Store
