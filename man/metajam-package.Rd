@@ -32,6 +32,7 @@ Other contributors:
   \item Nathan Hwangbo \email{nathanhwangbo@gmail.com} (\href{https://orcid.org/0000-0002-3777-0821}{ORCID}) [contributor]
   \item Derek Strong \email{dstrong@nceas.ucsb.edu} (\href{https://orcid.org/0000-0002-0347-8574}{ORCID}) [contributor]
   \item Colin Smith \email{colin.smith@wisc.edu} (\href{https://orcid.org/0000-0003-2261-9931}{ORCID}) [contributor]
+  \item Regents of the University of California [copyright holder]
 }
 
 }
