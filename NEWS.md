@@ -1,3 +1,5 @@
+# metajam (development version)
+
 # metajam 0.3.0
 
 * Resubmission to CRAN 

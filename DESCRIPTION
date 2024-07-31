@@ -1,7 +1,7 @@
 Package: metajam
 Type: Package
 Title: Easily Download Data and Metadata from 'DataONE'
-Version: 0.3.0
+Version: 0.3.0.9000
 Date: 2024-07-02
 Authors@R: c(
               person("Julien", "Brun", 
