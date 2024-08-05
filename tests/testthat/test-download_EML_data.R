@@ -2,6 +2,8 @@ context("download_EML_data()")
 
 #adding a test for a dataset that uses EML metadata from Arctic Data Center member node
 test_that("test data URL with eml metadata from the Arctic Data Center member node and with multiple data tables", {
+  # Takes too much time and add load on servers
+  skip_on_cran()
 
   temp_dir <- tempdir()
   data_id <- "urn:uuid:4b5b35cf-7a39-449f-90f1-93fb3e6fb242"
