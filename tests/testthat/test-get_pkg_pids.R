@@ -2,7 +2,7 @@ context("get_pkg_pids()")
 
 test_that('data package report is not "data"', {
   # Takes too much time and add load on servers
-  skip_on_cran()
+  skip_if_offline()
 
   output <- suppressMessages(
     get_pkg_pids(

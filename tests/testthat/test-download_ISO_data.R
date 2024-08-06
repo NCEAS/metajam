@@ -3,7 +3,7 @@ context("download_ISO_data()")
 #adding a test for a dataset that uses ISO metadata from Research Workspace member node
 test_that("test data URL with ISO metadata from Research Workspace member node and with multiple data tables", {
   # Takes too much time and add load on servers
-  skip_on_cran()
+  skip_if_offline()
 
   temp_dir <- tempdir()
   data_id <- "8181dc0f-25fe-45c2-9bcd-0af54276aa62"

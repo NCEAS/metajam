@@ -25,7 +25,7 @@ test_that("test read in csv files", {
 
 test_that("read Arctic Data Center data package", {
   # Takes too much time and add load on servers
-  skip_on_cran()
+  skip_if_offline()
 
   # Call download_di_data_pkg() for data package
   temp_dir <- tempdir()
@@ -47,7 +47,7 @@ test_that("read Arctic Data Center data package", {
 
 test_that("read EDI data package", {
   # Takes too much time and add load on servers
-  skip_on_cran()
+  skip_if_offline()
 
   # Grab temp directory as an object
   temp_dir <- tempdir()
