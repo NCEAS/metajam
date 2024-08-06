@@ -12,7 +12,8 @@ A set of tools to foster the development of reproducible analytical workflow by 
 Useful links:
 \itemize{
   \item \url{https://nceas.github.io/metajam/}
-  \item Report bugs at \url{https://github.com/nceas/metajam/issues}
+  \item \url{https://github.com/NCEAS/metajam}
+  \item Report bugs at \url{https://github.com/NCEAS/metajam/issues}
 }
 
 }
