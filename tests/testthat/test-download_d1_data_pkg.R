@@ -14,6 +14,7 @@ test_that("accepts correct inputs", {
 test_that("accepts EDI data package", {
   # Takes too much time and add load on servers
   skip_on_cran()
+
   output <- download_d1_data_pkg(
     meta_obj = 'doi:10.6073/pasta/9f2f89e48f9e943f7125d1a335d96eb0',
     path = tempdir()
