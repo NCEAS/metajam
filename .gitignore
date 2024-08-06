@@ -13,6 +13,7 @@ Meta/
 doc/
 docs/
 CRAN-SUBMISSION/
+revdep/
 
 # Ignore Mac file
 .DS_Store
