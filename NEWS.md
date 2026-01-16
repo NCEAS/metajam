@@ -1,5 +1,9 @@
 # metajam (development version)
 
+# metajam 0.3.2
+
+Compatible with the new version of dataone (2.3.0)
+
 # metajam 0.3.1
 
 Fix some tests that could failed due to the APIs being down.
