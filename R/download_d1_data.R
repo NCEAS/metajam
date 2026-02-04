@@ -96,7 +96,7 @@ download_d1_data <- function(data_url, path) {
   meta_id <- meta_id[[1]]
 
 
-  #Here we assume that these are the only two types of possible metadata..that's probably not smart
+  #Here we assume that these are the only two types of possible metadata... to be improved
   #"eml://ecoinformatics.org/eml"
   #"http://www.isotc211.org/"
 
