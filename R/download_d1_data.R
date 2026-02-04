@@ -101,8 +101,13 @@ download_d1_data <- function(data_url, path) {
   #"http://www.isotc211.org/"
 
   if (grepl("ecoinformatics.org", meta_raw) == FALSE) {
-    message("Metadata is in ISO format")
+    message("Metadata is NOT in EML format, trying ISO format")
+    # if (grepl("iso", meta_raw) == TRUE) {
+    #   message("Metadata is in ISO format")
     new_dir <- download_ISO_data(meta_raw, meta_obj, meta_id, data_id, metadata_nodes, path = path)
+    # } else {
+    #   stop("Metadata is in an unknow format")
+    # }
   } else if (grepl("ecoinformatics.org", meta_raw) == TRUE) {
     message("Metadata is in EML format")
     new_dir <- download_EML_data(data_url, meta_obj, meta_id, data_id, metadata_nodes, path = path)
