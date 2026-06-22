@@ -76,29 +76,30 @@ download_d1_data <- function(data_url, path) {
       unlist()
   }
 
-  # depending on results, return warnings
+  # Depending on results, return warnings
   if (length(meta_id) == 0) {
     stop("no metadata records found")
     meta_id <- NULL
   } else if (length(meta_id) > 1) {
     warning("multiple metadata records found:\n",
             paste(meta_id, collapse = "\n"),
-            "\nThe first record was used")
-    meta_id <- meta_id[1]
+            "\nThe last record was used")
+    meta_id <-  meta_id[length(meta_id)]
   }
 
   metadata_nodes <- dataone::resolve(cn, meta_id)
   meta_obj <- dataone::getObject(d1c@mn, meta_id)
 
 
-  #Preparing some objects for input into language specific functions below
+  # Preparing some objects for input into language specific functions below
   meta_raw <- rawToChar(meta_obj)
   meta_id <- meta_id[[1]]
 
 
-  #Here we assume that these are the only two types of possible metadata... to be improved
-  #"eml://ecoinformatics.org/eml"
-  #"http://www.isotc211.org/"
+  # Here we assume that these are the only two types of possible metadata... to be changed as the support of metadata
+  # standards expands
+  # "eml://ecoinformatics.org/eml"
+  # "http://www.isotc211.org/"
 
   if (grepl("ecoinformatics.org", meta_raw) == FALSE) {
     message("Metadata is NOT in EML format, trying ISO format")
