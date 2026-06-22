@@ -61,35 +61,33 @@ download_d1_data <- function(data_url, path) {
   cn <- dataone::CNode()
 
   ## Download Metadata ------------
-  meta_id <- dataone::query(
+  meta_info <- dataone::query(
     cn,
     list(q = sprintf('documents:"%s" AND formatType:"METADATA" AND -obsoletedBy:*', data_id),
-         fl = "id,title,dateUploaded",
+         fl = "id,dateUploaded",
          sort = "dateUploaded+desc"))
 
-
   # if no results are returned, try without -obsoletedBy
-  if (length(meta_id) == 0) {
-    meta_id <- dataone::query(
+  if (length(meta_info) == 0) {
+    meta_info <- dataone::query(
       cn,
       list(q = sprintf('documents:"%s" AND formatType:"METADATA"', data_id),
-           fl = "id,title,obsoletedBy,dateUploaded",
+           fl = "id,dateUploaded",
            sort = "dateUploaded+desc"))
-
   }
 
   # Depending on results, return warnings
-  if (length(meta_id) == 0) {
+  if (length(meta_info) == 0) {
     stop("no metadata records found")
     meta_id <- NULL
-  } else if (length(meta_id) == 1) {
-    meta_id <- meta_id[[1]]$id
-  } else if (length(meta_id) > 1) {
+  } else if (length(meta_info) == 1) {
+    meta_id <- meta_info[[1]]$id
+  } else if (length(meta_info) > 1) {
     warning("multiple metadata records found:\n",
-            paste(meta_id, collapse = "\n"),
+            paste(meta_info, collapse = "\n"),
             "\nThe most recent record was used")
     # Take the most recent if several
-    meta_id <- meta_id[[1]]$id
+    meta_id <- meta_info[[1]]$id
   }
 
   metadata_nodes <- dataone::resolve(cn, meta_id)
