@@ -96,7 +96,7 @@ download_d1_data <- function(data_url, path) {
 
   # Preparing some objects for input into language specific functions below
   meta_raw <- rawToChar(meta_obj)
-  meta_id <- meta_id[[1]]
+  # meta_id <- meta_id[[1]]       # not sure whay we would need this
 
 
   # Here we assume that these are the only two types of possible metadata... to be changed as the support of metadata
