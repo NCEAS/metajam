@@ -17,7 +17,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 This vignette aims to showcase how to overwrite the default function used by `metajam::read_d1_files` (spoiler alert it is `readr::read_csv`) to read none tabular dara. In this specific vignette, we use the example of reading a geotiff file using the `raster` package.
 
-As example, we are using shipping routes frequency data used in the final human impacts model of 17 marine ecosystems and the 22 stressor drivers [DOI: 10.5063/F15M63Z8](https://doi.org/10.5063/F15M63Z8).. For more information on this research, please see Micheli F, Halpern BS, Walbridge S, Ciriaco S, Ferretti F, Fraschetti S, et al. (2013) Cumulative Human Impacts on Mediterranean and Black Sea Marine Ecosystems: Assessing Current Pressures and Opportunities. PLoS ONE 8(12). https://doi.org/10.1371/journal.pone.0079889.  
+As example, we are using shipping routes frequency data used in the final human impacts model of 17 marine ecosystems and the 22 stressor drivers [DOI: 10.5063/F15M63Z8](https://doi.org/10.5063/F15M63Z8).. For more information on this research, please see Micheli F, Halpern BS, Walbridge S, Ciriaco S, Ferretti F, Fraschetti S, et al. (2013) Cumulative Human Impacts on Mediterranean and Black Sea Marine Ecosystems: Assessing Current Pressures and Opportunities. PLoS ONE 8(12). <https://doi.org/10.1371/journal.pone.0079889>.  
 
 
 ## Libraries and constants

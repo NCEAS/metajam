@@ -24,13 +24,13 @@ There are two parameters required to run the download_d1_data.R function in meta
 
 For several DataOne member nodes (Arctic Data Center, Environmental Data Initiative, and The Knowledge Network for Biocomplexity), metajam users can retrieve the data url from either the 'home' site of the member node or the from the DataOne instance of that same data package. For example, if you wanted to download this dataset:
 
-Kelsey J. Solomon, Rebecca J. Bixby, and Catherine M. Pringle. 2021. Diatom Community Data from Coweeta LTER, 2005-2019. Environmental Data Initiative. https://doi.org/10.6073/pasta/25e97f1eb9a8ed2aba8e12388f8dc3dc.
+Kelsey J. Solomon, Rebecca J. Bixby, and Catherine M. Pringle. 2021. Diatom Community Data from Coweeta LTER, 2005-2019. Environmental Data Initiative. <https://doi.org/10.6073/pasta/25e97f1eb9a8ed2aba8e12388f8dc3dc>.
 
 You have two options for where to obtain the data url.
 
-1. You could navigate to this page on the Environmental Data Initiative site (https://doi.org/10.6073/pasta/25e97f1eb9a8ed2aba8e12388f8dc3dc ) and right-click on the CWT_Hemlock_Diatom_Data.csv link to retrieve this data url: https://portal.edirepository.org/nis/dataviewer?packageid=edi.858.1&entityid=15ad768241d2eeed9f0ba159c2ab8fd5
+1. You could navigate to this page on the Environmental Data Initiative site (<https://doi.org/10.6073/pasta/25e97f1eb9a8ed2aba8e12388f8dc3dc>) and right-click on the CWT_Hemlock_Diatom_Data.csv link to retrieve this data url: <https://portal.edirepository.org/nis/dataviewer?packageid=edi.858.1&entityid=15ad768241d2eeed9f0ba159c2ab8fd5>
 
-2. You could fine this data package on the DataOne site (https://search.dataone.org/view/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fmetadata%2Feml%2Fedi%2F858%2F1) and right-click the Download button next to CWT_Hemlock_Diatom_Data.csv to retrieve this data url:https://cn.dataone.org/cn/v2/resolve/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fdata%2Feml%2Fedi%2F858%2F1%2F15ad768241d2eeed9f0ba159c2ab8fd5
+2. You could fine this data package on the DataOne site (<https://search.dataone.org/view/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fmetadata%2Feml%2Fedi%2F858%2F1>) and right-click the Download button next to CWT_Hemlock_Diatom_Data.csv to retrieve this data url: <https://cn.dataone.org/cn/v2/resolve/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fdata%2Feml%2Fedi%2F858%2F1%2F15ad768241d2eeed9f0ba159c2ab8fd5>
 
 Both will work with metajam! You will get the same output either way. 
 
@@ -42,7 +42,7 @@ We include two examples, one downloading a dataset with metadata in eml (ecologi
 
 ## Example 1: eml
 
-For the first example, we are using Diatom Community Data from Coweeta LTER, 2005-2019: Kelsey J. Solomon, Rebecca J. Bixby, and Catherine M. Pringle. Environmental Data Initiative. https://pasta.lternet.edu/package/metadata/eml/edi/858/1.
+For the first example, we are using Diatom Community Data from Coweeta LTER, 2005-2019: Kelsey J. Solomon, Rebecca J. Bixby, and Catherine M. Pringle. Environmental Data Initiative. <https://pasta.lternet.edu/package/metadata/eml/edi/858/1>.
 
 
 ## Libraries and constants
@@ -107,7 +107,7 @@ You have now loaded in your R environment one named list object that contains th
 
 ## Example 2: iso
 
-For the second example, we are using Marine bird survey observation and density data from Northern Gulf of Alaska LTER cruises, 2018. Kathy Kuletz, Daniel Cushing, and Elizabeth Labunski. Research Workspace. https://doi.org/10.24431/rw1k45w
+For the second example, we are using Marine bird survey observation and density data from Northern Gulf of Alaska LTER cruises, 2018. Kathy Kuletz, Daniel Cushing, and Elizabeth Labunski. Research Workspace. <https://doi.org/10.24431/rw1k45w>
 
 
 ## Libraries and constants
