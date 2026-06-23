@@ -1,5 +1,10 @@
 # metajam (development version)
 
+# metajam 0.3.2
+
+Compatible with the new version of dataone (2.3.0) and fix a bug when the metadata was returning NULL
+as a value (see https://stackoverflow.com/questions/79869850/why-does-is-nanull-returns-logical0-and-not-false)
+
 # metajam 0.3.1
 
 Fix some tests that could failed due to the APIs being down.

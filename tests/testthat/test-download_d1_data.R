@@ -90,14 +90,15 @@ test_that("Data without metadata downloads and returns summary metadata", {
   unlink(temp_dir, recursive = TRUE)
 })
 
-#adding a test for a dataset that uses ISO metadata and is from the Alaska Ocean Observing System member node
-test_that("test data URL with ISO metadata from AOOS member node and with multiple data tables", {
+# Adding a test for a dataset that uses ISO metadata and is from the Alaska Ocean Observing System member node
+# Dataset: https://search.dataone.org/view/10.24431%2Frw1k45w
+test_that("test data URL with ISO metadata from AOOS member node", {
   # Takes too much time and add load on servers
   skip_if_offline()
 
   temp_dir <- tempdir()
-  out <- expect_warning(download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16",
-                          path = temp_dir))
+  out <- download_d1_data(data_url = "https://cn.dataone.org/cn/v2/resolve/0ca6cc82-fdd2-4492-b63c-c4e78b90b809",
+                          path = temp_dir)
   files <- list.files(out)
 
   expect_equal(length(files), 4)
