@@ -29,7 +29,7 @@ You have two options for where to obtain the data url.
 
 1.  You could navigate to this page on the Environmental Data Initiative
     site
-    (<https://doi.org/10.6073/pasta/25e97f1eb9a8ed2aba8e12388f8dc3dc> )
+    (<https://doi.org/10.6073/pasta/25e97f1eb9a8ed2aba8e12388f8dc3dc>)
     and right-click on the CWT_Hemlock_Diatom_Data.csv link to retrieve
     this data url:
     <https://portal.edirepository.org/nis/dataviewer?packageid=edi.858.1&entityid=15ad768241d2eeed9f0ba159c2ab8fd5>
@@ -37,8 +37,8 @@ You have two options for where to obtain the data url.
 2.  You could fine this data package on the DataOne site
     (<https://search.dataone.org/view/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fmetadata%2Feml%2Fedi%2F858%2F1>)
     and right-click the Download button next to
-    CWT_Hemlock_Diatom_Data.csv to retrieve this data
-    url:<https://cn.dataone.org/cn/v2/resolve/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fdata%2Feml%2Fedi%2F858%2F1%2F15ad768241d2eeed9f0ba159c2ab8fd5>
+    CWT_Hemlock_Diatom_Data.csv to retrieve this data url:
+    <https://cn.dataone.org/cn/v2/resolve/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fdata%2Feml%2Fedi%2F858%2F1%2F15ad768241d2eeed9f0ba159c2ab8fd5>
 
 Both will work with metajam! You will get the same output either way.
 
