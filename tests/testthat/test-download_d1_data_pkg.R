@@ -10,9 +10,11 @@ test_that("accepts correct inputs", {
   expect_error(download_d1_data_pkg("test", "test"))
 })
 
+# EDI package test(s) ----
 test_that("accepts EDI data package", {
   # Takes too much time and add load on servers
-  skip_on_cran()
+  skip_if_offline()
+
   output <- download_d1_data_pkg(
     meta_obj = 'doi:10.6073/pasta/9f2f89e48f9e943f7125d1a335d96eb0',
     path = tempdir()
@@ -21,11 +23,13 @@ test_that("accepts EDI data package", {
   unlink(output, recursive = TRUE)
 })
 
+# Arctic Data Center test(s) ----
 test_that("accepts Arctic Data Center data package", {
   # Takes too much time and add load on servers
-  skip_on_cran()
+  skip_if_offline()
+
   output <- download_d1_data_pkg(
-    meta_obj = 'doi:10.18739/A2DP3X',
+    meta_obj = 'doi:10.18739/A2B27PS44',
     path = tempdir()
     )
   expect_true(dir.exists(output[[1]]))

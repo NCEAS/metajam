@@ -19,7 +19,7 @@
 #' @seealso [download_d1_data()] [download_d1_data_pkg()]
 #'
 #' @examples
-#' data_folder <- system.file("extdata", "test_data", package = "metajam")
+#' data_folder <- system.file(file.path("extdata", "test_data"), package = "metajam")
 #' soil_moist_data <- read_d1_files(data_folder)
 #'
 #' # You can specify the function you would like to use to read the file and pass parameters
@@ -28,36 +28,41 @@
 
 read_d1_files <- function(folder_path, fnc = "read_csv", ...) {
 
+  # Check inputs and error out for unsupported entries
   stopifnot(is.character(folder_path), length(folder_path) == 1, nchar(folder_path) > 0, dir.exists(folder_path))
   stopifnot(is.character(fnc), length(fnc) == 1, nchar(fnc) > 0)
 
+  # Find files in the specified folder
   files <- list.files(folder_path, full.names = TRUE)
   # files <- files[!grepl(pattern='full_metadata.xml', files)]
   filename <- files[grepl(pattern = '__summary_metadata.csv', files)]
-  filename <- gsub(pattern = '__summary_metadata.csv', '', basename(filename), fixed = TRUE)
+  filename <- gsub(pattern = '__summary_metadata.csv', '.csv', basename(filename), fixed = TRUE)
 
+  # Error out for more than one file of the same name
   if (sum(filename == tools::file_path_sans_ext(basename(files))) > 1 ) {
     stop("You have multiple files named ", filename)
   }
 
-  data_meta <- purrr::map(files, function(x) {
-    if (grepl("[^_]+_metadata(?=\\.csv)", basename(x), perl = TRUE)) {
-      readr::read_csv(x)
-    } else if (tools::file_path_sans_ext(basename(x)) == filename) {
-      eval(parse(text = paste0(fnc, '("', normalizePath(x, winslash = '/'), '", ...)')))
-    }
-  })
+  # Do not attempt to read in XML files
+  files_no_meta <- files[tools::file_ext(files) %in% c("xml", "log") == FALSE]
 
-  data_meta_names <- purrr::map(files, function(x) {
-    if (grepl("[^_]+_metadata(?=\\.csv)", basename(x), perl = TRUE)) {
-      stringr::str_extract(basename(x), "[^_]+_metadata(?=\\.csv)")
-    } else if (tools::file_path_sans_ext(basename(x)) == filename) {
-      "data"
-    }
-  })
+  # Make an empty list
+  data_list <- list()
 
-  data_meta <- stats::setNames(data_meta, data_meta_names) %>%
-    purrr::compact()
+  # Read in each file
+  for(single_file in files_no_meta){
 
-  return(data_meta)
-}
+    # Identify file path
+    sub_name <- basename(single_file)
+
+    # Use user-provided function
+    sub_df <- eval(parse(text = paste0(fnc, '("', normalizePath(single_file, winslash = '/'), '", ...)')))
+
+    # Add to list
+    data_list[[sub_name]] <- sub_df }
+
+  # Drop empty/NULL elements of list
+  data_actual <- purrr::compact(.x = data_list)
+
+  # Return list of data files
+  return(data_actual) }

@@ -1,0 +1,267 @@
+---
+title: "Use Case 3 - Processing Several Datasets"
+author: "Julien Brun, Mitchell Maier, Irene Steves and Kristen Peach, NCEAS"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Use Case 3 - Processing Several Datasets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,comment = "#>")
+```
+
+## Summary
+
+This vignette aims to showcase a use case using the 2 main functions of `metajam` - `download_d1_data` and `read_d1_files` using a data processing workflow developed by the NCO synthesis working group [Stream Elemental Cycling](https://lternet.edu/working-groups/global-patterns-in-stream-energy-and-nutrient-cycling/). 
+
+The datasets used are from the [LTER site - Luquillo](https://luquillo.lter.network/) and can be found in the PASTA data repository <https://dx.doi.org/doi:10.6073/pasta/f9df56348f510da0113b1e6012fa2967>. This data package is a collection of 8 datasets of stream water samples from 8 different locations of the Luquillo Mountains. 
+
+Our **goal** is to read the data for the 8 different sampling sites and aggregate them into one harmonized dataset. We will use the metadata to check if the data structures and units are the same across the 8 different sampling sites before performing the aggregation.
+
+
+## Libraries
+
+```{r libraries, message=FALSE}
+#devtools::install_github("NCEAS/metajam")
+library(metajam)  
+
+# For wrangling the data
+library(readr)
+library(tidyr)
+library(dplyr)
+library(purrr)
+library(stringr)
+```
+
+## Constants
+
+```{r constants}
+# Download the data from DataONE on your local machine
+data_folder <- "Data_SEC"
+
+# Ammonium to Ammoniacal-nitrogen conversion. We will use this conversion later.
+coeff_conv_NH4_to_NH4N <- 0.7764676534
+
+```
+
+
+## Download the datasets
+
+```{r download, eval=FALSE}
+# Create the local directory to store datasets
+dir.create(data_folder, showWarnings = FALSE)
+
+# Get the datasets unique identifiers
+test_datasets_listing <- readr::read_csv(system.file("extdata", "LTER-SEC_DatasetsListing_SearchedData.csv", package = "metajam"))
+
+# Keep only the LUQ related datasets
+luq_test_datasets <- test_datasets_listing %>%
+  dplyr::filter(grepl("LUQ", .$`LTER site abbreviation`)) %>%
+  dplyr::select(`LTER site abbreviation`,
+         `Data Repository (PASTA) URL to Archive/Metadata`,
+         `Data Repository (PASTA) URL to File`,
+         `Data Repository (PASTA) Filename`) %>%
+  na.omit() %>%
+  dplyr::arrange(`Data Repository (PASTA) Filename`) # sort the data sets alphabetically
+
+## Batch download the datasets
+
+# the tidiest way
+local_datasets <- purrr::map(.x = luq_test_datasets$`Data Repository (PASTA) URL to File`,
+                             .f = ~ download_d1_data(.x, data_folder))
+
+# the apply way
+# local_datasets <- lapply(luq_test_datasets$`Data Repository (PASTA) URL to File`, download_d1_data, data_folder)
+
+# the map way
+# local_datasets <- map(luq_test_datasets$`Data Repository (PASTA) URL to File`, function(x) {download_d1_data(x, data_folder)})
+
+
+```
+
+At this point, you should have all the data and the metadata downloaded inside your main directory; `Data_SEC` in this example. `metajam` organize the files as follow: 
+
+- Each dataset is stored a sub-directory named after the package DOI and the file name
+- Inside this sub-directory, you will find
+   - the data: `my_data.csv`
+   - the raw EML with the naming convention _file name_ + `__full_metadata.xml`: `my_data__full_metadata.xml`
+   - the package level metadata summary with the naming convention _file name_ + `__summary_metadata.csv`: `my_data__summary_metadata.csv`
+   - If relevant, the attribute level metadata with the naming convention _file name_ + `__attribute_metadata.csv`: `my_data__attribute_metadata.csv`
+   - If relevant, the factor level metadata with the naming convention _file name_ + `__attribute_factor_metadata.csv`: my_data`__attribute_factor_metadata.csv`
+
+## Read the data and metadata in your R environment
+
+```{r read_data, eval=FALSE}
+# You could list the datasets dowloaded in the `Data_SEC` folder 
+# local_datasets <- dir(data_folder, full.names = TRUE)
+
+# or you can directly use the outputed paths from download_d1_data 
+# Read all the datasets and their associated metadata in as a named list
+luq_datasets <- purrr::map(local_datasets, read_d1_files) %>% 
+  purrr::set_names(purrr::map(., ~.x$summary_metadata$value[.x$summary_metadata$name == "File_Name"]))
+
+```
+
+## Perform checks on data structure
+
+Is the data structure the same across sampling sites (datasets)? For example, do the datasets all have the same column names? 
+
+```{r attributes, eval=FALSE}
+# list all the attributes
+attributes_luq <- luq_datasets %>% purrr::map("data") %>% purrr::map(colnames)
+
+# Check if they are identical by comparing all against the first site
+for(ds in names(attributes_luq)) {
+  print(identical(attributes_luq[[1]], attributes_luq[[ds]]))
+}
+
+#> => We are good, same data structure across the sampling sites
+```
+
+### Conclusion 
+
+- the same attributes are reported at the different sampling sites
+
+## Perform checks on the units
+
+Is data reported in identical units? For example, in every dataset is CI reported in microgramsPerLiter?
+
+```{r units, eval=FALSE}
+# List all the units used
+luq_units <- luq_datasets %>% purrr::map("attribute_metadata") %>% purrr::map(~.[["unit"]])
+
+# Check if they are identical by comparing all against the first site
+for(us in names(luq_units)) {
+  print(identical(luq_units[[1]], luq_units[[us]]))
+}
+
+#>!!! => The 2 last datasets have different units!!!!!!!!!!
+
+# Let's check the differences
+luq_units_merged <- luq_datasets %>%
+  purrr::map("attribute_metadata") %>%
+  purrr::map(. %>% select(attributeName, unit)) %>%
+  purrr::reduce(full_join, by = "attributeName") 
+
+## Rename
+# Create the new names
+luq_new_colnames <- names(luq_units) %>%
+  stringr::str_split("[.]") %>%
+  purrr::map(~.[1]) %>%
+  paste("unit", ., sep = "_")
+
+# Apply the new names
+colnames(luq_units_merged) <- c("attributeName", luq_new_colnames)
+
+```
+
+### Conclusion
+
+- For the 2 last sampling sites `RioIcacos` and `RioMameyesPuenteRoto`, the units used for the gage height ("Gage_Ht") are in feet and not meters like the other sites
+- For the 2 last sampling sites `RioIcacos` and `RioMameyesPuenteRoto`, `NH4` and not `NH4-N` is measured
+
+## Fixing units discrepancies
+
+```{r fixing_units, eval=FALSE}
+# fix attribute naming discrepancies -- to be improved 
+# Copy the units for Gage height
+luq_units_merged <- luq_units_merged %>% 
+  dplyr::mutate(unit_RioIcacos = ifelse(test = attributeName == "Gage_Ht",
+                                        yes = "foot", no = unit_RioIcacos),
+                unit_RioMameyesPuenteRoto = ifelse(test = attributeName == "Gage_Ht",
+                                                   yes = "foot", no = unit_RioMameyesPuenteRoto))
+
+
+# Copy the units for NH4
+luq_units_merged <- luq_units_merged %>% 
+  dplyr::mutate(unit_RioIcacos = ifelse(test = attributeName == "NH4-N",
+                                        yes = "microgramsPerLiter", no = unit_RioIcacos),
+                unit_RioMameyesPuenteRoto = ifelse(test = attributeName == "NH4-N",
+                                                   yes = "microgramsPerLiter",
+                                                   no = unit_RioMameyesPuenteRoto))
+
+# drop the 2 last rows
+luq_units_merged <- head(luq_units_merged, -2)
+
+### Implement the unit conversion for RioIcacos and RioMameyesPuenteRoto ----
+
+# Simplify naming
+RioIcacos_data <- luq_datasets$RioIcacos$data
+RioIcacos_attrmeta <- luq_datasets$RioIcacos$attribute_metadata
+
+
+## RioIcacos
+# Fix NAs. In this dataset "-9999" is the missing value code. So we need to replace those with NAs
+RioIcacos_data <- na_if(RioIcacos_data, "-9999")
+
+# Do the unit conversion  
+RioIcacos_data <- RioIcacos_data %>% 
+  dplyr::mutate( `Gage_Ht` = `Gage_Ht`* 0.3048)
+
+# Update the units column accordingly
+RioIcacos_attrmeta <- RioIcacos_attrmeta %>% 
+  dplyr::mutate(unit = gsub(pattern = "foot", replacement = "meter", x = unit))
+
+# Do the unit conversion for RioIcacos and RioMameyesPuenteRoto - NH4 to NH4-N
+
+# Ammonium to Ammoniacal-nitrogen conversion
+coeff_conv_NH4_to_NH4N <- 0.7764676534
+
+# Unit conversion for RioIcacos and RioMameyesPuenteRoto - NH4 to NH4-N
+RioIcacos_data <- RioIcacos_data %>% mutate( `NH4-N` = `NH4-N`* coeff_conv_NH4_to_NH4N)
+
+# Update the main object 
+luq_datasets$RioIcacos$data <- RioIcacos_data
+
+## RioMameyesPuenteRoto
+
+# Simplify naming
+RioMameyesPuenteRoto_data <- luq_datasets$RioMameyesPuenteRoto$data
+RioMameyesPuenteRoto_attrmeta <- luq_datasets$RioMameyesPuenteRoto$attribute_metadata
+
+#Replace all cells with the missing value code ("-9999") with "NA"
+RioMameyesPuenteRoto_data <- na_if(RioMameyesPuenteRoto_data, "-9999")
+
+#Tidy version of unit conversion 
+RioMameyesPuenteRoto_data <- RioMameyesPuenteRoto_data %>% 
+  dplyr::mutate(`Gage_Ht` = `Gage_Ht`* 0.3048)
+
+# Update the units column accordingly
+RioMameyesPuenteRoto_attrmeta <- RioMameyesPuenteRoto_attrmeta %>% 
+  dplyr::mutate(unit = gsub(pattern = "foot", replacement = "meter", x = unit))
+
+# Do the unit conversion for RioMameyesPuenteRoto - NH4 to NH4-N 
+
+#In this dataset the NH4-N column is actually empty, so this is not necessary. But here is how you would do it if you had to.
+
+RioMameyesPuenteRoto_data <- RioMameyesPuenteRoto_data %>% 
+  dplyr::mutate( `NH4-N` = `NH4-N`* coeff_conv_NH4_to_NH4N)
+
+# Update the main object
+luq_datasets$RioMameyesPuenteRoto$data <- RioMameyesPuenteRoto_data 
+```
+
+
+## Append all the sampling sites into one master dataset
+
+```{r combine, eval=FALSE}
+# bind the sampling sites data into one master dataset for LUQ
+all_sites_luq <- luq_datasets %>%
+  purrr::map("data") %>% 
+  dplyr::bind_rows(.id = "prov")
+
+# Replace -9999 with NAs
+all_sites_luq <- na_if(all_sites_luq, "-9999")
+
+# Write as csv
+write_csv(all_sites_luq, "stream_chem_all_LUQ.csv")
+```
+
+## General Conclusion
+
+- Although the column names were the same in all the datasets / sampling sites, looking at the metadata we discovered that 2 sampling sites are measuring stream gage height and NH4 concentration using different protocols.
+- We used the metadata to perform the necessary unit conversions to homogenize the 8 datasets before merging them into one master dataset.
+- During the merge process, we added a provenance column to be able to track the origin of each row, allowing users of the master datasets to check the original datasets metadata when necessary.

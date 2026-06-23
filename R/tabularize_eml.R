@@ -21,6 +21,8 @@
 #'    tabularize_eml(eml)
 
 tabularize_eml <- function(eml, full = FALSE) {
+  # Silence 'visible bindings' note
+  name <- value <- NULL
 
   if (any(class(eml) == "emld")) {
     eml <- eml

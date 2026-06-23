@@ -1,6 +1,7 @@
 ^Meta$
 ^doc$
 ^docs$
+^dev$
 ^_pkgdown\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
@@ -9,3 +10,6 @@
 ^inst/Pres$
 cran-comments.md
 ^\.github$
+^pkgdown$
+^cran-comments\.md$
+^CRAN-SUBMISSION$

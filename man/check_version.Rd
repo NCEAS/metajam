@@ -9,7 +9,7 @@ check_version(pid, formatType = NULL)
 \arguments{
 \item{pid}{(character) The persistent identifier of a data, metadata, or resource map object on a DataONE member node.}
 
-\item{formatType}{(character) Optional. The format type to return (one of data, metadata, or resource).}
+\item{formatType}{(character) Optional. The format type to return (one of 'data', 'metadata', or 'resource').}
 }
 \value{
 (data.frame) A data frame of object version PIDs and related information.

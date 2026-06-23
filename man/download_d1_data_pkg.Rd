@@ -24,5 +24,5 @@ download_d1_data_pkg("https://doi.org/10.18739/A2028W", ".")
 }
 }
 \seealso{
-\code{\link[=read_d1_files]{read_d1_files()}} \code{\link[=download_d1_data]{download_d1_data()}}
+[read_d1_files()] [download_d1_data()]
 }
