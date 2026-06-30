@@ -82,7 +82,7 @@ repository.</p>
 <p>As example, we are using permafrost data from the Polaris Project
 2017: Sarah Ludwig, Robert M Holmes, Susan Natali, Paul Mann, John
 Schade, et al. 2018. Polaris Project 2017: Permafrost carbon and
-nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. <a href="https://doi.org/10.18739/A2KK3F" class="external-link">doi:10.18739/A2KK3F</a>.</p>
+nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. <a href="https://doi.org/10.18739/A2ZG6G72V" class="external-link">doi:10.18739/A2ZG6G72V</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="libraries-and-constants">Libraries and constants<a class="anchor" aria-label="anchor" href="#libraries-and-constants"></a>
@@ -92,7 +92,7 @@ nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. <a href="https://do
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nceas.github.io/metajam/">metajam</a></span><span class="op">)</span>  </span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Directory to save the data set</span></span>
-<span><span class="va">path_folder</span> <span class="op">&lt;-</span> <span class="st">"Data_polaris"</span></span>
+<span><span class="va">path_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"Data_polaris"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># URL to download the dataset from DataONE</span></span>
 <span><span class="va">data_url</span> <span class="op">&lt;-</span> <span class="st">"https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Aec704da8-f174-49db-b993-bae479cdc5d9"</span></span></code></pre></div>

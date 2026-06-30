@@ -11,7 +11,7 @@ As example, we are using permafrost data from the Polaris Project 2017:
 Sarah Ludwig, Robert M Holmes, Susan Natali, Paul Mann, John Schade, et
 al. 2018. Polaris Project 2017: Permafrost carbon and nitrogen,
 Yukon-Kuskokwim Delta, Alaska. Arctic Data Center.
-[doi:10.18739/A2KK3F](https://doi.org/10.18739/A2KK3F).
+[doi:10.18739/A2ZG6G72V](https://doi.org/10.18739/A2ZG6G72V).
 
 ## Libraries and constants
 
@@ -24,7 +24,7 @@ library(metajam)
 ``` r
 
 # Directory to save the data set
-path_folder <- "Data_polaris"
+path_folder <- file.path(tempdir(), "Data_polaris")
 
 # URL to download the dataset from DataONE
 data_url <- "https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Aec704da8-f174-49db-b993-bae479cdc5d9"
