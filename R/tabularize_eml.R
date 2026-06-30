@@ -16,9 +16,8 @@
 #' @export
 #'
 #' @examples
-#'    eml <- system.file("extdata", "test_data", "SoilMois2012_2017__full_metadata.xml",
-#'                   package = "metajam")
-#'    tabularize_eml(eml)
+#' eml <- system.file("extdata", "test_data", "SoilMois2012_2017__full_metadata.xml", package = "metajam")
+#' tabularize_eml(eml)
 
 tabularize_eml <- function(eml, full = FALSE) {
   # Silence 'visible bindings' note

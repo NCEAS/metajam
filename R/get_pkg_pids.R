@@ -13,7 +13,7 @@
 #' @noRd
 #'
 #' @examples
-#' \dontrun{
+#' \dontest{
 #' #get all pids in the data package
 #' get_pkg_pids("https://doi.org/10.6073/pasta/cd7ec5009430eb78f464a66f6794579f")
 #' }

@@ -15,7 +15,7 @@
 #' @seealso [read_d1_files()] [download_d1_data()]
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' download_d1_data_pkg("doi:10.18739/A2028W", ".")
 #' download_d1_data_pkg("https://doi.org/10.18739/A2028W", ".")
 #' }

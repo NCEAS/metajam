@@ -22,7 +22,7 @@
 #' @seealso [read_d1_files()] [download_d1_data_pkg()]
 #'
 #' @examples
-#' \dontrun{
+#' \dontest{
 #' download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = file.path("."))
 #' download_d1_data(
 #'    "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
