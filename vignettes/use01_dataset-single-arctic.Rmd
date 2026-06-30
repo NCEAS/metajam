@@ -17,7 +17,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 This vignette aims to showcase a use case using the 2 main functions of `metajam` - `download_d1_data` and `read_d1_files` to download one dataset from the [Arctic Data Center](https://arcticdata.io/) data repository.
 
-As example, we are using permafrost data from the Polaris Project 2017:  Sarah Ludwig, Robert M Holmes, Susan Natali, Paul Mann, John Schade, et al. 2018. Polaris Project 2017: Permafrost carbon and nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. [doi:10.18739/A2KK3F](https://doi.org/10.18739/A2KK3F). 
+As example, we are using permafrost data from the Polaris Project 2017:  Sarah Ludwig, Robert M Holmes, Susan Natali, Paul Mann, John Schade, et al. 2018. Polaris Project 2017: Permafrost carbon and nitrogen, Yukon-Kuskokwim Delta, Alaska. Arctic Data Center. [doi:10.18739/A2ZG6G72V](https://doi.org/10.18739/A2ZG6G72V). 
 
 
 ## Libraries and constants
@@ -30,7 +30,7 @@ library(metajam)
 
 ```{r constants}
 # Directory to save the data set
-path_folder <- "Data_polaris"
+path_folder <- file.path(tempdir(), "Data_polaris")
 
 # URL to download the dataset from DataONE
 data_url <- "https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3Aec704da8-f174-49db-b993-bae479cdc5d9"
