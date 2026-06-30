@@ -15,10 +15,10 @@
 #' \donttest{
 #' # Most data URLs and identifiers work
 #' check_version("https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570")
-#' check_version("doi:10.18739/A2ZF6M")
+#' check_version("doi:10.18739/A2J09W56F")
 #'
 #' # Specify a formatType (data, metadata, or resource)
-#' check_version("doi:10.18739/A2ZF6M", formatType = "metadata")
+#' check_version("doi:10.18739/A2J09W56F", formatType = "metadata")
 #'
 #' # Returns a warning if the identifier has been obsoleted
 #' check_version("doi:10.18739/A2HF7Z", formatType = "metadata")
