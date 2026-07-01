@@ -47,7 +47,7 @@ download_d1_data <- function(data_url, path) {
   if (nrow(data_versions) == 1) {
     data_id <- data_versions$identifier
   } else if (nrow(data_versions) > 1) {
-    #get most recent version
+    # Get most recent version
     data_versions$dateUploaded <- lubridate::ymd_hms(data_versions$dateUploaded)
     data_id <- data_versions$identifier[data_versions$dateUploaded == max(data_versions$dateUploaded)]
   } else {
