@@ -50,7 +50,6 @@ For the first example, we are using Diatom Community Data from Coweeta LTER, 200
 ```{r libraries, warning=FALSE}
 # devtools::install_github("NCEAS/metajam")
 library(metajam)  
-
 ```
 
 ```{r constants}
@@ -92,7 +91,6 @@ At this point, you should have the data and the metadata downloaded inside your 
 ```{r read_data, eval=FALSE}
 # Read all the datasets and their associated metadata in as a named list
 coweeta_diatom <- metajam::read_d1_files(data_folder)
-
 ```
 
 ### Structure of the named list object
@@ -100,7 +98,8 @@ coweeta_diatom <- metajam::read_d1_files(data_folder)
 You have now loaded in your R environment one named list object that contains the data `coweeta_diatom$data`, the general (summary) metadata `coweeta_diatom$summary_metadata` - such as title, creators, dates, locations - and the attribute level metadata information `coweeta_diatom$attribute_metadata`, allowing user to get more information, such as units and definitions of your attributes.
 
 
-## Example 2: ISO metatdata
+
+## Example 2: ISO metadata
 
 For the second example, we are using Marine bird survey observation and density data from Northern Gulf of Alaska LTER cruises, 2018. Kathy Kuletz, Daniel Cushing, and Elizabeth Labunski. Research Workspace. <https://doi.org/10.24431/rw1k45w>
 
@@ -110,7 +109,6 @@ For the second example, we are using Marine bird survey observation and density 
 ```{r libraries-2, warning=FALSE}
 # devtools::install_github("NCEAS/metajam")
 library(metajam)  
-
 ```
 
 ```{r constants-2}
@@ -119,7 +117,6 @@ path_folder <- file.path(tempdir(), "Data_alaska")
 
 # URL to download the dataset from DataONE
 data_url <- "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16"
-
 ```
 
 
