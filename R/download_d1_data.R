@@ -31,7 +31,6 @@
 #' }
 
 download_d1_data <- function(data_url, path) {
-  # TODO: add meta_doi to explicitly specify doi
 
   # Silence visible bindings note
   entity_data <- eml <- dir_name <- NULL
@@ -91,8 +90,8 @@ download_d1_data <- function(data_url, path) {
   }
 
   metadata_nodes <- dataone::resolve(cn, meta_id)
-  meta_d1c <- dataone::D1Client("PROD", metadata_nodes$data$nodeIdentifier[[1]])
-  meta_obj <- dataone::getObject(meta_d1c@mn, meta_id)
+  # meta_d1c <- dataone::D1Client("PROD", metadata_nodes$data$nodeIdentifier[[1]])
+  meta_obj <- dataone::getObject(d1c@mn, meta_id)
 
 
   # Preparing some objects for input into language specific functions below
