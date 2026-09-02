@@ -73,10 +73,84 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="fu">download_d1_data_pkg</span><span class="op">(</span><span class="st">"doi:10.18739/A2028W"</span>, <span class="st">"."</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">download_d1_data_pkg</span><span class="op">(</span><span class="st">"https://doi.org/10.18739/A2028W"</span>, <span class="st">"."</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu">download_d1_data_pkg</span><span class="op">(</span><span class="st">"doi:10.18739/A2CJ87M3J"</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> doi:10.18739/A2CJ87M3J is the latest version for the provided persistent identifier</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff is the latest version for the provided persistent identifier</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>multiple metadata records found:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The most recent record was used</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata is in EML format</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:65753f42-5204-40f7-92b8-b0fab9cf0b35 is the latest version for the provided persistent identifier</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>multiple metadata records found:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The most recent record was used</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata is in EML format</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:65753f42-5204-40f7-92b8-b0fab9cf0b35 ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 is the latest version for the provided persistent identifier</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>multiple metadata records found:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The most recent record was used</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata is in EML format</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">download_d1_data_pkg</span><span class="op">(</span><span class="st">"https://doi.org/10.18739/A2CJ87M3J"</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> doi:10.18739/A2CJ87M3J is the latest version for the provided persistent identifier</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff is the latest version for the provided persistent identifier</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>multiple metadata records found:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The most recent record was used</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata is in EML format</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:65753f42-5204-40f7-92b8-b0fab9cf0b35 is the latest version for the provided persistent identifier</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>multiple metadata records found:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The most recent record was used</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata is in EML format</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:65753f42-5204-40f7-92b8-b0fab9cf0b35 ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 is the latest version for the provided persistent identifier</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>multiple metadata records found:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The most recent record was used</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata is in EML format</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv__copy_1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv__copy_1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv__copy_1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -88,7 +162,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

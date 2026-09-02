@@ -29,9 +29,11 @@ tabularize_eml(eml, full = FALSE)
 ## Examples
 
 ``` r
-   eml <- system.file("extdata", "test_data", "SoilMois2012_2017__full_metadata.xml",
-                  package = "metajam")
-   tabularize_eml(eml)
+eml <- system.file("extdata",
+                   "test_data",
+                   "SoilMois2012_2017__full_metadata.xml",
+                   package = "metajam")
+tabularize_eml(eml)
 #> # A tibble: 16 × 2
 #>    name                                       value                             
 #>    <chr>                                      <chr>                             

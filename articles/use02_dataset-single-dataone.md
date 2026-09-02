@@ -6,13 +6,14 @@ This vignette aims to showcase a use case using the 2 main functions of
 `metajam` - `download_d1_data` and `read_d1_files` to download one
 dataset from the DataOne data repository.
 
-## Note on data url provenance when using download_d1_data.R
+## Note on data url provenance when using `download_d1_data()`
 
-There are two parameters required to run the download_d1_data.R function
-in metajam. One is the data url for the dataset you’d like to
+There are two parameters required to run the
+[`download_d1_data()`](https://nceas.github.io/metajam/reference/download_d1_data.md)
+function in metajam. One is the data url for the dataset you’d like to
 download.You can retrieve this by navigating to the data package of
-interest, right-clicking on the download data button, and selecting Copy
-Link Address.
+interest, right-clicking on the download data button, and selecting
+“Copy Link Address”.
 
 For several DataOne member nodes (Arctic Data Center, Environmental Data
 Initiative, and The Knowledge Network for Biocomplexity), metajam users
@@ -53,14 +54,14 @@ We include two examples, one downloading a dataset with metadata in eml
 (ecological metadata format) and the other downloading a dataset with
 metadata in ISO (International Organization for Standardization) format.
 
-## Example 1: eml
+## Example 1: EML metadata
 
 For the first example, we are using Diatom Community Data from Coweeta
 LTER, 2005-2019: Kelsey J. Solomon, Rebecca J. Bixby, and Catherine M.
 Pringle. Environmental Data Initiative.
 <https://pasta.lternet.edu/package/metadata/eml/edi/858/1>.
 
-## Libraries and constants
+### Libraries and constants
 
 ``` r
 
@@ -71,13 +72,13 @@ library(metajam)
 ``` r
 
 # Directory to save the data set
-path_folder <- "Data_coweeta"
+path_folder <- file.path(tempdir(),"Data_coweeta")
 
 # URL to download the dataset from DataONE
 data_url <- "https://cn.dataone.org/cn/v2/resolve/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fdata%2Feml%2Fedi%2F858%2F1%2F15ad768241d2eeed9f0ba159c2ab8fd5"
 ```
 
-## Download the dataset
+### Download the dataset
 
 ``` r
 
@@ -87,6 +88,8 @@ dir.create(path_folder, showWarnings = FALSE)
 
 # Download the dataset and associated metdata 
 data_folder <- metajam::download_d1_data(data_url, path_folder)
+
+data_folder
 ```
 
 At this point, you should have the data and the metadata downloaded
@@ -96,7 +99,7 @@ organize the files as follow:
 - Each dataset is stored a sub-directory named after the package DOI and
   the file name
 - Inside this sub-directory, you will find
-  - the data: `my_data.csv`
+  - the data: `CWT_Hemlock_Diatom_Data.csv`
   - the raw EML with the naming convention *file name* +
     `__full_metadata.xml`: `my_data__full_metadata.xml`
   - the package level metadata summary with the naming convention *file
@@ -108,12 +111,7 @@ organize the files as follow:
     *file name* + `__attribute_factor_metadata.csv`:
     my_data`__attribute_factor_metadata.csv`
 
-![Local file structure of a dataset downloaded by
-metajam](../reference/figures/metajam_v1_folder.png)
-
-Local file structure of a dataset downloaded by metajam
-
-## Read the data and metadata in your R environment
+### Read the data and metadata in your R environment
 
 ``` r
 
@@ -121,7 +119,7 @@ Local file structure of a dataset downloaded by metajam
 coweeta_diatom <- metajam::read_d1_files(data_folder)
 ```
 
-## Structure of the named list object
+### Structure of the named list object
 
 You have now loaded in your R environment one named list object that
 contains the data `coweeta_diatom$data`, the general (summary) metadata
@@ -130,14 +128,14 @@ locations - and the attribute level metadata information
 `coweeta_diatom$attribute_metadata`, allowing user to get more
 information, such as units and definitions of your attributes.
 
-## Example 2: iso
+## Example 2: ISO metadata
 
 For the second example, we are using Marine bird survey observation and
 density data from Northern Gulf of Alaska LTER cruises, 2018. Kathy
 Kuletz, Daniel Cushing, and Elizabeth Labunski. Research Workspace.
 <https://doi.org/10.24431/rw1k45w>
 
-## Libraries and constants
+### Libraries and constants
 
 ``` r
 
@@ -148,13 +146,13 @@ library(metajam)
 ``` r
 
 # Directory to save the data set
-path_folder <- "Data_alaska"
+path_folder <- file.path(tempdir(), "Data_alaska")
 
 # URL to download the dataset from DataONE
 data_url <- "https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16"
 ```
 
-## Download the dataset
+### Download the dataset
 
 ``` r
 
@@ -178,32 +176,3 @@ organize the files as follow:
     `__full_metadata.xml`: `my_data__full_metadata.xml`
   - the package level metadata summary with the naming convention *file
     name* + `__summary_metadata.csv`: `my_data__summary_metadata.csv`
-
-![Local file structure of a dataset downloaded by
-metajam](../reference/figures/metajam_v1_folder.png)
-
-Local file structure of a dataset downloaded by metajam
-
-## Read the data and metadata in your R environment
-
-``` r
-
-# Read all the datasets and their associated metadata in as a named list
-coweeta_diatom <- metajam::read_d1_files(data_folder)
-```
-
-## Structure of the named list object
-
-You have now loaded in your R environment one named list object that
-contains the data `coweeta_diatom$data`, the general (summary) metadata
-`coweeta_diatom$summary_metadata` - such as title, creators, dates,
-locations - and the attribute level metadata information
-`coweeta_diatom$attribute_metadata`, allowing user to get more
-information, such as units and definitions of your attributes.
-
-![Structure of the named list object containing tabular metadata and
-data as loaded by
-metajam](../reference/figures/metajam_v1_named_list.png)
-
-Structure of the named list object containing tabular metadata and data
-as loaded by metajam

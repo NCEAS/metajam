@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Julien Brun and
 Kristen Peach, NCEAS</h4>
             
-            <h4 data-toc-skip class="date">2026-07-01</h4>
+            <h4 data-toc-skip class="date">2026-09-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/NCEAS/metajam/blob/main/vignettes/use02_dataset-single-dataone.Rmd" class="external-link"><code>vignettes/use02_dataset-single-dataone.Rmd</code></a></small>
       <div class="d-none name"><code>use02_dataset-single-dataone.Rmd</code></div>
@@ -81,13 +81,14 @@ of <code>metajam</code> - <code>download_d1_data</code> and
 repository.</p>
 </div>
 <div class="section level2">
-<h2 id="note-on-data-url-provenance-when-using-download_d1_data-r">Note on data url provenance when using download_d1_data.R<a class="anchor" aria-label="anchor" href="#note-on-data-url-provenance-when-using-download_d1_data-r"></a>
+<h2 id="note-on-data-url-provenance-when-using-download_d1_data">Note on data url provenance when using
+<code>download_d1_data()</code><a class="anchor" aria-label="anchor" href="#note-on-data-url-provenance-when-using-download_d1_data"></a>
 </h2>
-<p>There are two parameters required to run the download_d1_data.R
-function in metajam. One is the data url for the dataset you’d like to
-download.You can retrieve this by navigating to the data package of
-interest, right-clicking on the download data button, and selecting Copy
-Link Address.</p>
+<p>There are two parameters required to run the
+<code><a href="../reference/download_d1_data.html">download_d1_data()</a></code> function in metajam. One is the data url
+for the dataset you’d like to download.You can retrieve this by
+navigating to the data package of interest, right-clicking on the
+download data button, and selecting “Copy Link Address”.</p>
 <p>For several DataOne member nodes (Arctic Data Center, Environmental
 Data Initiative, and The Knowledge Network for Biocomplexity), metajam
 users can retrieve the data url from either the ‘home’ site of the
@@ -123,35 +124,36 @@ with metadata in ISO (International Organization for Standardization)
 format.</p>
 </div>
 <div class="section level2">
-<h2 id="example-1-eml">Example 1: eml<a class="anchor" aria-label="anchor" href="#example-1-eml"></a>
+<h2 id="example-1-eml-metadata">Example 1: EML metadata<a class="anchor" aria-label="anchor" href="#example-1-eml-metadata"></a>
 </h2>
 <p>For the first example, we are using Diatom Community Data from
 Coweeta LTER, 2005-2019: Kelsey J. Solomon, Rebecca J. Bixby, and
 Catherine M. Pringle. Environmental Data Initiative. <a href="https://pasta.lternet.edu/package/metadata/eml/edi/858/1" class="external-link uri">https://pasta.lternet.edu/package/metadata/eml/edi/858/1</a>.</p>
-</div>
-<div class="section level2">
-<h2 id="libraries-and-constants">Libraries and constants<a class="anchor" aria-label="anchor" href="#libraries-and-constants"></a>
-</h2>
+<div class="section level3">
+<h3 id="libraries-and-constants">Libraries and constants<a class="anchor" aria-label="anchor" href="#libraries-and-constants"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># devtools::install_github("NCEAS/metajam")</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nceas.github.io/metajam/">metajam</a></span><span class="op">)</span>  </span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Directory to save the data set</span></span>
-<span><span class="va">path_folder</span> <span class="op">&lt;-</span> <span class="st">"Data_coweeta"</span></span>
+<span><span class="va">path_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"Data_coweeta"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># URL to download the dataset from DataONE</span></span>
 <span><span class="va">data_url</span> <span class="op">&lt;-</span> <span class="st">"https://cn.dataone.org/cn/v2/resolve/https%3A%2F%2Fpasta.lternet.edu%2Fpackage%2Fdata%2Feml%2Fedi%2F858%2F1%2F15ad768241d2eeed9f0ba159c2ab8fd5"</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="download-the-dataset">Download the dataset<a class="anchor" aria-label="anchor" href="#download-the-dataset"></a>
-</h2>
+<div class="section level3">
+<h3 id="download-the-dataset">Download the dataset<a class="anchor" aria-label="anchor" href="#download-the-dataset"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Create the local directory to download the datasets</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">path_folder</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Download the dataset and associated metdata </span></span>
-<span><span class="va">data_folder</span> <span class="op">&lt;-</span> <span class="fu">metajam</span><span class="fu">::</span><span class="fu"><a href="../reference/download_d1_data.html">download_d1_data</a></span><span class="op">(</span><span class="va">data_url</span>, <span class="va">path_folder</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">data_folder</span> <span class="op">&lt;-</span> <span class="fu">metajam</span><span class="fu">::</span><span class="fu"><a href="../reference/download_d1_data.html">download_d1_data</a></span><span class="op">(</span><span class="va">data_url</span>, <span class="va">path_folder</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data_folder</span></span></code></pre></div>
 <p>At this point, you should have the data and the metadata downloaded
 inside your main directory; <code>Data_coweeta</code> in this example.
 <code>metajam</code> organize the files as follow:</p>
@@ -160,7 +162,7 @@ inside your main directory; <code>Data_coweeta</code> in this example.
 and the file name</li>
 <li>Inside this sub-directory, you will find
 <ul>
-<li>the data: <code>my_data.csv</code>
+<li>the data: <code>CWT_Hemlock_Diatom_Data.csv</code>
 </li>
 <li>the raw EML with the naming convention <em>file name</em> +
 <code>__full_metadata.xml</code>:
@@ -181,22 +183,17 @@ my_data<code>__attribute_factor_metadata.csv</code>
 </ul>
 </li>
 </ul>
-<div class="figure" style="text-align: center">
-<img src="../reference/figures/metajam_v1_folder.png" class="r-plt" alt="Local file structure of a dataset downloaded by metajam" width="90%"><p class="caption">
-Local file structure of a dataset downloaded by metajam
-</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="read-the-data-and-metadata-in-your-r-environment">Read the data and metadata in your R environment<a class="anchor" aria-label="anchor" href="#read-the-data-and-metadata-in-your-r-environment"></a>
-</h2>
+<div class="section level3">
+<h3 id="read-the-data-and-metadata-in-your-r-environment">Read the data and metadata in your R environment<a class="anchor" aria-label="anchor" href="#read-the-data-and-metadata-in-your-r-environment"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Read all the datasets and their associated metadata in as a named list</span></span>
 <span><span class="va">coweeta_diatom</span> <span class="op">&lt;-</span> <span class="fu">metajam</span><span class="fu">::</span><span class="fu"><a href="../reference/read_d1_files.html">read_d1_files</a></span><span class="op">(</span><span class="va">data_folder</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="structure-of-the-named-list-object">Structure of the named list object<a class="anchor" aria-label="anchor" href="#structure-of-the-named-list-object"></a>
-</h2>
+<div class="section level3">
+<h3 id="structure-of-the-named-list-object">Structure of the named list object<a class="anchor" aria-label="anchor" href="#structure-of-the-named-list-object"></a>
+</h3>
 <p>You have now loaded in your R environment one named list object that
 contains the data <code>coweeta_diatom$data</code>, the general
 (summary) metadata <code>coweeta_diatom$summary_metadata</code> - such
@@ -205,29 +202,29 @@ information <code>coweeta_diatom$attribute_metadata</code>, allowing
 user to get more information, such as units and definitions of your
 attributes.</p>
 </div>
+</div>
 <div class="section level2">
-<h2 id="example-2-iso">Example 2: iso<a class="anchor" aria-label="anchor" href="#example-2-iso"></a>
+<h2 id="example-2-iso-metadata">Example 2: ISO metadata<a class="anchor" aria-label="anchor" href="#example-2-iso-metadata"></a>
 </h2>
 <p>For the second example, we are using Marine bird survey observation
 and density data from Northern Gulf of Alaska LTER cruises, 2018. Kathy
 Kuletz, Daniel Cushing, and Elizabeth Labunski. Research Workspace. <a href="https://doi.org/10.24431/rw1k45w" class="external-link uri">https://doi.org/10.24431/rw1k45w</a></p>
-</div>
-<div class="section level2">
-<h2 id="libraries-and-constants-1">Libraries and constants<a class="anchor" aria-label="anchor" href="#libraries-and-constants-1"></a>
-</h2>
+<div class="section level3">
+<h3 id="libraries-and-constants-1">Libraries and constants<a class="anchor" aria-label="anchor" href="#libraries-and-constants-1"></a>
+</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># devtools::install_github("NCEAS/metajam")</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nceas.github.io/metajam/">metajam</a></span><span class="op">)</span>  </span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Directory to save the data set</span></span>
-<span><span class="va">path_folder</span> <span class="op">&lt;-</span> <span class="st">"Data_alaska"</span></span>
+<span><span class="va">path_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"Data_alaska"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># URL to download the dataset from DataONE</span></span>
 <span><span class="va">data_url</span> <span class="op">&lt;-</span> <span class="st">"https://cn.dataone.org/cn/v2/resolve/4139539e-94e7-49cc-9c7a-5f879e438b16"</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="download-the-dataset-1">Download the dataset<a class="anchor" aria-label="anchor" href="#download-the-dataset-1"></a>
-</h2>
+<div class="section level3">
+<h3 id="download-the-dataset-1">Download the dataset<a class="anchor" aria-label="anchor" href="#download-the-dataset-1"></a>
+</h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Create the local directory to download the datasets</span></span>
@@ -256,34 +253,6 @@ and the file name</li>
 </ul>
 </li>
 </ul>
-<div class="figure" style="text-align: center">
-<img src="../reference/figures/metajam_v1_folder.png" class="r-plt" alt="Local file structure of a dataset downloaded by metajam" width="90%"><p class="caption">
-Local file structure of a dataset downloaded by metajam
-</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="read-the-data-and-metadata-in-your-r-environment-1">Read the data and metadata in your R environment<a class="anchor" aria-label="anchor" href="#read-the-data-and-metadata-in-your-r-environment-1"></a>
-</h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Read all the datasets and their associated metadata in as a named list</span></span>
-<span><span class="va">coweeta_diatom</span> <span class="op">&lt;-</span> <span class="fu">metajam</span><span class="fu">::</span><span class="fu"><a href="../reference/read_d1_files.html">read_d1_files</a></span><span class="op">(</span><span class="va">data_folder</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="structure-of-the-named-list-object-1">Structure of the named list object<a class="anchor" aria-label="anchor" href="#structure-of-the-named-list-object-1"></a>
-</h2>
-<p>You have now loaded in your R environment one named list object that
-contains the data <code>coweeta_diatom$data</code>, the general
-(summary) metadata <code>coweeta_diatom$summary_metadata</code> - such
-as title, creators, dates, locations - and the attribute level metadata
-information <code>coweeta_diatom$attribute_metadata</code>, allowing
-user to get more information, such as units and definitions of your
-attributes.</p>
-<div class="figure" style="text-align: center">
-<img src="../reference/figures/metajam_v1_named_list.png" class="r-plt" alt="Structure of the named list object containing tabular metadata and data as loaded by metajam" width="90%"><p class="caption">
-Structure of the named list object containing tabular metadata and data
-as loaded by metajam
-</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -297,7 +266,7 @@ as loaded by metajam
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

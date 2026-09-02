@@ -29,11 +29,23 @@ download_d1_data(data_url, path)
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = file.path("."))
+# \donttest{
+download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = tempdir())
+#> urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570 is the latest version for the provided persistent identifier
+#> Metadata is in EML format
+#> 
+#> Downloading data urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570 ...
+#> Download complete
+#> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A23F4KM7K__Alexander_ExpBurnSoilMois2012_2017__csv"
 download_d1_data(
    "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
-    path = file.path(".")
+    path = tempdir()
     )
-} # }
+#> urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570 is the latest version for the provided persistent identifier
+#> Metadata is in EML format
+#> 
+#> Downloading data urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570 ...
+#> Download complete
+#> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A23F4KM7K__Alexander_ExpBurnSoilMois2012_2017__csv__copy_1"
+# }
 ```

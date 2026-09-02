@@ -40,7 +40,7 @@ library(stringr)
 ``` r
 
 # Download the data from DataONE on your local machine
-data_folder <- "Data_SEC"
+data_folder <- file.path(tempdir(), "Data_SEC")
 
 # Ammonium to Ammoniacal-nitrogen conversion. We will use this conversion later.
 coeff_conv_NH4_to_NH4N <- 0.7764676534
