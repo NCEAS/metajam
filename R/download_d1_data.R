@@ -90,7 +90,6 @@ download_d1_data <- function(data_url, path) {
   }
 
   metadata_nodes <- dataone::resolve(cn, meta_id)
-  # meta_d1c <- dataone::D1Client("PROD", metadata_nodes$data$nodeIdentifier[[1]])
   meta_obj <- dataone::getObject(d1c@mn, meta_id)
 
 
