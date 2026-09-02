@@ -19,6 +19,9 @@ If \code{full = TRUE} is specified, the full set of metadata fields are returned
 This function takes a path to an EML (.xml) metadata file and returns a data frame.
 }
 \examples{
-eml <- system.file("extdata", "test_data", "SoilMois2012_2017__full_metadata.xml", package = "metajam")
+eml <- system.file("extdata",
+                   "test_data",
+                   "SoilMois2012_2017__full_metadata.xml",
+                   package = "metajam")
 tabularize_eml(eml)
 }
