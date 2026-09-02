@@ -18,9 +18,9 @@ download_d1_data_pkg(meta_obj, path)
 Downloads all the data objects of a data package from DataONE along with metadata.
 }
 \examples{
-\dontrun{
-download_d1_data_pkg("doi:10.18739/A2028W", ".")
-download_d1_data_pkg("https://doi.org/10.18739/A2028W", ".")
+\donttest{
+download_d1_data_pkg("doi:10.18739/A2CJ87M3J", tempdir())
+download_d1_data_pkg("https://doi.org/10.18739/A2CJ87M3J", tempdir())
 }
 }
 \seealso{

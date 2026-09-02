@@ -17,7 +17,7 @@
 #' @examples
 #' \donttest{
 #' download_d1_data_pkg("doi:10.18739/A2CJ87M3J", tempdir())
-#' download_d1_data_pkg("https://doi.org/10.18739/A2CJ87M3J, tempdir())
+#' download_d1_data_pkg("https://doi.org/10.18739/A2CJ87M3J", tempdir())
 #' }
 
 download_d1_data_pkg <- function(meta_obj, path) {

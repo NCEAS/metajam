@@ -110,7 +110,7 @@ ISO_type <- metadata2 %>% filter(name == "doc.children.MD_Metadata.children.meta
   pid <- data_id
   data_sys <- suppressMessages(dataone::getSystemMetadata(d1c@mn, pid))
 
-  data_name <- data_sys@fileName %|||% ifelse(exists("entity_data"), entity_data$physical$objectName %|||% entity_data$entityName, NA) %|||% data_id
+  data_name <- data_sys@fileName %|||% data_id
   data_name <- gsub("[^a-zA-Z0-9. -]+", "_", data_name) #remove special characters & replace with _
   data_extension <- gsub("(.*\\.)([^.]*$)", "\\2", data_name)
   data_name <- gsub("\\.[^.]*$", "", data_name) #remove extension
