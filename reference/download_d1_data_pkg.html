@@ -37,7 +37,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Download all data and metadata of a data package from DataONE</h1>
-      <small class="dont-index">Source: <a href="https://github.com/NCEAS/metajam/blob/v0.3.2/R/download_d1_data_pkg.R" class="external-link"><code>R/download_d1_data_pkg.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/NCEAS/metajam/blob/main/R/download_d1_data_pkg.R" class="external-link"><code>R/download_d1_data_pkg.R</code></a></small>
       <div class="d-none name"><code>download_d1_data_pkg.Rd</code></div>
     </div>
 
@@ -77,14 +77,41 @@
 <span class="r-in"><span><span class="fu">download_d1_data_pkg</span><span class="op">(</span><span class="st">"doi:10.18739/A2CJ87M3J"</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> doi:10.18739/A2CJ87M3J is the latest version for the provided persistent identifier</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff is the latest version for the provided persistent identifier</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Error resolving url "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3A8cbdadcc-b227-47a4-8fba-e3f01810bdff": "getSystemMetadata failed: ServiceFailure - 0000: [CONCURRENT_MAP_CONTAINS_KEY] Operation Timeout (with no response!): 0".</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>multiple metadata records found:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> The most recent record was used</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in purrr::map(pids$data, ~download_d1_data(.x, path)):</span> <span style="color: #00BBBB;">ℹ</span> In index: 1.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `.local()`:</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> get() error: Error in if (node@APIversion &gt;= "v2") {: argument is of length zero</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata is in EML format</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:65753f42-5204-40f7-92b8-b0fab9cf0b35 is the latest version for the provided persistent identifier</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>multiple metadata records found:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The most recent record was used</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata is in EML format</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:65753f42-5204-40f7-92b8-b0fab9cf0b35 ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 is the latest version for the provided persistent identifier</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>multiple metadata records found:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The most recent record was used</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata is in EML format</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">download_d1_data_pkg</span><span class="op">(</span><span class="st">"https://doi.org/10.18739/A2CJ87M3J"</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> doi:10.18739/A2CJ87M3J is the latest version for the provided persistent identifier</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff is the latest version for the provided persistent identifier</span>
@@ -115,13 +142,13 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading data urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Download complete</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpK7z5YG/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv__copy_1"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpK7z5YG/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv__copy_1"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpK7z5YG/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv__copy_1"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

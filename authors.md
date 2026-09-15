@@ -29,7 +29,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/NCEAS/metajam/blob/v0.3.2/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/NCEAS/metajam/blob/main/DESCRIPTION)
 
 Brun J, Steves I, Maier M, Peach K, Lyon N (2026). *metajam: Easily
 Download Data and Metadata from 'DataONE'*. R package version 0.3.2,
