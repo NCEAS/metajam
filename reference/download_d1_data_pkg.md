@@ -35,41 +35,14 @@ download_d1_data_pkg(meta_obj, path)
 download_d1_data_pkg("doi:10.18739/A2CJ87M3J", tempdir())
 #> doi:10.18739/A2CJ87M3J is the latest version for the provided persistent identifier
 #> urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff is the latest version for the provided persistent identifier
+#> Error resolving url "https://cn.dataone.org/cn/v2/resolve/urn%3Auuid%3A8cbdadcc-b227-47a4-8fba-e3f01810bdff": "getSystemMetadata failed: ServiceFailure - 0000: [CONCURRENT_MAP_CONTAINS_KEY] Operation Timeout (with no response!): 0".
 #> Warning: multiple metadata records found:
 #> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)
 #> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)
 #> The most recent record was used
-#> Metadata is in EML format
-#> 
-#> Downloading data urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff ...
-#> Download complete
-#> urn:uuid:65753f42-5204-40f7-92b8-b0fab9cf0b35 is the latest version for the provided persistent identifier
-#> Warning: multiple metadata records found:
-#> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)
-#> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)
-#> The most recent record was used
-#> Metadata is in EML format
-#> 
-#> Downloading data urn:uuid:65753f42-5204-40f7-92b8-b0fab9cf0b35 ...
-#> Download complete
-#> urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 is the latest version for the provided persistent identifier
-#> Warning: multiple metadata records found:
-#> list(id = "doi:10.18739/A2CJ87M3J", dateUploaded = 1590093572)
-#> list(id = "doi:10.18739/A2028W", dateUploaded = 1518476800)
-#> The most recent record was used
-#> Metadata is in EML format
-#> 
-#> Downloading data urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 ...
-#> Download complete
-#> [[1]]
-#> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv"
-#> 
-#> [[2]]
-#> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv"
-#> 
-#> [[3]]
-#> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv"
-#> 
+#> Error in purrr::map(pids$data, ~download_d1_data(.x, path)): ℹ In index: 1.
+#> Caused by error in `.local()`:
+#> ! get() error: Error in if (node@APIversion >= "v2") {: argument is of length zero
 download_d1_data_pkg("https://doi.org/10.18739/A2CJ87M3J", tempdir())
 #> doi:10.18739/A2CJ87M3J is the latest version for the provided persistent identifier
 #> urn:uuid:8cbdadcc-b227-47a4-8fba-e3f01810bdff is the latest version for the provided persistent identifier
@@ -100,13 +73,13 @@ download_d1_data_pkg("https://doi.org/10.18739/A2CJ87M3J", tempdir())
 #> Downloading data urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 ...
 #> Download complete
 #> [[1]]
-#> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv__copy_1"
+#> [1] "/tmp/RtmpK7z5YG/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv"
 #> 
 #> [[2]]
-#> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv__copy_1"
+#> [1] "/tmp/RtmpK7z5YG/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv"
 #> 
 #> [[3]]
-#> [1] "/tmp/Rtmp4XIePR/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv__copy_1"
+#> [1] "/tmp/RtmpK7z5YG/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv"
 #> 
 # }
 ```
