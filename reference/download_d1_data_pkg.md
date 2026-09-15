@@ -62,13 +62,13 @@ download_d1_data_pkg("doi:10.18739/A2CJ87M3J", tempdir())
 #> Downloading data urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 ...
 #> Download complete
 #> [[1]]
-#> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv"
+#> [1] "/tmp/RtmpDHcfGY/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv"
 #> 
 #> [[2]]
-#> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv"
+#> [1] "/tmp/RtmpDHcfGY/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv"
 #> 
 #> [[3]]
-#> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv"
+#> [1] "/tmp/RtmpDHcfGY/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv"
 #> 
 download_d1_data_pkg("https://doi.org/10.18739/A2CJ87M3J", tempdir())
 #> doi:10.18739/A2CJ87M3J is the latest version for the provided persistent identifier
@@ -100,13 +100,13 @@ download_d1_data_pkg("https://doi.org/10.18739/A2CJ87M3J", tempdir())
 #> Downloading data urn:uuid:ccc96cc5-3abc-479a-ae78-a0e12995c983 ...
 #> Download complete
 #> [[1]]
-#> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv__copy_1"
+#> [1] "/tmp/RtmpDHcfGY/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_temperature__csv__copy_1"
 #> 
 #> [[2]]
-#> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv__copy_1"
+#> [1] "/tmp/RtmpDHcfGY/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_spconductance__csv__copy_1"
 #> 
 #> [[3]]
-#> [1] "/tmp/RtmprhelXO/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv__copy_1"
+#> [1] "/tmp/RtmpDHcfGY/doi_10_18739_A2CJ87M3J__2015_2016_winter_E1_dissoxy__csv__copy_1"
 #> 
 # }
 ```

@@ -36,7 +36,7 @@ download_d1_data("urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570", path = tempdir
 #> 
 #> Downloading data urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570 ...
 #> Download complete
-#> [1] "/tmp/RtmprhelXO/doi_10_18739_A23F4KM7K__Alexander_ExpBurnSoilMois2012_2017__csv"
+#> [1] "/tmp/RtmpDHcfGY/doi_10_18739_A23F4KM7K__Alexander_ExpBurnSoilMois2012_2017__csv"
 download_d1_data(
    "https://cn.dataone.org/cn/v2/resolve/urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570",
     path = tempdir()
@@ -46,6 +46,6 @@ download_d1_data(
 #> 
 #> Downloading data urn:uuid:a2834e3e-f453-4c2b-8343-99477662b570 ...
 #> Download complete
-#> [1] "/tmp/RtmprhelXO/doi_10_18739_A23F4KM7K__Alexander_ExpBurnSoilMois2012_2017__csv__copy_1"
+#> [1] "/tmp/RtmpDHcfGY/doi_10_18739_A23F4KM7K__Alexander_ExpBurnSoilMois2012_2017__csv__copy_1"
 # }
 ```
